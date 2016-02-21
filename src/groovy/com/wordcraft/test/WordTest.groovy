@@ -49,7 +49,6 @@ class WordTest {
 	 */
 	def static isDone(def currentLevel, def testedWord, def levelKnownWord) {
 		assert currentLevel>=1
-		println levelKnownWord
 		def max = levelKnownWord.max{it.value}
 		if (max && max.value >= Constants.MAX_LEVEL_KNOWN_WORD) {
 			return max.key
