@@ -8,7 +8,7 @@ ENVIRONMENT
 - grails 2.4.4
 - groovy 2.4.5
 
-To run the test, clone the project and open the roject on Eclipse with Groovy and Grails plugin.
+To run the test, clone and open the project on Eclipse with Groovy and Grails plugin.
 
 Go to the file WordTest.groovy under src/groovy/com/wordcraft/test, right-click and Run As Groovy Script.
 In the console, you will be asked with a series of question whether you know a certain word. Just answer y for yes and no for no.
