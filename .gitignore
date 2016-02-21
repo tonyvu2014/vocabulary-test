@@ -3,6 +3,7 @@
 .settings
 .project
 target/
+target-eclipse/
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
