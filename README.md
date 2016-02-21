@@ -1,10 +1,12 @@
 # vocabulary-test
+
 A simple test to measure English vocabulary size written in Groovy
 
 ENVIRONMENT
--------------
-jdk 1.7
-grails 2.4.4
+-----------
+- jdk 1.7
+- grails 2.4.4
+- groovy 2.4.5
 
 To run the test, clone the project and open the roject on Eclipse with Groovy and Grails plugin.
 
