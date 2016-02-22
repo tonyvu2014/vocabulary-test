@@ -15,6 +15,6 @@ In the console, you will be asked with a series of question whether you know a c
 
 After the test, you will be given your estimated vocabulary size.
 
-* Note: the word list currently only has 5000, this test aims only for beginners for now.
+_Note: the word list currently only has 5000, this test is meant for beginners at the moment._
 
 
