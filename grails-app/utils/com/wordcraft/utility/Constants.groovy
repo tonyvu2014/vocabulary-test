@@ -10,5 +10,6 @@ class Constants {
 	public static final MAX_LEVEL = 5
 	public static final MAX_TESTED_WORD = 20
 	public static final MAX_LEVEL_KNOWN_WORD = 3
+	public static final STEP_IN_LEVEL = 100
 	
 }
