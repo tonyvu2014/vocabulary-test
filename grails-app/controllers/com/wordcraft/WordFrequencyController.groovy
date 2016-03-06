@@ -2,14 +2,15 @@ package com.wordcraft
 
 
 
-import com.wordcraft.WordFrequency;
-
 import grails.transaction.Transactional
+import com.wordcraft.service.WordService
 
 @Transactional(readOnly = true)
 class WordFrequencyController {
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+	
+	def WordService wordService
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
@@ -102,4 +103,27 @@ class WordFrequencyController {
             '*'{ render status: NOT_FOUND }
         }
     }
+	
+	
+	def getWordFromLevel() {
+		def level = params.int('level')
+		assert level > 0
+		def wordFrequency = wordService.getRandomWordFromLevel(level)
+		render(contentType:'text/json') {[
+			'word': wordFrequency.word,
+			'rank': wordFrequency.rank
+		]}
+	}
+	
+	def getWordFromRange() {
+		def minRank = params.int('minRank')
+		def maxRank = params.int('maxRank')
+		assert maxRank >= minRank
+		def wordFrequency = wordService.getRandomWord(minRank, maxRank)
+		render(contentType:'text/json') {[
+			'word': wordFrequency.word,
+			'rank': wordFrequency.rank
+		]}
+	}
+	
 }
