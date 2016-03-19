@@ -8,5 +8,6 @@ class CraftSettings {
 	static belongsTo = WordCraftsman
 
     static constraints = {
+
     }
 }

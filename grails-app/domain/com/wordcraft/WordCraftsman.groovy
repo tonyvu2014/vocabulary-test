@@ -9,7 +9,7 @@ class WordCraftsman {
 	
 	CraftSettings craftSettings
 	
-	static hasMany = [craftTests:CraftTest, craftLogs:CraftLog, acquisitionWords: AcquisitionWord]
+	static hasMany = [craftTests:CraftTest, craftLogs:CraftLog, craftWords: CraftWord]
 
     static constraints = {
 		username(blank:false, nullable: false)

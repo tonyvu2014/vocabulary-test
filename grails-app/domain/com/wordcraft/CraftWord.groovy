@@ -1,14 +1,12 @@
 package com.wordcraft
 
-class AcquisitionWord {
+class CraftWord {
 	
-	Date acquisitionTime
 	String word
 	
 	static belongsTo = [wordCraftsman: WordCraftsman]
 
     static constraints = {
-		acquisitionTime(nullable:false)
-		word(nullable:false)
+		word(nullable:false, blank:false)
     }
 }

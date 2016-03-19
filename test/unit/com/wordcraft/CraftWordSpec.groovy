@@ -6,8 +6,8 @@ import spock.lang.Specification
 /**
  * See the API for {@link grails.test.mixin.domain.DomainClassUnitTestMixin} for usage instructions
  */
-@TestFor(AcquisitionWord)
-class AcquisitionWordSpec extends Specification {
+@TestFor(CraftWord)
+class CraftWordSpec extends Specification {
 
     def setup() {
     }
