@@ -1,4 +1,4 @@
-package com.wordcraft.service
+package com.wordcraft
 
 import grails.transaction.Transactional
 import com.wordcraft.WordFrequency

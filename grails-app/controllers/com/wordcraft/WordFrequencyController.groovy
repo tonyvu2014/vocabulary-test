@@ -1,9 +1,10 @@
 package com.wordcraft
 
 
-
 import grails.transaction.Transactional
-import com.wordcraft.service.WordService
+
+import com.wordcraft.WordFrequency;
+import com.wordcraft.WordService
 
 @Transactional(readOnly = true)
 class WordFrequencyController {

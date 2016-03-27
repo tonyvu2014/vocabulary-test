@@ -3,6 +3,10 @@ package com.wordcraft.utility
 @Singleton
 class Constants {
 	
+	//Status
+	public static final STATUS_SUCCESS = 1
+	public static final STATUS_FAILURE = 0
+	
 	//How many words per level
 	public static final WORD_PER_LEVEL = 1000
 	

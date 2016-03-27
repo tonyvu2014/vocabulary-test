@@ -14,5 +14,11 @@ class WordCraftsman {
     static constraints = {
 		username(blank:false, nullable: false)
 		password(blank:false, nullable:false)
+		craftSettings(nullable:true, blank:true)
     }
+	
+	static mapping = {
+		craftWords cascade: 'all-delete-orphan'
+	}
+	
 }

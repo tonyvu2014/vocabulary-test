@@ -1,4 +1,6 @@
-import com.wordcraft.WordFrequency;
+import com.wordcraft.CraftSettings
+import com.wordcraft.WordCraftsman
+import com.wordcraft.WordFrequency
 
 class BootStrap {
 
@@ -34,6 +36,13 @@ class BootStrap {
 			print "Data loading finished"
 			print "Word Loaded: " + WordFrequency.count()
 		}
+		
+		def settings = new CraftSettings(craftLoad: 3, craftPace:2)
+		settings.save(flush:true)
+		
+		def craftsman = new WordCraftsman(username: 'tonyvu', password: 'tonyvu16', 
+			craftSettings: settings, level: 2, estimatedSize: 2651)
+		craftsman.save(flush:true)
     }
 	
     def destroy = {

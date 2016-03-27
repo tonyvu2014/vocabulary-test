@@ -1,6 +1,6 @@
 package com.wordcraft
 
-import com.wordcraft.service.WordService;
+import com.wordcraft.WordService;
 import grails.test.mixin.TestFor
 import com.wordcraft.utility.Constants
 import spock.lang.Specification
