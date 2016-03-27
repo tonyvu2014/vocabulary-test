@@ -3,10 +3,9 @@ package com.wordcraft
 
 import com.wordcraft.WordFrequency
 import com.wordcraft.WordFrequencyController;
-
-import grails.test.mixin.*
 import spock.lang.*
 import org.codehaus.groovy.grails.web.json.JSONObject
+import com.wordcraft.service.WordService
 
 @TestFor(WordFrequencyController)
 @Mock(WordFrequency)
@@ -156,14 +155,12 @@ class WordFrequencyControllerSpec extends Specification {
 
     void "Test getWordFromLevel()"() {
         setup:
-            def wordServiceMock = mockFor(WordService )
+            def wordServiceMock = mockFor(WordService)
             wordServiceMock.demand.getRandomWordFromLevel() { int level -> return WordFrequency.findByRank(2658) }
             controller.wordService = wordServiceMock.createMock()
         
-        given:
-            params.level = 3
-        
         when: "Calling action getWordFromLevel()"
+		    params.level = 3
             def res = controller.getWordFromLevel()
 
         then: "Response is correct type and correspond with returned value"
@@ -175,15 +172,13 @@ class WordFrequencyControllerSpec extends Specification {
 
     void "Test getWordFromRange()"() {
         setup:
-            def wordServiceMock = mockFor(WordService )
+            def wordServiceMock = mockFor(WordService)
             wordServiceMock.demand.getRandomWord() { int minRank, int maxRank -> return WordFrequency.findByRank(2327) }
             controller.wordService = wordServiceMock.createMock()
         
-        given:
-            params.minRank = 1017
-            params.maxRank = 3520  
-        
         when: "Calling action getWordFromRange()"
+		    params.minRank = 1017
+		    params.maxRank = 3520
             def res = controller.getWordFromRange()
 
         then: "Response is correct type and correspond with returned value"
