@@ -7,10 +7,6 @@ import com.wordcraft.WordCraftsman
 
 @Transactional
 class CraftWordService {
-
-    def serviceMethod() {
-
-    }
 	
 	/***
 	 * An user mark as word as known by him, needs to save this information into DB

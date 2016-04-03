@@ -2,7 +2,7 @@ package com.wordcraft.utility;
 
 public enum EventType {
 
-	TEST("Vocabulary Test"), LEARN("Learning New Words"),  ACQUIRE("Word Acquisition"); 
+	TEST("Vocabulary Test"), LEARN("Learning New Words"); 
 	
 	private String desc;
 	
