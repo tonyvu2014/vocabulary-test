@@ -1,10 +1,10 @@
 package com.wordcraft
 
-import com.wordcraft.WordService;
+import grails.test.GrailsMock
 import grails.test.mixin.TestFor
-import com.wordcraft.utility.Constants
 import spock.lang.Specification
-import com.wordcraft.WordFrequency
+
+import com.wordcraft.utility.Constants
 
 
 /**
@@ -14,6 +14,8 @@ import com.wordcraft.WordFrequency
 class WordServiceSpec extends Specification {
 
 	def setup() {
+		GrailsMock mockWordFrequency = mockFor(WordFrequency)
+		mockWordFrequency.demand.static.findByRank{Integer rank -> new WordFrequency(rank: rank, word: 'mock')}
 	}
 
 	def cleanup() {

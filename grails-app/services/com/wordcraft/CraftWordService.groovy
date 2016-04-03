@@ -22,6 +22,8 @@ class CraftWordService {
 	def markAsKnown(WordCraftsman wordCraftsman, String word) {
 		if (!(word in wordCraftsman.craftWords)) {
 			CraftWord craftWord = new CraftWord(word: word)
+			craftWord.wordCraftsman = wordCraftsman
+			craftWord.save()
 			wordCraftsman.addToCraftWords(craftWord)
 			wordCraftsman.save(flush:true, failOnError:true)
 		}
