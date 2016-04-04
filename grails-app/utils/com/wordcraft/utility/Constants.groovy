@@ -7,6 +7,9 @@ class Constants {
 	public static final STATUS_SUCCESS = 1
 	public static final STATUS_FAILURE = 0
 	
+	//Token length
+	public static final TOKEN_LENGTH = 10
+	
 	//How many words per level
 	public static final WORD_PER_LEVEL = 1000
 	

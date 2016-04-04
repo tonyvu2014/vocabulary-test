@@ -2,6 +2,9 @@ package com.wordcraft
 
 import grails.transaction.Transactional
 
+import com.wordcraft.utility.Constants
+import com.wordcraft.utility.Utils
+
 @Transactional
 class TokenService {
 
@@ -16,4 +19,13 @@ class TokenService {
 		return CraftToken.findByUsernameAndToken(username, token) != null
 
     }
+	
+	/**
+	 * Generate a random token with a certain length
+	 * @param length length of the token
+	 * @return a random token
+	 */
+	def generate() {
+		return Utils.generateToken(Constants.TOKEN_LENGTH)
+	}
 }

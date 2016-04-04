@@ -1,8 +1,10 @@
 package com.wordcraft
 
-import grails.test.mixin.Mock
-import grails.test.mixin.TestFor
+import grails.test.mixin.*
 import spock.lang.Specification
+
+import com.wordcraft.utility.Constants
+import com.wordcraft.utility.Utils
 
 /**
  * See the API for {@link grails.test.mixin.services.ServiceUnitTestMixin} for usage instructions
@@ -24,4 +26,15 @@ class TokenServiceSpec extends Specification {
 		    service.hasToken('test', 'testToken') == true
 			service.hasToken('test', 'testtoken') == false
     }
+	
+	void "test generate()"() {
+		given:
+		    def token = service.generate()
+		expect:
+		    token.size() == Constants.TOKEN_LENGTH
+			token.each{
+				it in Utils.ALPHANUMERIC
+			}
+			
+	}
 }

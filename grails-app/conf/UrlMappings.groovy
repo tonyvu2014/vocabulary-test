@@ -13,5 +13,8 @@ class UrlMappings {
 		"/api/word/getWordFromLevel/$level"(controller: "wordFrequency", action: "getWordFromLevel")
 		"/api/word/getWordFromRange/$minRank/$maxRank"(controller: "wordFrequency", action: "getWordFromRange")
 		"/api/craftWord/markAsKnown/$username/$word"(controller:"craftWord", action: "markAsKnown")
+		"/api/token/hasToken/$username/$token"(controller:"craftToken", action: "hasToken")
+		"/api/token/generate/$username"(controller:"craftToken", action: "generate")
+		
 	}
 }
