@@ -21,7 +21,7 @@ class WordCraftsmanServiceSpec extends Specification {
 			}
 		}
     }
-
+ 
     def cleanup() {
     }
 

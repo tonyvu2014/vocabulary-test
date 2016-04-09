@@ -8,7 +8,7 @@ import com.wordcraft.utility.Constants
 @Transactional(readOnly = true)
 class CraftWordController {
 
-    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE", markAsKnown: "POST"]
 
 	def CraftWordService craftWordService
 	def MessageSource messageSource

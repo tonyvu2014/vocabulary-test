@@ -9,7 +9,7 @@ import com.wordcraft.utility.Constants
 @Transactional(readOnly = true)
 class WordCraftsmanController {
 
-    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE", login:"POST"]
 	
 	def WordCraftsmanService wordCraftsmanService
 	def MessageSource messageSource
