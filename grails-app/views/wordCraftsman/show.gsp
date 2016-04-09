@@ -41,13 +41,29 @@
 				</li>
 				</g:if>
 			
-				<g:if test="${wordCraftsmanInstance?.craftLogs}">
+				<g:if test="${wordCraftsmanInstance?.email}">
 				<li class="fieldcontain">
-					<span id="craftLogs-label" class="property-label"><g:message code="wordCraftsman.craftLogs.label" default="Craft Logs" /></span>
+					<span id="email-label" class="property-label"><g:message code="wordCraftsman.email.label" default="Email" /></span>
 					
-						<g:each in="${wordCraftsmanInstance.craftLogs}" var="c">
-						<span class="property-value" aria-labelledby="craftLogs-label"><g:link controller="craftLog" action="show" id="${c.id}">${c?.encodeAsHTML()}</g:link></span>
-						</g:each>
+						<span class="property-value" aria-labelledby="email-label"><g:fieldValue bean="${wordCraftsmanInstance}" field="email"/></span>
+					
+				</li>
+				</g:if>
+			
+				<g:if test="${wordCraftsmanInstance?.level}">
+				<li class="fieldcontain">
+					<span id="level-label" class="property-label"><g:message code="wordCraftsman.level.label" default="Level" /></span>
+					
+						<span class="property-value" aria-labelledby="level-label"><g:fieldValue bean="${wordCraftsmanInstance}" field="level"/></span>
+					
+				</li>
+				</g:if>
+			
+				<g:if test="${wordCraftsmanInstance?.estimatedSize}">
+				<li class="fieldcontain">
+					<span id="estimatedSize-label" class="property-label"><g:message code="wordCraftsman.estimatedSize.label" default="Estimated Size" /></span>
+					
+						<span class="property-value" aria-labelledby="estimatedSize-label"><g:fieldValue bean="${wordCraftsmanInstance}" field="estimatedSize"/></span>
 					
 				</li>
 				</g:if>
@@ -57,6 +73,17 @@
 					<span id="craftSettings-label" class="property-label"><g:message code="wordCraftsman.craftSettings.label" default="Craft Settings" /></span>
 					
 						<span class="property-value" aria-labelledby="craftSettings-label"><g:link controller="craftSettings" action="show" id="${wordCraftsmanInstance?.craftSettings?.id}">${wordCraftsmanInstance?.craftSettings?.encodeAsHTML()}</g:link></span>
+					
+				</li>
+				</g:if>
+			
+				<g:if test="${wordCraftsmanInstance?.craftLogs}">
+				<li class="fieldcontain">
+					<span id="craftLogs-label" class="property-label"><g:message code="wordCraftsman.craftLogs.label" default="Craft Logs" /></span>
+					
+						<g:each in="${wordCraftsmanInstance.craftLogs}" var="c">
+						<span class="property-value" aria-labelledby="craftLogs-label"><g:link controller="craftLog" action="show" id="${c.id}">${c?.encodeAsHTML()}</g:link></span>
+						</g:each>
 					
 				</li>
 				</g:if>
@@ -79,24 +106,6 @@
 						<g:each in="${wordCraftsmanInstance.craftWords}" var="c">
 						<span class="property-value" aria-labelledby="craftWords-label"><g:link controller="craftWord" action="show" id="${c.id}">${c?.encodeAsHTML()}</g:link></span>
 						</g:each>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${wordCraftsmanInstance?.estimatedSize}">
-				<li class="fieldcontain">
-					<span id="estimatedSize-label" class="property-label"><g:message code="wordCraftsman.estimatedSize.label" default="Estimated Size" /></span>
-					
-						<span class="property-value" aria-labelledby="estimatedSize-label"><g:fieldValue bean="${wordCraftsmanInstance}" field="estimatedSize"/></span>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${wordCraftsmanInstance?.level}">
-				<li class="fieldcontain">
-					<span id="level-label" class="property-label"><g:message code="wordCraftsman.level.label" default="Level" /></span>
-					
-						<span class="property-value" aria-labelledby="level-label"><g:fieldValue bean="${wordCraftsmanInstance}" field="level"/></span>
 					
 				</li>
 				</g:if>

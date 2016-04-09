@@ -128,15 +128,8 @@ class CraftTokenController {
 	
 	def generate() {
 		def username = params.username
-		def token = tokenService.generate()
+		def token = tokenService.generate(username)
 		
-		def craftToken = CraftToken.findByUsername(username)
-		if (craftToken) {
-			craftToken.token = token
-		} else {
-		    craftToken = new CraftToken(username: username, token: token)
-		}
-		craftToken.save(flush:true, failOnError:true)
 		render(contentType:'text/json') {
 			[
 				'username': username,

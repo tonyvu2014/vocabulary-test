@@ -20,6 +20,42 @@
 
 </div>
 
+<div class="fieldcontain ${hasErrors(bean: wordCraftsmanInstance, field: 'email', 'error')} required">
+	<label for="email">
+		<g:message code="wordCraftsman.email.label" default="Email" />
+		<span class="required-indicator">*</span>
+	</label>
+	<g:field type="email" name="email" required="" value="${wordCraftsmanInstance?.email}"/>
+
+</div>
+
+<div class="fieldcontain ${hasErrors(bean: wordCraftsmanInstance, field: 'level', 'error')} ">
+	<label for="level">
+		<g:message code="wordCraftsman.level.label" default="Level" />
+		
+	</label>
+	<g:field name="level" type="number" value="${wordCraftsmanInstance.level}"/>
+
+</div>
+
+<div class="fieldcontain ${hasErrors(bean: wordCraftsmanInstance, field: 'estimatedSize', 'error')} ">
+	<label for="estimatedSize">
+		<g:message code="wordCraftsman.estimatedSize.label" default="Estimated Size" />
+		
+	</label>
+	<g:field name="estimatedSize" type="number" value="${wordCraftsmanInstance.estimatedSize}"/>
+
+</div>
+
+<div class="fieldcontain ${hasErrors(bean: wordCraftsmanInstance, field: 'craftSettings', 'error')} ">
+	<label for="craftSettings">
+		<g:message code="wordCraftsman.craftSettings.label" default="Craft Settings" />
+		
+	</label>
+	<g:select id="craftSettings" name="craftSettings.id" from="${com.wordcraft.CraftSettings.list()}" optionKey="id" value="${wordCraftsmanInstance?.craftSettings?.id}" class="many-to-one" noSelection="['null': '']"/>
+
+</div>
+
 <div class="fieldcontain ${hasErrors(bean: wordCraftsmanInstance, field: 'craftLogs', 'error')} ">
 	<label for="craftLogs">
 		<g:message code="wordCraftsman.craftLogs.label" default="Craft Logs" />
@@ -35,15 +71,6 @@
 </li>
 </ul>
 
-
-</div>
-
-<div class="fieldcontain ${hasErrors(bean: wordCraftsmanInstance, field: 'craftSettings', 'error')} required">
-	<label for="craftSettings">
-		<g:message code="wordCraftsman.craftSettings.label" default="Craft Settings" />
-		<span class="required-indicator">*</span>
-	</label>
-	<g:select id="craftSettings" name="craftSettings.id" from="${com.wordcraft.CraftSettings.list()}" optionKey="id" required="" value="${wordCraftsmanInstance?.craftSettings?.id}" class="many-to-one"/>
 
 </div>
 
@@ -80,24 +107,6 @@
 </li>
 </ul>
 
-
-</div>
-
-<div class="fieldcontain ${hasErrors(bean: wordCraftsmanInstance, field: 'estimatedSize', 'error')} required">
-	<label for="estimatedSize">
-		<g:message code="wordCraftsman.estimatedSize.label" default="Estimated Size" />
-		<span class="required-indicator">*</span>
-	</label>
-	<g:field name="estimatedSize" type="number" value="${wordCraftsmanInstance.estimatedSize}" required=""/>
-
-</div>
-
-<div class="fieldcontain ${hasErrors(bean: wordCraftsmanInstance, field: 'level', 'error')} required">
-	<label for="level">
-		<g:message code="wordCraftsman.level.label" default="Level" />
-		<span class="required-indicator">*</span>
-	</label>
-	<g:field name="level" type="number" value="${wordCraftsmanInstance.level}" required=""/>
 
 </div>
 

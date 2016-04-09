@@ -28,11 +28,13 @@
 					
 						<g:sortableColumn property="password" title="${message(code: 'wordCraftsman.password.label', default: 'Password')}" />
 					
-						<th><g:message code="wordCraftsman.craftSettings.label" default="Craft Settings" /></th>
+						<g:sortableColumn property="email" title="${message(code: 'wordCraftsman.email.label', default: 'Email')}" />
+					
+						<g:sortableColumn property="level" title="${message(code: 'wordCraftsman.level.label', default: 'Level')}" />
 					
 						<g:sortableColumn property="estimatedSize" title="${message(code: 'wordCraftsman.estimatedSize.label', default: 'Estimated Size')}" />
 					
-						<g:sortableColumn property="level" title="${message(code: 'wordCraftsman.level.label', default: 'Level')}" />
+						<th><g:message code="wordCraftsman.craftSettings.label" default="Craft Settings" /></th>
 					
 					</tr>
 				</thead>
@@ -44,11 +46,13 @@
 					
 						<td>${fieldValue(bean: wordCraftsmanInstance, field: "password")}</td>
 					
-						<td>${fieldValue(bean: wordCraftsmanInstance, field: "craftSettings")}</td>
+						<td>${fieldValue(bean: wordCraftsmanInstance, field: "email")}</td>
+					
+						<td>${fieldValue(bean: wordCraftsmanInstance, field: "level")}</td>
 					
 						<td>${fieldValue(bean: wordCraftsmanInstance, field: "estimatedSize")}</td>
 					
-						<td>${fieldValue(bean: wordCraftsmanInstance, field: "level")}</td>
+						<td>${fieldValue(bean: wordCraftsmanInstance, field: "craftSettings")}</td>
 					
 					</tr>
 				</g:each>

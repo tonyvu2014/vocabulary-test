@@ -1,14 +1,19 @@
 package com.wordcraft
 
-
-
-import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
+
+import org.springframework.context.MessageSource
+
+import com.wordcraft.utility.Constants
 
 @Transactional(readOnly = true)
 class WordCraftsmanController {
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+	
+	def WordCraftsmanService wordCraftsmanService
+	def MessageSource messageSource
+	def TokenService tokenService
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
@@ -101,4 +106,27 @@ class WordCraftsmanController {
             '*'{ render status: NOT_FOUND }
         }
     }
+	
+	
+	def login() {
+		def username = params.username
+		def password = params.password
+		
+		def wordCraftsman = wordCraftsmanService.findPrincipal(username, password)
+		
+		if (wordCraftsman!=null) {			
+			render(contentType:'text/json') {[
+			    'status': Constants.STATUS_SUCCESS,
+		        'token': tokenService.generateUUID(username)			
+			]}
+		} else {
+		    render(contentType:'text/json') {[
+			    'status': Constants.STATUS_FAILURE,
+			    'message': messageSource.getMessage('wrong.identity', null, Locale.ENGLISH)
+		    ]}
+		}
+	} 
+	
+	
+	
 }

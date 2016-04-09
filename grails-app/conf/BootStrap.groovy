@@ -40,7 +40,7 @@ class BootStrap {
 		def settings = new CraftSettings(craftLoad: 3, craftPace:2)
 		settings.save(flush:true)
 		
-		def craftsman = new WordCraftsman(username: 'tonyvu', password: 'tonyvu16', 
+		def craftsman = new WordCraftsman(username: 'tonyvu', password: 'tonyvu16', email: 'tonyvu@wordcraft.com',
 			craftSettings: settings, level: 2, estimatedSize: 2651)
 		craftsman.save(flush:true)
     }

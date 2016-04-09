@@ -25,7 +25,36 @@ class TokenService {
 	 * @param length length of the token
 	 * @return a random token
 	 */
-	def generate() {
-		return Utils.generateToken(Constants.TOKEN_LENGTH)
+	def generate(def username) {
+		def token = Utils.generateToken(Constants.TOKEN_LENGTH)
+		
+		def craftToken = CraftToken.findByUsername(username)
+		if (craftToken) {
+			craftToken.token = token
+		} else {
+			craftToken = new CraftToken(username: username, token: token)
+		}
+		craftToken.save(flush:true, failOnError:true)
+		
+		return token
+	}
+	
+	
+	/**
+	 * Generate a new UUID
+	 * @return a new UUID
+	 */
+	def generateUUID(def username) {
+		def uuid =  Utils.generateUUID()
+		
+		def craftToken = CraftToken.findByUsername(username)
+		if (craftToken) {
+			craftToken.token = uuid
+		} else {
+			craftToken = new CraftToken(username: username, token: uuid)
+		}
+		craftToken.save(flush:true, failOnError:true)
+		
+		return uuid
 	}
 }

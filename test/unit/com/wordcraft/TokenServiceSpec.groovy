@@ -29,12 +29,18 @@ class TokenServiceSpec extends Specification {
 	
 	void "test generate()"() {
 		given:
-		    def token = service.generate()
+		    def token = service.generate('test')
 		expect:
 		    token.size() == Constants.TOKEN_LENGTH
 			token.each{
 				it in Utils.ALPHANUMERIC
 			}
-			
+	}
+	
+	void "test generateUUID()"() {
+		given:
+		    def uuid = service.generateUUID('test')
+		expect:
+		    uuid.class == String
 	}
 }

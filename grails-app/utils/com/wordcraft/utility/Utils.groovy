@@ -1,5 +1,7 @@
 package com.wordcraft.utility
 
+import java.util.UUID;
+
 class Utils {
 	
 	public static final String ALPHANUMERIC = (('A'..'Z') + ('a'..'z') + (0..9)).join()
@@ -13,6 +15,11 @@ class Utils {
 		 }
 			
 		 return generator(ALPHANUMERIC, length)
+	}
+	
+	
+	public static String generateUUID() {
+		return UUID.randomUUID().toString()	
 	}
 	
 }

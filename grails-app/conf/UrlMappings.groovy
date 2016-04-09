@@ -15,6 +15,7 @@ class UrlMappings {
 		"/api/craftWord/markAsKnown/$username/$word"(controller:"craftWord", action: "markAsKnown")
 		"/api/token/hasToken/$username/$token"(controller:"craftToken", action: "hasToken")
 		"/api/token/generate/$username"(controller:"craftToken", action: "generate")
+		"/api/wordCraftsman/login/$username/$password"(controller:"wordCraftsman", action: "login")
 		
 	}
 }
