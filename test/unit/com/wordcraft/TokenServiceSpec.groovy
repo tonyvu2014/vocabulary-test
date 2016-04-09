@@ -43,4 +43,10 @@ class TokenServiceSpec extends Specification {
 		expect:
 		    uuid.class == String
 	}
+	
+	void "test removeToken()"() {
+		expect:
+		    service.removeToken('wonderwoman') == false
+			service.removeToken('test') == true
+	}
 }

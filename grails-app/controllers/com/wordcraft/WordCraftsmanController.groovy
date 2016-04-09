@@ -9,7 +9,7 @@ import com.wordcraft.utility.Constants
 @Transactional(readOnly = true)
 class WordCraftsmanController {
 
-    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE", login:"POST"]
+    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE", login:"POST", logout: "POST"]
 	
 	def WordCraftsmanService wordCraftsmanService
 	def MessageSource messageSource
@@ -126,6 +126,20 @@ class WordCraftsmanController {
 		    ]}
 		}
 	} 
+	
+	def logout() {
+		def username = params.username
+		def result = tokenService.removeToken(username)
+		if (result) {
+			render(contentType:'text/json') {[
+				'status': Constants.STATUS_SUCCESS
+			]}
+		} else {
+			render(contentType:'text/json') {[
+				'status': Constants.STATUS_FAILURE
+			]}
+		}
+	}
 	
 	
 	

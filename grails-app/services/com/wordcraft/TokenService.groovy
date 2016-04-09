@@ -21,6 +21,20 @@ class TokenService {
     }
 	
 	/**
+	 * Remove a craft token record for an username
+	 * @param username - username provided
+	 * @return true if record is deleted successfully, false otherwise
+	 */
+	def removeToken(String username) {
+		def craftToken = CraftToken.findByUsername(username)
+		if (!craftToken) {
+			return false
+		} 
+		craftToken.delete()
+		return true
+	}
+	
+	/**
 	 * Generate a random token with a certain length
 	 * @param length length of the token
 	 * @return a random token
