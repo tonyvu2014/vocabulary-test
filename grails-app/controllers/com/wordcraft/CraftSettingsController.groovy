@@ -1,14 +1,16 @@
 package com.wordcraft
 
-
-
-import static org.springframework.http.HttpStatus.*
+import org.springframework.context.MessageSource;
 import grails.transaction.Transactional
+import com.wordcraft.utility.Constants
 
 @Transactional(readOnly = true)
 class CraftSettingsController {
 
-    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE", get: "GET", set: "POST"]
+	
+	def CraftSettingsService craftSettingsService
+	def MessageSource messageSource
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
@@ -101,4 +103,67 @@ class CraftSettingsController {
             '*'{ render status: NOT_FOUND }
         }
     }
+	
+	def get() {
+		def username = params.username
+        def wordCraftsman = WordCraftsman.findByUsername(username)
+		if (!wordCraftsman){
+			render(contentType:'text/json') {[
+				'status': Constants.STATUS_FAILURE,
+				'message': messageSource.getMessage('fail.to.get.wordcraftsman', null, Locale.ENGLISH)
+			]}
+			return
+		}
+		def settings = wordCraftsman.craftSettings
+		if (settings) {
+			render(contentType:'text/json') {[
+				'status': Constants.STATUS_SUCCESS,
+				'pace': settings.craftPace,
+				'load': settings.craftLoad 
+			]}
+		} else {
+			render(contentType:'text/json') {[
+				'status': Constants.STATUS_FAILURE,
+				'message': messageSource.getMessage('fail.to.get.settings', null, Locale.ENGLISH)
+			]}
+		}
+	}
+	
+	def set() {
+		def username = params.username
+		def pace = params.int('pace')
+		def load = params.int('load')
+		assert pace>=1
+		assert load>=1
+		
+        def wordCraftsman = WordCraftsman.findByUsername(username)
+		if (!wordCraftsman) {
+			render(contentType:'text/json') {[
+				'status': Constants.STATUS_FAILURE,
+				'message': messageSource.getMessage('fail.to.get.wordcraftsman', null, Locale.ENGLISH)
+			]}
+			return
+		}	
+		def settings = wordCraftsman.craftSettings	
+		if (settings) {
+			settings.craftLoad = load
+			settings.craftPace = pace
+			settings.save(flush:true, failOnError:true)
+			render(contentType:'text/json') {[
+				'status': Constants.STATUS_SUCCESS,
+				'pace': pace,
+				'load': load
+			]}
+		} else {
+		    def newSettings = new CraftSettings(craftPace:pace, craftLoad:load)
+			wordCraftsman.craftSettings = newSettings
+			wordCraftsman.save(flush:true, failOnError: true)
+			render(contentType:'text/json') {[
+				'status': Constants.STATUS_SUCCESS,
+				'pace': pace,
+				'load': load
+			]}
+		}
+		
+	}
 }
