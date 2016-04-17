@@ -120,7 +120,7 @@ class CraftWordController {
 		    ex.printStackTrace()
 			render(contentType:'text/json') {[
 				'status': Constants.STATUS_FAILURE,
-				'message': messageSource.getMessage('fail.to.mark', null, Locale.ENGLISH)
+				'message': messageSource.getMessage('fail.to.mark', null, Locale.US)
 			]}
 		}
 		

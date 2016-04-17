@@ -9,7 +9,7 @@ import com.wordcraft.WordService
 @Transactional(readOnly = true)
 class WordFrequencyController {
 
-    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE", getWordFromLevel: "GET", getWordFromRange: "GET"]
 	
 	def WordService wordService
 

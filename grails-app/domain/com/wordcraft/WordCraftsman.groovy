@@ -25,6 +25,7 @@ class WordCraftsman {
 		craftTests cascade: 'all'
 		craftLogs cascade: 'all'
 		craftWords cascade: 'all-delete-orphan'
+		craftLogs sort: 'eventTime', order: 'desc'
 	}
 	
 }

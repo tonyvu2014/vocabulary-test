@@ -9,7 +9,6 @@ class CraftSettingsController {
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE", get: "GET", set: "POST"]
 	
-	def CraftSettingsService craftSettingsService
 	def MessageSource messageSource
 
     def index(Integer max) {
@@ -110,7 +109,7 @@ class CraftSettingsController {
 		if (!wordCraftsman){
 			render(contentType:'text/json') {[
 				'status': Constants.STATUS_FAILURE,
-				'message': messageSource.getMessage('fail.to.get.wordcraftsman', null, Locale.ENGLISH)
+				'message': messageSource.getMessage('fail.to.get.wordcraftsman', null, Locale.US)
 			]}
 			return
 		}
@@ -124,7 +123,7 @@ class CraftSettingsController {
 		} else {
 			render(contentType:'text/json') {[
 				'status': Constants.STATUS_FAILURE,
-				'message': messageSource.getMessage('fail.to.get.settings', null, Locale.ENGLISH)
+				'message': messageSource.getMessage('fail.to.get.settings', null, Locale.US)
 			]}
 		}
 	}
@@ -140,7 +139,7 @@ class CraftSettingsController {
 		if (!wordCraftsman) {
 			render(contentType:'text/json') {[
 				'status': Constants.STATUS_FAILURE,
-				'message': messageSource.getMessage('fail.to.get.wordcraftsman', null, Locale.ENGLISH)
+				'message': messageSource.getMessage('fail.to.get.wordcraftsman', null, Locale.US)
 			]}
 			return
 		}	

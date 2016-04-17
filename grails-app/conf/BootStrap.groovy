@@ -1,6 +1,8 @@
+import com.wordcraft.CraftLog
 import com.wordcraft.CraftSettings
 import com.wordcraft.WordCraftsman
 import com.wordcraft.WordFrequency
+import com.wordcraft.utility.EventType
 
 class BootStrap {
 
@@ -40,8 +42,11 @@ class BootStrap {
 		def settings = new CraftSettings(craftLoad: 3, craftPace:2)
 		settings.save(flush:true)
 		
+		def craftLog = new CraftLog(eventTime: new Date(), eventType: EventType.TEST, description: "You have taken the test on ${new Date().format('dd/MM/yyyy HH:mm')} ")
+		
 		def craftsman = new WordCraftsman(username: 'tonyvu', password: 'tonyvu16', email: 'tonyvu@wordcraft.com',
 			craftSettings: settings, level: 2, estimatedSize: 2651)
+		craftsman.addToCraftLogs(craftLog)
 		craftsman.save(flush:true)
     }
 	

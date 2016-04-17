@@ -19,5 +19,8 @@ class UrlMappings {
 		"/api/wordCraftsman/logout"(controller: "wordCraftsman", action: "logout")
 		"/api/settings/getSettings/$username"(controller: "craftSettings", action: "get")
 		"/api/settings/changeSettings"(controller: "craftSettings", action: "set")
+		"/api/log/createHistory"(controller:"craftLog", action:"createHistory")
+		"/api/log/viewHistory/$username"(controller:"craftLog", action:"viewHistory")
+		
 	}
 }
