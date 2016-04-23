@@ -1,6 +1,7 @@
 package com.wordcraft
 
 import grails.transaction.Transactional
+import grails.validation.ValidationException
 
 import org.springframework.context.MessageSource
 
@@ -9,7 +10,7 @@ import com.wordcraft.utility.Constants
 @Transactional(readOnly = true)
 class WordCraftsmanController {
 
-    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE", login:"POST", logout: "POST"]
+    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE", login:"POST", logout: "POST", register: "POST", change: "POST"]
 	
 	def WordCraftsmanService wordCraftsmanService
 	def MessageSource messageSource
@@ -141,6 +142,75 @@ class WordCraftsmanController {
 		}
 	}
 	
-	
-	
+   
+	def register() {
+		def username = params.username
+		def password = params.password
+		assert password
+		def email = params.email
+		assert email
+		
+		def wordCraftsman = new WordCraftsman()
+		wordCraftsman.username = username
+		wordCraftsman.password = password
+		wordCraftsman.email = email
+		
+		try {
+			wordCraftsman.save(flush:true, failOnError: true)
+			render(contentType:'text/json') {[
+				'status': Constants.STATUS_SUCCESS,
+				'username': username
+			]}
+		} catch (ValidationException e) {
+		    print "Error in saving the wordcraftsman"
+			e.printStackTrace()
+			render(contentType:'text/json') {[
+				'status': Constants.STATUS_FAILURE,
+				'message': messageSource.getMessage('user.fail.to.register', null, Locale.US)
+			]}
+		}
+	}	
+    
+	def change() {
+		def username = params.username
+		def wordCraftsman = WordCraftsman.findByUsername(username)
+		if (!wordCraftsman) {
+			render(contentType:'text/json') {[
+				'status': Constants.STATUS_FAILURE,
+				'message': messageSource.getMessage('fail.to.get.wordcraftsman', null, Locale.US)
+			]}
+			return
+		}
+		def password = params.password
+		def email = params.email
+		def vocabularySize = params.int("vocabularySize")
+		assert vocabularySize <= Constants.MAX_WORD
+		
+        if (password) {
+			wordCraftsman.password = password
+		} 		
+		
+		if (email) {
+			wordCraftsman.email = email
+		}
+		
+		if (vocabularySize) {
+			wordCraftsman.estimatedSize = vocabularySize
+			wordCraftsman.level = vocabularySize / Constants.WORD_PER_LEVEL + 1 
+		}
+		try {
+			wordCraftsman.save(flush:true, failOnError:true)
+			render(contentType:'text/json') {[
+				'status': Constants.STATUS_SUCCESS,
+				'username': username,
+			]}
+		} catch (ValidationException e) {
+			print "Error in updating the wordcraftsman"
+			e.printStackTrace()
+			render(contentType:'text/json') {[
+				'status': Constants.STATUS_FAILURE,
+				'message': messageSource.getMessage('user.fail.to.update', null, Locale.US)
+			]}
+		}
+	}	
 }

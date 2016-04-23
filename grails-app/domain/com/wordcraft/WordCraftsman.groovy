@@ -15,7 +15,7 @@ class WordCraftsman {
     static constraints = {
 		username(blank:false, nullable: false, unique:true)
 		password(blank:false, nullable:false, minSize:6)
-		email(blank:false, email:true)
+		email(blank:false, email:true, unique: true)
 		level(nullable:true)
 		estimatedSize(nullable:true)
 		craftSettings(nullable:true)

@@ -23,7 +23,7 @@ class UrlMappings {
 		"/api/log/viewHistory/$username"(controller:"craftLog", action:"viewHistory")
 		"/api/test/createTest"(controller: "craftTest", action: "createTest")
 		"/api/wordCraftsman/register"(controller:"wordCraftsman", action: "register")
-		"/api/wordCraftsman/update"(controller:"wordCraftsman", action: "update")
+		"/api/wordCraftsman/change"(controller:"wordCraftsman", action: "change")
 		
 	}
 }
