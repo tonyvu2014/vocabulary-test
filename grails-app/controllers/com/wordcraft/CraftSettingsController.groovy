@@ -7,7 +7,7 @@ import com.wordcraft.utility.Constants
 @Transactional(readOnly = true)
 class CraftSettingsController {
 
-    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE", get: "GET", set: "POST"]
+    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE", secureGet: "GET", secureSet: "POST"]
 	
 	def MessageSource messageSource
 
@@ -103,7 +103,7 @@ class CraftSettingsController {
         }
     }
 	
-	def get() {
+	def secureGet() {
 		def username = params.username
         def wordCraftsman = WordCraftsman.findByUsername(username)
 		if (!wordCraftsman){
@@ -128,7 +128,7 @@ class CraftSettingsController {
 		}
 	}
 	
-	def set() {
+	def secureSet() {
 		def username = params.username
 		def pace = params.int('pace')
 		def load = params.int('load')

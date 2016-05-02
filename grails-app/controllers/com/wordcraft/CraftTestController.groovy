@@ -7,7 +7,7 @@ import com.wordcraft.utility.Constants
 @Transactional(readOnly = true)
 class CraftTestController {
 
-    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE", createTest: "POST"]
+    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE", secureCreateTest: "POST"]
 	
 	def MessageSource messageSource
 
@@ -104,7 +104,7 @@ class CraftTestController {
     }
 	
 	
-	def createTest() {
+	def secureCreateTest() {
 		def username = params.username
 		def wordCraftsman = WordCraftsman.findByUsername(username)
 		if (!wordCraftsman) {

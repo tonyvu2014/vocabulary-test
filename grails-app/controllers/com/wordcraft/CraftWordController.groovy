@@ -8,7 +8,7 @@ import com.wordcraft.utility.Constants
 @Transactional(readOnly = true)
 class CraftWordController {
 
-    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE", markAsKnown: "POST"]
+    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE", secureMarkAsKnown: "POST"]
 
 	def CraftWordService craftWordService
 	def MessageSource messageSource
@@ -105,13 +105,21 @@ class CraftWordController {
         }
     }
 	
-	def markAsKnown() {
+	def secureMarkAsKnown() {
 		def username = params.username
+		def wordCraftsman = WordCraftsman.findByUsername(username)
+		if (!wordCraftsman) {
+			render(contentType:'text/json') {[
+				'status': Constants.STATUS_FAILURE,
+				'message': messageSource.getMessage('fail.to.get.wordcraftsman', null, Locale.ENGLISH)
+			]}
+			return
+		}
+		
 		def word = params.word
 
 		try {
-			def craftsman = WordCraftsman.findByUsername(username)
-			craftWordService.markAsKnown(craftsman, word)
+			craftWordService.markAsKnown(wordCraftsman, word)
 			render(contentType:'text/json') {[
 				'status': Constants.STATUS_SUCCESS,
 				'word': word

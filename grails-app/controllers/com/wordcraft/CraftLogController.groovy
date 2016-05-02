@@ -10,7 +10,8 @@ import com.wordcraft.utility.EventType
 @Transactional(readOnly = true)
 class CraftLogController {
 
-    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE", createHistory: "POST", viewHistory:"GET"]
+    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE", 
+		                     secureCreateHistory: "POST", secureViewHistory:"GET"]
 	
 	def MessageSource messageSource
 	
@@ -106,7 +107,7 @@ class CraftLogController {
         }
     }
 	
-	def createHistory() {
+	def secureCreateHistory() {
 		def username = params.username
 		
 		def wordCraftsman = WordCraftsman.findByUsername(username)
@@ -150,7 +151,7 @@ class CraftLogController {
 		]}
 	}
 	
-	def viewHistory() {
+	def secureViewHistory() {
 		def username = params.username
 		
 		def wordCraftsman = WordCraftsman.findByUsername(username)

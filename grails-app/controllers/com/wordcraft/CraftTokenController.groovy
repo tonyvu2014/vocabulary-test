@@ -6,7 +6,7 @@ import grails.transaction.Transactional
 @Transactional(readOnly = true)
 class CraftTokenController {
 
-	static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE", generate: "GET", hasToken: "GET"]
+	static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE", secureGenerate: "POST", hasToken: "GET"]
 	
 	def TokenService tokenService
 
@@ -126,8 +126,17 @@ class CraftTokenController {
 	}
 	
 	
-	def generate() {
+	def secureGenerate() {
 		def username = params.username
+		def wordCraftsman = WordCraftsman.findByUsername(username)
+		if (!wordCraftsman) {
+			render(contentType:'text/json') {[
+				'status': Constants.STATUS_FAILURE,
+				'message': messageSource.getMessage('fail.to.get.wordcraftsman', null, Locale.ENGLISH)
+			]}
+			return
+		}
+		
 		def token = tokenService.generate(username)
 		
 		render(contentType:'text/json') {
