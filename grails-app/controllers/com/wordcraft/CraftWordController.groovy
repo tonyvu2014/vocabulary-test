@@ -108,13 +108,6 @@ class CraftWordController {
 	def secureMarkAsKnown() {
 		def username = params.username
 		def wordCraftsman = WordCraftsman.findByUsername(username)
-		if (!wordCraftsman) {
-			render(contentType:'text/json') {[
-				'status': Constants.STATUS_FAILURE,
-				'message': messageSource.getMessage('fail.to.get.wordcraftsman', null, Locale.ENGLISH)
-			]}
-			return
-		}
 		
 		def word = params.word
 

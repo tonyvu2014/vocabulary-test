@@ -106,13 +106,6 @@ class CraftSettingsController {
 	def secureGet() {
 		def username = params.username
         def wordCraftsman = WordCraftsman.findByUsername(username)
-		if (!wordCraftsman){
-			render(contentType:'text/json') {[
-				'status': Constants.STATUS_FAILURE,
-				'message': messageSource.getMessage('fail.to.get.wordcraftsman', null, Locale.US)
-			]}
-			return
-		}
 		def settings = wordCraftsman.craftSettings
 		if (settings) {
 			render(contentType:'text/json') {[
@@ -136,13 +129,6 @@ class CraftSettingsController {
 		assert load>=1
 		
         def wordCraftsman = WordCraftsman.findByUsername(username)
-		if (!wordCraftsman) {
-			render(contentType:'text/json') {[
-				'status': Constants.STATUS_FAILURE,
-				'message': messageSource.getMessage('fail.to.get.wordcraftsman', null, Locale.US)
-			]}
-			return
-		}	
 		def settings = wordCraftsman.craftSettings	
 		if (settings) {
 			settings.craftLoad = load

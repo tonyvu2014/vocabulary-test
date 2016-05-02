@@ -1,15 +1,17 @@
 package com.wordcraft.filter
 
-import com.wordcraft.CraftToken
-import com.wordcraft.utility.Constants
 import org.springframework.context.MessageSource
+
+import com.wordcraft.CraftToken
+import com.wordcraft.WordCraftsman
+import com.wordcraft.utility.Constants
 
 class AuthenticationFilters {
 	
 	def MessageSource messageSource
 
     def filters = {
-        secure(controller:'*', action:'secure*') {
+        secureFilter(controller:'*', action:'secure*') {
             before = {
 				def authorizationToken = request.getHeader('Authorization')
 				if (!authorizationToken) {
@@ -27,6 +29,16 @@ class AuthenticationFilters {
 					]}
 					return false
 				}
+				
+				def wordCraftsman = WordCraftsman.findByUsername(username)
+				if (!wordCraftsman) {
+					render(contentType:'text/json') {[
+						'status': Constants.STATUS_FAILURE,
+						'message': messageSource.getMessage('fail.to.get.wordcraftsman', null, Locale.US)
+					]}
+					return false
+				}
+				
 				def craftToken = CraftToken.findByUsernameAndToken(username, authorizationToken)
 				if (!craftToken) {
 					render(contentType:'text/json') {[

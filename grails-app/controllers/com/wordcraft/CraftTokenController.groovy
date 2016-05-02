@@ -128,16 +128,8 @@ class CraftTokenController {
 	
 	def secureGenerate() {
 		def username = params.username
-		def wordCraftsman = WordCraftsman.findByUsername(username)
-		if (!wordCraftsman) {
-			render(contentType:'text/json') {[
-				'status': Constants.STATUS_FAILURE,
-				'message': messageSource.getMessage('fail.to.get.wordcraftsman', null, Locale.ENGLISH)
-			]}
-			return
-		}
 		
-		def token = tokenService.generate(username)
+		def token = tokenService.generateUUID(username)
 		
 		render(contentType:'text/json') {
 			[

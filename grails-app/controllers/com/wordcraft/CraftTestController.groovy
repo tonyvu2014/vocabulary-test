@@ -107,13 +107,6 @@ class CraftTestController {
 	def secureCreateTest() {
 		def username = params.username
 		def wordCraftsman = WordCraftsman.findByUsername(username)
-		if (!wordCraftsman) {
-			render(contentType:'text/json') {[
-				'status': Constants.STATUS_FAILURE,
-				'message': messageSource.getMessage('fail.to.get.wordcraftsman', null, Locale.US)
-			]}
-			return
-		}
 		
 		def resultSize = params.int("resultSize")
 		def testTime = new Date()

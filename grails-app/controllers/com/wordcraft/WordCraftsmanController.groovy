@@ -131,14 +131,7 @@ class WordCraftsmanController {
 	
 	def secureLogout() {
 		def username = params.username
-		def wordCraftsman = WordCraftsman.findByUsername(username)
-		if (!wordCraftsman) {
-			render(contentType:'text/json') {[
-				'status': Constants.STATUS_FAILURE,
-				'message': messageSource.getMessage('fail.to.get.wordcraftsman', null, Locale.US)
-			]}
-			return
-		}
+	
 		def result = tokenService.removeToken(username)
 		if (result) {
 			render(contentType:'text/json') {[
@@ -183,13 +176,7 @@ class WordCraftsmanController {
 	def secureChange() {
 		def username = params.username
 		def wordCraftsman = WordCraftsman.findByUsername(username)
-		if (!wordCraftsman) {
-			render(contentType:'text/json') {[
-				'status': Constants.STATUS_FAILURE,
-				'message': messageSource.getMessage('fail.to.get.wordcraftsman', null, Locale.US)
-			]}
-			return
-		}
+	
 		def password = params.password
 		def email = params.email
 		def vocabularySize = params.int("vocabularySize")

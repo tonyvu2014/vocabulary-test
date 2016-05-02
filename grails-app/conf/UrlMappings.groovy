@@ -14,7 +14,7 @@ class UrlMappings {
 		"/api/word/getWordFromRange/$minRank/$maxRank"(controller: "wordFrequency", action: "getWordFromRange")
 		"/api/craftWord/markAsKnown"(controller:"craftWord", action: "secureMarkAsKnown")
 		"/api/token/hasToken/$username/$token"(controller:"craftToken", action: "hasToken")
-		"/api/token/generate/$username"(controller:"craftToken", action: "secureGenerate")
+		"/api/token/generate"(controller:"craftToken", action: "secureGenerate")
 		"/api/wordCraftsman/login"(controller:"wordCraftsman", action: "login")
 		"/api/wordCraftsman/logout"(controller: "wordCraftsman", action: "secureLogout")
 		"/api/settings/getSettings/$username"(controller: "craftSettings", action: "secureGet")
