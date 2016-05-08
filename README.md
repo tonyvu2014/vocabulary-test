@@ -25,7 +25,7 @@ _Note: the word list currently has only 5000 entries, so this test is meant for 
 RUN THE API APP
 ---------------
 
-To app is configured running on HSQLDB on DEV and TEST environment and running MySQL on PROD environment. 
+The app is configured to run on HSQLDB on DEV and TEST environment and run MySQL on PROD environment. 
 
 - Download and set up MySQL in your environment and create database **wordcraft** for the app. 
 - Update Config.groovy under production environment the MySQL username and password that you set up.
