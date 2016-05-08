@@ -15,6 +15,7 @@ class AuthenticationFilters {
             before = {
 				def authorizationToken = request.getHeader('Authorization')
 				if (!authorizationToken) {
+					log.error("Authentication: empty authorization token")
 					render(contentType:'text/json') {[
 						'status': Constants.STATUS_FAILURE,
 						'message': messageSource.getMessage('authorization.token.not.found', null, Locale.US)
@@ -23,6 +24,7 @@ class AuthenticationFilters {
 				}
 				def username = params.username
 				if (!username) {
+					log.error("Authentication: empty username")
 					render(contentType:'text/json') {[
 						'status': Constants.STATUS_FAILURE,
 						'message': messageSource.getMessage('authorization.username.not.found', null, Locale.US)
@@ -32,6 +34,7 @@ class AuthenticationFilters {
 				
 				def wordCraftsman = WordCraftsman.findByUsername(username)
 				if (!wordCraftsman) {
+					log.error("Authentication: wordcraftsman ${username} does not exist")
 					render(contentType:'text/json') {[
 						'status': Constants.STATUS_FAILURE,
 						'message': messageSource.getMessage('fail.to.get.wordcraftsman', null, Locale.US)
@@ -41,6 +44,7 @@ class AuthenticationFilters {
 				
 				def craftToken = CraftToken.findByUsernameAndToken(username, authorizationToken)
 				if (!craftToken) {
+					log.error("Authentication: Failed to authenticate for user ${username}")
 					render(contentType:'text/json') {[
 						'status': Constants.STATUS_FAILURE,
 						'message': messageSource.getMessage('authorization.token.not.found', null, Locale.US)

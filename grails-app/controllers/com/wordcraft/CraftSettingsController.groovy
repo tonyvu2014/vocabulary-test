@@ -127,6 +127,7 @@ class CraftSettingsController {
 		def load = params.int('load')
 		assert pace>=1
 		assert load>=1
+		log.info("New settings: pace = ${pace}, load = ${load}")
 		
         def wordCraftsman = WordCraftsman.findByUsername(username)
 		def settings = wordCraftsman.craftSettings	
@@ -139,6 +140,7 @@ class CraftSettingsController {
 				'pace': pace,
 				'load': load
 			]}
+			log.info("Successfully updated settings to: pace = ${pace}, load = ${load}")
 		} else {
 		    def newSettings = new CraftSettings(craftPace:pace, craftLoad:load)
 			wordCraftsman.craftSettings = newSettings
@@ -148,6 +150,7 @@ class CraftSettingsController {
 				'pace': pace,
 				'load': load
 			]}
+			log.info("Successfully created new settings: pace = ${pace}, load = ${load}")
 		}
 		
 	}

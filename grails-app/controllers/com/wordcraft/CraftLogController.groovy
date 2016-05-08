@@ -110,6 +110,7 @@ class CraftLogController {
 	def secureCreateHistory() {
 		def username = params.username
 		def wordCraftsman = WordCraftsman.findByUsername(username)
+		log.info("Creating log event for user ${username}")
 		
 		def event = params.event
 		assert event.toUpperCase() in EventType.values().collect{it.name()}
@@ -119,14 +120,17 @@ class CraftLogController {
 		def desc = messageSource.getMessage('event.activity.desc', [eventTime.format("dd/MM/yyyy HH:mm")] as Object[] , Locale.US)
 		switch(eventType) {
 			case EventType.TEST:
+			    log.info("Logging event: TEST")
 			    desc = messageSource.getMessage('event.test.desc', [eventTime.format("dd/MM/yyyy HH:mm")] as Object[], Locale.US)
 			    break
 			case EventType.LEARN:
+			    log.info("Logging event: LEARN")
 			    def words = params.int('words')
 				assert words >= 1
 				desc = messageSource.getMessage('event.learn.desc', [words, eventTime.format("dd/MM/yyyy HH:mm")] as Object[], Locale.US)
 			    break
 			case EventType.ADVANCE:
+			    log.info("Logging event: ADVANCE TO THE NEXT LEVEL")
 			    def level = params.int('level')
 				assert level >= 1
 				desc = messageSource.getMessage('event.advance.desc', [level, eventTime.format("dd/MM/yyyy HH:mm")] as Object[], Locale.US)
@@ -146,6 +150,7 @@ class CraftLogController {
 	def secureViewHistory() {
 		def username = params.username
 		def wordCraftsman = WordCraftsman.findByUsername(username)
+		log.info("Viewing history of user ${username}")
 		
 		def craftLogs = wordCraftsman.craftLogs
 		def history = []

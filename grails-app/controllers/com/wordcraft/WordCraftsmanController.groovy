@@ -113,15 +113,18 @@ class WordCraftsmanController {
 	def login() {
 		def username = params.username
 		def password = params.password
+		log.info("Logging in as user ${username}")
+		
 		
 		def wordCraftsman = wordCraftsmanService.findPrincipal(username, password)
-		
 		if (wordCraftsman!=null) {			
 			render(contentType:'text/json') {[
 			    'status': Constants.STATUS_SUCCESS,
 		        'token': tokenService.generateUUID(username)			
 			]}
+			log.info("Logged in successfully for user ${username}")
 		} else {
+		    log.error("Login failed for user ${username}")
 		    render(contentType:'text/json') {[
 			    'status': Constants.STATUS_FAILURE,
 			    'message': messageSource.getMessage('wrong.identity', null, Locale.ENGLISH)
@@ -137,7 +140,9 @@ class WordCraftsmanController {
 			render(contentType:'text/json') {[
 				'status': Constants.STATUS_SUCCESS
 			]}
+			log.info("Successfully logging out as user ${username}")
 		} else {
+		    log.error("Error logging out as user ${username}")
 			render(contentType:'text/json') {[
 				'status': Constants.STATUS_FAILURE
 			]}
@@ -163,8 +168,9 @@ class WordCraftsmanController {
 				'status': Constants.STATUS_SUCCESS,
 				'username': username
 			]}
+			log.info("Successfully registered user ${username}")
 		} catch (ValidationException e) {
-		    print "Error in saving the wordcraftsman"
+		    log.error("Error in saving the wordcraftsman")
 			e.printStackTrace()
 			render(contentType:'text/json') {[
 				'status': Constants.STATUS_FAILURE,
@@ -200,8 +206,9 @@ class WordCraftsmanController {
 				'status': Constants.STATUS_SUCCESS,
 				'username': username,
 			]}
+			log.info("Successfully apply changes for user ${username}")
 		} catch (ValidationException e) {
-			print "Error in updating the wordcraftsman"
+			log.error("Error in updating for the wordcraftsman ${username}")
 			e.printStackTrace()
 			render(contentType:'text/json') {[
 				'status': Constants.STATUS_FAILURE,

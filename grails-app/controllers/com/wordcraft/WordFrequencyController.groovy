@@ -109,6 +109,8 @@ class WordFrequencyController {
 	def getWordFromLevel() {
 		def level = params.int('level')
 		assert level > 0
+		log.info("Get word from level: ${level}")
+		
 		def wordFrequency = wordService.getRandomWordFromLevel(level)
 		render(contentType:'text/json') {[
 			'word': wordFrequency.word,
@@ -120,6 +122,8 @@ class WordFrequencyController {
 		def minRank = params.int('minRank')
 		def maxRank = params.int('maxRank')
 		assert maxRank >= minRank
+		log.info("Get word for rank from ${minRank} to ${maxRank}")
+		
 		def wordFrequency = wordService.getRandomWord(minRank, maxRank)
 		render(contentType:'text/json') {[
 			'word': wordFrequency.word,

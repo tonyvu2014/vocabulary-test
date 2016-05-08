@@ -117,6 +117,7 @@ class CraftTokenController {
 	def hasToken() {
 		def username = params.username
 		def token = params.token
+        log.info("Checking if user ${user} has token ${token}")		
 
 		render(contentType:'text/json') {
 			[
@@ -128,6 +129,7 @@ class CraftTokenController {
 	
 	def secureGenerate() {
 		def username = params.username
+		log.info("Creating new token for user ${username}")
 		
 		def token = tokenService.generateUUID(username)
 		

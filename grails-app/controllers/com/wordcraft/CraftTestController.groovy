@@ -107,6 +107,7 @@ class CraftTestController {
 	def secureCreateTest() {
 		def username = params.username
 		def wordCraftsman = WordCraftsman.findByUsername(username)
+		log.info("Creating test for user ${username}")
 		
 		def resultSize = params.int("resultSize")
 		def testTime = new Date()
@@ -118,6 +119,7 @@ class CraftTestController {
 			'result_size': resultSize,
 			'test_time': testTime.format("dd/MM/yyyy HH:mm")
 		]}
+		log.info("Successfully created a new test for user ${username}")
 		
 	}
 }
