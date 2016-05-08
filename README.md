@@ -8,6 +8,10 @@ ENVIRONMENT
 - grails 2.4.4
 - groovy 2.4.5
 
+
+RUN THE TEST
+------------
+
 To run the test, clone and open the project on Eclipse with Groovy and Grails plugin.
 
 Go to the file WordTest.groovy under src/groovy/com/wordcraft/test, right-click and Run As Groovy Script.
@@ -16,5 +20,15 @@ In the console, you will be asked with a series of question whether you know a c
 After the test, you will be given your estimated vocabulary size.
 
 _Note: the word list currently has only 5000 entries, so this test is meant for beginners at the moment._
+
+
+RUN THE API APP
+---------------
+
+To app is configured running on HSQLDB on DEV and TEST environment and running MySQL on PROD environment. 
+
+- Download and set up MySQL in your environment and create database **wordcraft** for the app. 
+- Update Config.groovy under production environment the MySQL username and password that you set up.
+- From the project folder, run **grails run-app** to start the app on DEV environment or **grails prod run-app** to start in PROD enviroment. 
 
 
