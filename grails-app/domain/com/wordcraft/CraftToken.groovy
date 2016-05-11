@@ -5,9 +5,9 @@ class CraftToken {
 
 	String username
 	String token
-	
-    static constraints = {
+
+	static constraints = {
 		username(blank:false, nullable:false)
 		token(blank:false, nullable:false)
-    }
+	}
 }

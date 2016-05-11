@@ -1,6 +1,5 @@
 package com.wordcraft
 
-
 import grails.test.mixin.*
 import spock.lang.*
 
@@ -8,144 +7,144 @@ import spock.lang.*
 @Mock(CraftWord)
 class CraftWordControllerSpec extends Specification {
 
-    def populateValidParams(params) {
-        assert params != null
-        // TODO: Populate valid properties like...
-        //params["name"] = 'someValidName'
-    }
+	def populateValidParams(params) {
+		assert params != null
+		// TODO: Populate valid properties like...
+		//params["name"] = 'someValidName'
+	}
 
-    void "Test the index action returns the correct model"() {
+	void "Test the index action returns the correct model"() {
 
-        when:"The index action is executed"
-            controller.index()
+		when:"The index action is executed"
+		controller.index()
 
-        then:"The model is correct"
-            !model.craftWordInstanceList
-            model.craftWordInstanceCount == 0
-    }
+		then:"The model is correct"
+		!model.craftWordInstanceList
+		model.craftWordInstanceCount == 0
+	}
 
-    void "Test the create action returns the correct model"() {
-        when:"The create action is executed"
-            controller.create()
+	void "Test the create action returns the correct model"() {
+		when:"The create action is executed"
+		controller.create()
 
-        then:"The model is correctly created"
-            model.craftWordInstance!= null
-    }
+		then:"The model is correctly created"
+		model.craftWordInstance!= null
+	}
 
-    void "Test the save action correctly persists an instance"() {
+	void "Test the save action correctly persists an instance"() {
 
-        when:"The save action is executed with an invalid instance"
-            request.contentType = FORM_CONTENT_TYPE
-            request.method = 'POST'
-            def craftWord = new CraftWord()
-            craftWord.validate()
-            controller.save(craftWord)
+		when:"The save action is executed with an invalid instance"
+		request.contentType = FORM_CONTENT_TYPE
+		request.method = 'POST'
+		def craftWord = new CraftWord()
+		craftWord.validate()
+		controller.save(craftWord)
 
-        then:"The create view is rendered again with the correct model"
-            model.craftWordInstance!= null
-            view == 'create'
+		then:"The create view is rendered again with the correct model"
+		model.craftWordInstance!= null
+		view == 'create'
 
-        when:"The save action is executed with a valid instance"
-            response.reset()
-            populateValidParams(params)
-            craftWord = new CraftWord(params)
+		when:"The save action is executed with a valid instance"
+		response.reset()
+		populateValidParams(params)
+		craftWord = new CraftWord(params)
 
-            controller.save(craftWord)
+		controller.save(craftWord)
 
-        then:"A redirect is issued to the show action"
-            response.redirectedUrl == '/craftWord/show/1'
-            controller.flash.message != null
-            CraftWord.count() == 1
-    }
+		then:"A redirect is issued to the show action"
+		response.redirectedUrl == '/craftWord/show/1'
+		controller.flash.message != null
+		CraftWord.count() == 1
+	}
 
-    void "Test that the show action returns the correct model"() {
-        when:"The show action is executed with a null domain"
-            controller.show(null)
+	void "Test that the show action returns the correct model"() {
+		when:"The show action is executed with a null domain"
+		controller.show(null)
 
-        then:"A 404 error is returned"
-            response.status == 404
+		then:"A 404 error is returned"
+		response.status == 404
 
-        when:"A domain instance is passed to the show action"
-            populateValidParams(params)
-            def craftWord = new CraftWord(params)
-            controller.show(craftWord)
+		when:"A domain instance is passed to the show action"
+		populateValidParams(params)
+		def craftWord = new CraftWord(params)
+		controller.show(craftWord)
 
-        then:"A model is populated containing the domain instance"
-            model.craftWordInstance == craftWord
-    }
+		then:"A model is populated containing the domain instance"
+		model.craftWordInstance == craftWord
+	}
 
-    void "Test that the edit action returns the correct model"() {
-        when:"The edit action is executed with a null domain"
-            controller.edit(null)
+	void "Test that the edit action returns the correct model"() {
+		when:"The edit action is executed with a null domain"
+		controller.edit(null)
 
-        then:"A 404 error is returned"
-            response.status == 404
+		then:"A 404 error is returned"
+		response.status == 404
 
-        when:"A domain instance is passed to the edit action"
-            populateValidParams(params)
-            def craftWord = new CraftWord(params)
-            controller.edit(craftWord)
+		when:"A domain instance is passed to the edit action"
+		populateValidParams(params)
+		def craftWord = new CraftWord(params)
+		controller.edit(craftWord)
 
-        then:"A model is populated containing the domain instance"
-            model.craftWordInstance == craftWord
-    }
+		then:"A model is populated containing the domain instance"
+		model.craftWordInstance == craftWord
+	}
 
-    void "Test the update action performs an update on a valid domain instance"() {
-        when:"Update is called for a domain instance that doesn't exist"
-            request.contentType = FORM_CONTENT_TYPE
-            request.method = 'PUT'
-            controller.update(null)
+	void "Test the update action performs an update on a valid domain instance"() {
+		when:"Update is called for a domain instance that doesn't exist"
+		request.contentType = FORM_CONTENT_TYPE
+		request.method = 'PUT'
+		controller.update(null)
 
-        then:"A 404 error is returned"
-            response.redirectedUrl == '/craftWord/index'
-            flash.message != null
+		then:"A 404 error is returned"
+		response.redirectedUrl == '/craftWord/index'
+		flash.message != null
 
 
-        when:"An invalid domain instance is passed to the update action"
-            response.reset()
-            def craftWord = new CraftWord()
-            craftWord.validate()
-            controller.update(craftWord)
+		when:"An invalid domain instance is passed to the update action"
+		response.reset()
+		def craftWord = new CraftWord()
+		craftWord.validate()
+		controller.update(craftWord)
 
-        then:"The edit view is rendered again with the invalid instance"
-            view == 'edit'
-            model.craftWordInstance == craftWord
+		then:"The edit view is rendered again with the invalid instance"
+		view == 'edit'
+		model.craftWordInstance == craftWord
 
-        when:"A valid domain instance is passed to the update action"
-            response.reset()
-            populateValidParams(params)
-            craftWord = new CraftWord(params).save(flush: true)
-            controller.update(craftWord)
+		when:"A valid domain instance is passed to the update action"
+		response.reset()
+		populateValidParams(params)
+		craftWord = new CraftWord(params).save(flush: true)
+		controller.update(craftWord)
 
-        then:"A redirect is issues to the show action"
-            response.redirectedUrl == "/craftWord/show/$craftWord.id"
-            flash.message != null
-    }
+		then:"A redirect is issues to the show action"
+		response.redirectedUrl == "/craftWord/show/$craftWord.id"
+		flash.message != null
+	}
 
-    void "Test that the delete action deletes an instance if it exists"() {
-        when:"The delete action is called for a null instance"
-            request.contentType = FORM_CONTENT_TYPE
-            request.method = 'DELETE'
-            controller.delete(null)
+	void "Test that the delete action deletes an instance if it exists"() {
+		when:"The delete action is called for a null instance"
+		request.contentType = FORM_CONTENT_TYPE
+		request.method = 'DELETE'
+		controller.delete(null)
 
-        then:"A 404 is returned"
-            response.redirectedUrl == '/craftWord/index'
-            flash.message != null
+		then:"A 404 is returned"
+		response.redirectedUrl == '/craftWord/index'
+		flash.message != null
 
-        when:"A domain instance is created"
-            response.reset()
-            populateValidParams(params)
-            def craftWord = new CraftWord(params).save(flush: true)
+		when:"A domain instance is created"
+		response.reset()
+		populateValidParams(params)
+		def craftWord = new CraftWord(params).save(flush: true)
 
-        then:"It exists"
-            CraftWord.count() == 1
+		then:"It exists"
+		CraftWord.count() == 1
 
-        when:"The domain instance is passed to the delete action"
-            controller.delete(craftWord)
+		when:"The domain instance is passed to the delete action"
+		controller.delete(craftWord)
 
-        then:"The instance is deleted"
-            CraftWord.count() == 0
-            response.redirectedUrl == '/craftWord/index'
-            flash.message != null
-    }
+		then:"The instance is deleted"
+		CraftWord.count() == 0
+		response.redirectedUrl == '/craftWord/index'
+		flash.message != null
+	}
 }

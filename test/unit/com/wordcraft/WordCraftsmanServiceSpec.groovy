@@ -10,33 +10,32 @@ import spock.lang.Specification
 @TestFor(WordCraftsmanService)
 class WordCraftsmanServiceSpec extends Specification {
 
-    def setup() {
+	def setup() {
 		GrailsMock mockWordCraftsman = mockFor(WordCraftsman)
-		mockWordCraftsman.demand.static.findByUsernameAndPassword{
-			String username, String password -> 
+		mockWordCraftsman.demand.static.findByUsernameAndPassword{ String username, String password ->
 			if (username == 'testUser' && password == 'testPass') {
-			    new WordCraftsman(username: 'testUser', password: 'testPass', email: 'abc@test.mail')
+				new WordCraftsman(username: 'testUser', password: 'testPass', email: 'abc@test.mail')
 			} else {
-			    null
+				null
 			}
 		}
-    }
- 
-    def cleanup() {
-    }
+	}
 
-    void "test findPrincipal() success"() {
+	def cleanup() {
+	}
+
+	void "test findPrincipal() success"() {
 		given:
-		    def wordCraftsman = service.findPrincipal('testUser', 'testPass')
+		def wordCraftsman = service.findPrincipal('testUser', 'testPass')
 		expect:
-		    wordCraftsman.class == WordCraftsman
-			wordCraftsman.username == 'testUser'
-    }
-	
+		wordCraftsman.class == WordCraftsman
+		wordCraftsman.username == 'testUser'
+	}
+
 	void "test findPrincipal() fail"() {
 		given:
-			def wordCraftsman = service.findPrincipal('testUser', 'secrectPass')
+		def wordCraftsman = service.findPrincipal('testUser', 'secrectPass')
 		expect:
-			wordCraftsman == null
+		wordCraftsman == null
 	}
 }

@@ -13,40 +13,38 @@ import com.wordcraft.utility.Utils
 @Mock(CraftToken)
 class TokenServiceSpec extends Specification {
 
-    def setup() {
+	def setup() {
 		def craftToken =  new CraftToken(username:'test', token:'testToken')
 		craftToken.save()
-    }
+	}
 
-    def cleanup() {
-    }
+	def cleanup() {
+	}
 
-    void "test hasToken()"() {
+	void "test hasToken()"() {
 		expect:
-		    service.hasToken('test', 'testToken') == true
-			service.hasToken('test', 'testtoken') == false
-    }
-	
+		service.hasToken('test', 'testToken') == true
+		service.hasToken('test', 'testtoken') == false
+	}
+
 	void "test generate()"() {
 		given:
-		    def token = service.generate('test')
+		def token = service.generate('test')
 		expect:
-		    token.size() == Constants.TOKEN_LENGTH
-			token.each{
-				it in Utils.ALPHANUMERIC
-			}
+		token.size() == Constants.TOKEN_LENGTH
+		token.each{ it in Utils.ALPHANUMERIC }
 	}
-	
+
 	void "test generateUUID()"() {
 		given:
-		    def uuid = service.generateUUID('test')
+		def uuid = service.generateUUID('test')
 		expect:
-		    uuid.class == String
+		uuid.class == String
 	}
-	
+
 	void "test removeToken()"() {
 		expect:
-		    service.removeToken('wonderwoman') == false
-			service.removeToken('test') == true
+		service.removeToken('wonderwoman') == false
+		service.removeToken('test') == true
 	}
 }

@@ -11,18 +11,18 @@ import spock.lang.Specification
 @Mock([WordCraftsman, CraftWord])
 class CraftWordServiceSpec extends Specification {
 
-    def setup() {
-    }
+	def setup() {
+	}
 
-    def cleanup() {
-    }
+	def cleanup() {
+	}
 
-    void "test markWordAsKnown()"() {
+	void "test markWordAsKnown()"() {
 		given:
-		    def wordCraftsman = new WordCraftsman(username:"testUsername", "password":"testPass", email: 'test@email.com')
-			service.markAsKnown(wordCraftsman, 'the')
-			def knownWords = CraftWord.findByWordCraftsman(wordCraftsman).collect{it.word}
+		def wordCraftsman = new WordCraftsman(username:"testUsername", "password":"testPass", email: 'test@email.com')
+		service.markAsKnown(wordCraftsman, 'the')
+		def knownWords = CraftWord.findByWordCraftsman(wordCraftsman).collect{it.word}
 		expect:
-			'the' in knownWords
-    }
+		'the' in knownWords
+	}
 }

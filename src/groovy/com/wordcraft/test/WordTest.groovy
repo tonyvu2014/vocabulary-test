@@ -38,11 +38,14 @@ class WordTest {
 	def static getRandomWord(int fromRank, int toRank) {
 		assert fromRank<=toRank
 		assert toRank<=Constants.MAX_WORD
-		
+
 		Random random = new Random()
 		def randomRank = random.nextInt(toRank - fromRank) + fromRank
 
-		return [randomRank, WORD_FREQUENCY_LIST.get(randomRank)]
+		return [
+			randomRank,
+			WORD_FREQUENCY_LIST.get(randomRank)
+		]
 	}
 
 	/**
@@ -50,7 +53,7 @@ class WordTest {
 	 */
 	def static isDone(def currentLevel, def testedWord, def levelKnownWord) {
 		assert currentLevel>=1
-		
+
 		def max = levelKnownWord.max{it.value}
 		if (max && max.value >= Constants.MAX_LEVEL_KNOWN_WORD) {
 			return max.key
@@ -130,7 +133,7 @@ class WordTest {
 
 		return level
 	}
-	
+
 	def static secondRound(int level) {
 		assert level<=Constants.MAX_LEVEL
 		println "Starting second round..."
@@ -160,21 +163,21 @@ class WordTest {
 
 				print "Please enter the correct answer (y/n)?:"
 			}
-			
+
 			startRank += Constants.STEP_IN_LEVEL
 			endRank += Constants.STEP_IN_LEVEL
 		}
-		
+
 		if (!knownRankList.size()) return firstRank
 		return (getMedian(knownRankList) as int)
-		
+
 	}
-	
+
 	def static getMedian(def aList) {
 		def listSize = aList.size()
 		int midIndex = listSize/2
 		def median = listSize % 2 == 0? (aList[midIndex] + aList[midIndex-1])/2:  aList[midIndex]
-	    return median
+		return median
 	}
 
 	public static void main(String[] args) {
@@ -183,9 +186,9 @@ class WordTest {
 		if (estimatedLevel > Constants.MAX_LEVEL) {
 			println "Your estimated vocabulary size is: More than ${Constants.MAX_WORD} words"
 		} else {
-		    def estimatedSize = secondRound(estimatedLevel)
+			def estimatedSize = secondRound(estimatedLevel)
 			println "Your estimated vocabulary size is: ${estimatedSize} words"
 		}
-		
+
 	}
 }

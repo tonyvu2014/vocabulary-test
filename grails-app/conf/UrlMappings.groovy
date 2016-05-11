@@ -1,15 +1,12 @@
 class UrlMappings {
 
 	static mappings = {
-        "/$controller/$action?/$id?(.$format)?"{
-            constraints {
-                // apply constraints here
-            }
-        }
+		"/$controller/$action?/$id?(.$format)?"{ constraints { // apply constraints here
+			} }
 
-        "/"(view:"/index")
-        "500"(view:'/error')
-		
+		"/"(view:"/index")
+		"500"(view:'/error')
+
 		"/api/word/getWordFromLevel/$level"(controller: "wordFrequency", action: "getWordFromLevel")
 		"/api/word/getWordFromRange/$minRank/$maxRank"(controller: "wordFrequency", action: "getWordFromRange")
 		"/api/craftWord/markAsKnown"(controller:"craftWord", action: "secureMarkAsKnown")
@@ -24,6 +21,5 @@ class UrlMappings {
 		"/api/test/createTest"(controller: "craftTest", action: "secureCreateTest")
 		"/api/wordCraftsman/register"(controller:"wordCraftsman", action: "register")
 		"/api/wordCraftsman/change"(controller:"wordCraftsman", action: "secureChange")
-		
 	}
 }

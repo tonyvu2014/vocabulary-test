@@ -3,7 +3,6 @@ package com.wordcraft
 import grails.test.GrailsMock
 import grails.test.mixin.TestFor
 import spock.lang.Specification
-
 import com.wordcraft.utility.Constants
 
 
@@ -23,18 +22,17 @@ class WordServiceSpec extends Specification {
 
 	void "test for getWordFromLevel()"(){
 		given:
-		    def wf = service.getRandomWordFromLevel(2)
+		def wf = service.getRandomWordFromLevel(2)
 		expect:
-		    wf.rank>=Constants.WORD_PER_LEVEL+1
-		    wf.rank<Constants.WORD_PER_LEVEL*2
+		wf.rank>=Constants.WORD_PER_LEVEL+1
+		wf.rank<Constants.WORD_PER_LEVEL*2
 	}
 
 	void "test for getRandomWord()"() {
 		given:
-		   def wf = service.getRandomWord(2645, 4297)
+		def wf = service.getRandomWord(2645, 4297)
 		expect:
-			wf.rank>=2645
-			wf.rank<4297	
+		wf.rank>=2645
+		wf.rank<4297
 	}
-	
 }

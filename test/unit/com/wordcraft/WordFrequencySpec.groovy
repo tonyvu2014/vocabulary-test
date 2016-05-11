@@ -1,7 +1,6 @@
 package com.wordcraft
 
 import com.wordcraft.WordFrequency;
-
 import grails.test.mixin.TestFor
 import spock.lang.Specification
 
@@ -11,12 +10,12 @@ import spock.lang.Specification
 @TestFor(WordFrequency)
 class WordFrequencySpec extends Specification {
 
-    def setup() {
-    }
+	def setup() {
+	}
 
-    def cleanup() {
-    }
+	def cleanup() {
+	}
 
-    void "test something"() {
-    }
+	void "test something"() {
+	}
 }
