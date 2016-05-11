@@ -13,15 +13,15 @@ class WordService {
 	 * @param level
 	 * @return a random word belonging to this specific level
 	 */
-    def getRandomWordFromLevel(int level) {
+	def getRandomWordFromLevel(int level) {
 		assert level>=1
-        def fromRank = Constants.WORD_PER_LEVEL*(level-1) + 1
+		def fromRank = Constants.WORD_PER_LEVEL*(level-1) + 1
 		def toRank = fromRank + Constants.WORD_PER_LEVEL
 		assert toRank<=Constants.MAX_WORD+1
-		
+
 		return getRandomWord(fromRank, toRank)
-    }
-	
+	}
+
 	/**
 	 * Given a minimum rank and a maximum, get a random word from that range
 	 * 
@@ -34,7 +34,7 @@ class WordService {
 		assert toRank<=Constants.MAX_WORD+1
 		Random random = new Random()
 		def randomRank = random.nextInt(toRank - fromRank) + fromRank
-		
+
 		return WordFrequency.findByRank(randomRank)
 	}
 }

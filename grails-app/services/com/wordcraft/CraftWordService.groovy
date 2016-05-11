@@ -1,13 +1,12 @@
 package com.wordcraft
 
 import grails.transaction.Transactional
-
 import com.wordcraft.CraftWord
 import com.wordcraft.WordCraftsman
 
 @Transactional
 class CraftWordService {
-	
+
 	/***
 	 * An user mark as word as known by him, needs to save this information into DB
 	 * 
@@ -24,5 +23,4 @@ class CraftWordService {
 			wordCraftsman.save(flush:true, failOnError:true)
 		}
 	}
- 	
 }

@@ -1,7 +1,6 @@
 package com.wordcraft
 
 import grails.transaction.Transactional
-
 import com.wordcraft.utility.Constants
 import com.wordcraft.utility.Utils
 
@@ -14,12 +13,11 @@ class TokenService {
 	 * @param token the token
 	 * @return true if username+token pair exists in DB, false otherwise
 	 */
-    def hasToken(String username, String token) {
-		
-		return CraftToken.findByUsernameAndToken(username, token) != null
+	def hasToken(String username, String token) {
 
-    }
-	
+		return CraftToken.findByUsernameAndToken(username, token) != null
+	}
+
 	/**
 	 * Remove a craft token record for an username
 	 * @param username - username provided
@@ -29,11 +27,11 @@ class TokenService {
 		def craftToken = CraftToken.findByUsername(username)
 		if (!craftToken) {
 			return false
-		} 
+		}
 		craftToken.delete()
 		return true
 	}
-	
+
 	/**
 	 * Generate a random token with a certain length
 	 * @param length length of the token
@@ -41,7 +39,7 @@ class TokenService {
 	 */
 	def generate(def username) {
 		def token = Utils.generateToken(Constants.TOKEN_LENGTH)
-		
+
 		def craftToken = CraftToken.findByUsername(username)
 		if (craftToken) {
 			craftToken.token = token
@@ -49,18 +47,18 @@ class TokenService {
 			craftToken = new CraftToken(username: username, token: token)
 		}
 		craftToken.save(flush:true, failOnError:true)
-		
+
 		return token
 	}
-	
-	
+
+
 	/**
 	 * Generate a new UUID
 	 * @return a new UUID
 	 */
 	def generateUUID(def username) {
 		def uuid =  Utils.generateUUID()
-		
+
 		def craftToken = CraftToken.findByUsername(username)
 		if (craftToken) {
 			craftToken.token = uuid
@@ -68,7 +66,7 @@ class TokenService {
 			craftToken = new CraftToken(username: username, token: uuid)
 		}
 		craftToken.save(flush:true, failOnError:true)
-		
+
 		return uuid
 	}
 }
