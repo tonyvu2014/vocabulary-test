@@ -124,7 +124,9 @@ class CraftSettingsController {
 				[
 					'status': Constants.STATUS_SUCCESS,
 					'pace': settings.craftPace,
-					'load': settings.craftLoad
+					'load': settings.craftLoad,
+					'time': settings.craftHour == null || settings.craftHour==null?"": settings.craftHour+":"+settings.craftMinute,
+					'notification': settings.craftNotification
 				]
 			}
 		} else {
@@ -141,36 +143,58 @@ class CraftSettingsController {
 		def username = params.username
 		def pace = params.int('pace')
 		def load = params.int('load')
+		def hour = params.int('hour')
+		def minute = params.int('minute')
+		def notification = params.boolean('notification')
 		assert pace>=1
 		assert load>=1
-		log.info("New settings: pace = ${pace}, load = ${load}")
+		def time = hour==null || minute==null?"":hour + ":" + minute
+		log.info("New settings: pace = ${pace}, load = ${load}, time = ${time}, notification=${notification}")
 
 		def wordCraftsman = WordCraftsman.findByUsername(username)
 		def settings = wordCraftsman.craftSettings
 		if (settings) {
 			settings.craftLoad = load
 			settings.craftPace = pace
+			if (hour!=null && minute!=null) {
+				settings.craftHour = hour
+				settings.craftMinute = minute
+			}
+			if (notification!=null) {
+				settings.craftNotification = notification
+			}
 			settings.save(flush:true, failOnError:true)
 			render(contentType:'text/json') {
 				[
 					'status': Constants.STATUS_SUCCESS,
 					'pace': pace,
-					'load': load
+					'load': load,
+					'time': time,
+					'notification': notification
 				]
 			}
-			log.info("Successfully updated settings to: pace = ${pace}, load = ${load}")
+			log.info("Successfully updated settings to: pace = ${pace}, load = ${load}, time = ${time}, notification=${notification}")
 		} else {
 			def newSettings = new CraftSettings(craftPace:pace, craftLoad:load)
+			if (hour!=null && minute!=null) {
+				settings.craftHour = hour
+				settings.craftMinute = minute
+			}
+			if (notification!=null) {
+				settings.craftNotification = notification
+			}
 			wordCraftsman.craftSettings = newSettings
 			wordCraftsman.save(flush:true, failOnError: true)
 			render(contentType:'text/json') {
 				[
 					'status': Constants.STATUS_SUCCESS,
 					'pace': pace,
-					'load': load
+					'load': load,
+					'time': time,
+					'notification': notification
 				]
 			}
-			log.info("Successfully created new settings: pace = ${pace}, load = ${load}")
+			log.info("Successfully created new settings: pace = ${pace}, load = ${load}, time=${time}, notification=${notification}")
 		}
 	}
 }

@@ -41,8 +41,8 @@ class BootStrap {
 				print "Word Loaded: " + WordFrequency.count()
 			}
 
-			def settings = new CraftSettings(craftLoad: 3, craftPace:2)
-			settings.save(flush:true)
+			def settings = new CraftSettings(craftLoad: 3, craftPace:2, craftHour: 10, craftMinute: 30, craftNotification: true)
+			settings.save(flush:true, failOnError:true)
 
 			def craftLog = new CraftLog(eventTime: new Date(), eventType: EventType.TEST,
 			description: "You have taken the test on ${new Date().format('dd/MM/yyyy HH:mm')} ")
@@ -50,7 +50,7 @@ class BootStrap {
 			def craftsman = new WordCraftsman(username: 'tonyvu', password: 'tonyvu16', email: 'tonyvu@wordcraft.com',
 			craftSettings: settings, level: 2, estimatedSize: 2651)
 			craftsman.addToCraftLogs(craftLog)
-			craftsman.save(flush:true)
+			craftsman.save(flush:true, failOnError:true)
 		}
 	}
 
