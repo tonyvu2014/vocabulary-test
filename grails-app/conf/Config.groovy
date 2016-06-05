@@ -59,6 +59,17 @@ grails {
         // escapes all not-encoded output at final stage of outputting
         // filteringCodecForContentType.'text/html' = 'html'
     }
+	
+	mail {
+		host = "smtp.gmail.com"
+		port = 465
+		username = "wordcraft.service@gmail.com"
+		password = "paddington_bear"
+		props = ["mail.smtp.auth":"true",
+				 "mail.smtp.socketFactory.port":"465",
+				 "mail.smtp.socketFactory.class":"javax.net.ssl.SSLSocketFactory",
+				 "mail.smtp.socketFactory.fallback":"false"]
+	  }
 }
 
 
@@ -102,7 +113,7 @@ log4j.main = {
     // Example of changing the log pattern for the default console appender:
     //
     appenders {
-        //console name:'stdout', layout:pattern(conversionPattern: '%c{2} %m%n'), threshold: org.apache.log4j.Level.INFO
+        console name:'stdout', layout:pattern(conversionPattern: '%c{2} %m%n'), threshold: org.apache.log4j.Level.INFO
 		//rollingFile name: 'debugLog', file:'/var/log/wordcraft/app.log', threshold: org.apache.log4j.Level.DEBUG, maxFileSize:1024
 		appender new DailyRollingFileAppender(
 			name: 'dailyAppender',
@@ -126,9 +137,21 @@ log4j.main = {
 		  
    debug  'com.wordcraft'
    
-   root {
-	   info 'dailyAppender'
-	   additivity = true
-   }	    
+   environments {
+	   development {
+	       root {
+		       info 'stdout'
+		   }
+	   }
+	   
+	   production {
+		   root {
+			   info 'dailyAppender'
+			   additivity = true
+		   }
+	   }
+   }   
 		   
 }
+
+

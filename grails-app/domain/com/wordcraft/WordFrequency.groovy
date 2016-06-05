@@ -9,7 +9,7 @@ class WordFrequency {
 	Float dispersion
 
 	static constraints = {
-		rank(blank: false, unique: true, nullable: false)
+		rank(unique: true, nullable: false)
 		word(blank: false, nullable: false)
 		pos(blank:true, nullable: true)
 		frequency(nullable:true)

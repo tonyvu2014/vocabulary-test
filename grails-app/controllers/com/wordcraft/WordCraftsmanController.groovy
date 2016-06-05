@@ -2,18 +2,22 @@ package com.wordcraft
 
 import grails.transaction.Transactional
 import grails.validation.ValidationException
+
 import org.springframework.context.MessageSource
+
 import com.wordcraft.utility.Constants
+import com.wordcraft.utility.Utils
 
 @Transactional(readOnly = false)
 class WordCraftsmanController {
 
 	static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE", login:"POST", secureLogout: "POST",
-		register: "POST", secureChange: "POST"]
+		register: "POST", secureChange: "POST", forgotPassword: "POST"]
 
 	def WordCraftsmanService wordCraftsmanService
 	def MessageSource messageSource
-	def TokenService tokenService
+	def TokenService tokenService 
+	def groovyPageRenderer
 
 	def index(Integer max) {
 		params.max = Math.min(max ?: 10, 100)
@@ -119,7 +123,10 @@ class WordCraftsmanController {
 		}
 	}
 
-
+    /**
+     * Login to the app
+     * @return
+     */
 	def login() {
 		def username = params.username
 		def password = params.password
@@ -146,6 +153,11 @@ class WordCraftsmanController {
 		}
 	}
 
+	
+	/**
+	 * Log out of the app
+	 * @return
+	 */
 	def secureLogout() {
 		def username = params.username
 
@@ -166,8 +178,51 @@ class WordCraftsmanController {
 			}
 		}
 	}
+	
+	/**
+	 * Forgot password, resend new password to user's email
+	 * @return
+	 */
+	def forgotPassword() {
+		def username = params.username
+		def email = params.email
+		
+		def wordCraftsman = WordCraftsman.findByUsernameAndEmail(username, email)
+		if (!wordCraftsman) {
+			log.error("Unable to find by username and password")
+			render(contentType:'text/json') {
+				[
+					'status': Constants.STATUS_FAILURE,
+					'message': messageSource.getMessage('username.email.not.found', null, Locale.US)
+				]
+			}
+		} else {
+		    def new_pass = Utils.generateToken(Constants.PASS_LENGTH)
+			wordCraftsman.password=Utils.encryptData(new_pass)
+			wordCraftsman.save(flush:true, failOnError:true)
+			def content = groovyPageRenderer.render(view: '/mails/forgot_password', 
+				                                    model:[username:username, password: new_pass])
+		    sendMail {
+				async true
+			    to email
+			    subject "Password Recovery"
+			    html content
+		    }
+			log.info("Successfully sent user new password")
+			render(contentType:'text/json') {
+				[
+					'status': Constants.STATUS_SUCCESS,
+					'message': messageSource.getMessage('new.password.sent', null, Locale.US)
+				]
+			}
+		}
+		
+	}
 
-
+    /***
+     * Register a new user
+     * @return
+     */
 	def register() {
 		def username = params.username
 		def password = params.password
@@ -201,6 +256,10 @@ class WordCraftsmanController {
 		}
 	}
 
+	/***
+	 * Change profile
+	 * @return
+	 */
 	def secureChange() {
 		def username = params.username
 		def wordCraftsman = WordCraftsman.findByUsername(username)

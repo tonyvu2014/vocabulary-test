@@ -10,6 +10,9 @@ class Constants {
 	//Token length
 	public static final TOKEN_LENGTH = 20
 	
+	//Password length
+	public static final PASS_LENGTH = 6
+	
 	//How many words per level
 	public static final WORD_PER_LEVEL = 1000
 	

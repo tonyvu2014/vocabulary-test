@@ -21,5 +21,6 @@ class UrlMappings {
 		"/api/test/createTest"(controller: "craftTest", action: "secureCreateTest")
 		"/api/wordCraftsman/register"(controller:"wordCraftsman", action: "register")
 		"/api/wordCraftsman/change"(controller:"wordCraftsman", action: "secureChange")
+		"/api/wordCraftsman/forgotPassword"(controller:"wordCraftsman", action:"forgotPassword")
 	}
 }
