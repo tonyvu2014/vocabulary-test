@@ -243,6 +243,14 @@ class WordCraftsmanController {
 					'username': username
 				]
 			}
+			def content = groovyPageRenderer.render(view: '/mails/welcome',
+				model:[username:username])
+			sendMail {
+				async true
+				to email
+				subject "Welcome to Wordcraft"
+				html content
+			}
 			log.info("Successfully registered user ${username}")
 		} catch (ValidationException e) {
 			log.error("Error in saving the wordcraftsman")

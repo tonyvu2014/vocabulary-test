@@ -13,7 +13,8 @@
       </p>
       <p>Please login to WordCraft with this password. You can change it under profile section.</p>
       <p>
-      Thank you.
+      Thank you.<br/>
+      Maria
       </p>
   </div>
 </body>
