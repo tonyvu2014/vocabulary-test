@@ -12,7 +12,7 @@ import com.wordcraft.utility.Utils
 class WordCraftsmanController {
 
 	static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE", login:"POST", secureLogout: "POST",
-		register: "POST", secureChange: "POST", forgotPassword: "POST"]
+		register: "POST", secureChange: "POST", forgotPassword: "POST", hasUsername: "GET"]
 
 	def WordCraftsmanService wordCraftsmanService
 	def MessageSource messageSource
@@ -121,6 +121,33 @@ class WordCraftsmanController {
 			}
 			'*'{ render status: NOT_FOUND }
 		}
+	}
+	
+	/**
+	 * Check if an username already exists
+	 * @return true if the username exists in the database, false otherwise
+	 */
+	def hasUsername() {
+		def username = params.username
+		log.info("Checking if username ${username} exists")
+		
+		def wordCraftsman = WordCraftsman.findByUsername(username);
+		if (wordCraftsman) {
+			render(contentType:'text/json') {
+				[
+					'status': Constants.STATUS_SUCCESS
+				]
+			}
+			log.info("Username ${username} exists")
+		} else {
+			render(contentType:'text/json') {
+				[
+					'status': Constants.STATUS_FAILURE
+				]
+			}
+			log.info("Username ${username} does not exist")
+		}
+		
 	}
 
     /**
