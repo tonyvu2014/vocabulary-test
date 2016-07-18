@@ -12,7 +12,7 @@ import com.wordcraft.utility.Utils
 class WordCraftsmanController {
 
 	static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE", login:"POST", secureLogout: "POST",
-		register: "POST", secureChange: "POST", forgotPassword: "POST", hasUsername: "GET"]
+		register: "POST", secureChange: "POST", forgotPassword: "POST", hasUsername: "GET", hasEmail: "GET", hasUsernameOrEmail: "GET"]
 
 	def WordCraftsmanService wordCraftsmanService
 	def MessageSource messageSource
@@ -149,6 +149,78 @@ class WordCraftsmanController {
 		}
 		
 	}
+	
+	/**
+	 * Check if an email already exists
+	 * @return true if the email exists in the database, false otherwise
+	 */
+	def hasEmail() {
+		def email = params.email
+		log.info("Checking if email ${email} exists")
+		
+		def wordCraftsman = WordCraftsman.findByEmail(email);
+		if (wordCraftsman) {
+			render(contentType:'text/json') {
+				[
+					'status': Constants.STATUS_SUCCESS
+				]
+			}
+			log.info("Email ${email} exists")
+		} else {
+			render(contentType:'text/json') {
+				[
+					'status': Constants.STATUS_FAILURE
+				]
+			}
+			log.info("Email ${email} does not exist")
+		}
+		
+	}
+	
+	
+	/**
+	 * Check if an email or username already exists
+	 * @return true if the username or email exists in the database, false otherwise
+	 */
+	def hasUsernameOrEmail() {
+		def username = params.username
+		def email = params.email
+		log.info("Checking if username ${username} or email ${email} exists")
+		
+		def wordCraftsman = WordCraftsman.findByUsername(username);
+		if (wordCraftsman) {
+			render(contentType:'text/json') {
+				[
+					'status': Constants.STATUS_SUCCESS,
+					'message':"Username ${username} is not available"
+				]
+			}
+			log.info("Username ${username} exists")
+			return;
+		} 
+		wordCraftsman = WordCraftsman.findByEmail(email)
+		if (wordCraftsman) {
+			render(contentType:'text/json') {
+				[
+					'status': Constants.STATUS_SUCCESS,
+					'message':"Email ${email} is not available"
+				]
+			}
+			log.info("Email ${email} exists")
+			return;
+		}
+		
+		log.info("Username ${username} and email ${email} do not exist")
+		render(contentType:'text/json') {
+			[
+				'status': Constants.STATUS_FAILURE,
+				'message': "Username ${username} and email ${email} are available"
+			]
+		}
+		
+	}
+
+
 
     /**
      * Login to the app

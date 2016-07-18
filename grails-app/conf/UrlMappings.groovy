@@ -23,5 +23,8 @@ class UrlMappings {
 		"/api/wordCraftsman/change"(controller:"wordCraftsman", action: "secureChange")
 		"/api/wordCraftsman/forgotPassword"(controller:"wordCraftsman", action:"forgotPassword")
 		"/api/wordCraftsman/hasUsername/$username"(controller:"wordCraftsman", action:"hasUsername")
+		"/api/wordCraftsman/hasEmail/$email"(controller:"wordCraftsman", action:"hasEmail")
+		"/api/wordCraftsman/hasUsernameOrEmail/$username/$email"(controller:"wordCraftsman", action:"hasUsernameOrEmail")
+		
 	}
 }
