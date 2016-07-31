@@ -340,11 +340,12 @@ class WordCraftsmanController {
 			render(contentType:'text/json') {
 				[
 					'status': Constants.STATUS_SUCCESS,
-					'username': username
+					'username': username,
+					'email': email
 				]
 			}
 			sendWelcomeEmail(email, username)
-			log.info("Successfully registered user ${username}")
+			log.info("Successfully registered user ${username} with email ${email}")
 		} catch (ValidationException e) {
 			log.error("Error in saving the wordcraftsman")
 			e.printStackTrace()
@@ -368,12 +369,12 @@ class WordCraftsmanController {
 		def email = params.email
 		assert email
 		
-		def wordCraftsman = WordCraftsman.findByUsername(username)
+		def wordCraftsman = WordCraftsman.findByEmail(email)
 		if (!wordCraftsman) {
 			wordCraftsman = new WordCraftsman()
-			wordCraftsman.username = username
+			wordCraftsman.email = email
 		}
-		wordCraftsman.email = email
+		wordCraftsman.username = username
 		wordCraftsman.isFacebook = true
 
 		try {
@@ -381,14 +382,15 @@ class WordCraftsmanController {
 			render(contentType:'text/json') {
 				[
 					'status': Constants.STATUS_SUCCESS,
-					'username': username
+					'username': username,
+					'email': email
 				]
 			}
 		    sendWelcomeEmail(email, username)
-			log.info("Successfully saved Facebook account for user ${username}")
+			log.info("Successfully saved Facebook account for user ${username} with email ${email}")
 		} catch (Exception e) {
 			log.error("Error in saving Facebook account")
-			e.printStackTrace()
+			log.error(e.message)
 			render(contentType:'text/json') {
 				[
 					'status': Constants.STATUS_FAILURE,
@@ -445,7 +447,7 @@ class WordCraftsmanController {
 			log.info("Successfully apply changes for user ${username}")
 		} catch (ValidationException e) {
 			log.error("Error in updating for the wordcraftsman ${username}")
-			e.printStackTrace()
+			log.error(e.message)
 			render(contentType:'text/json') {
 				[
 					'status': Constants.STATUS_FAILURE,
