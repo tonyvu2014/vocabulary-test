@@ -11,12 +11,12 @@
 
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: wordCraftsmanInstance, field: 'password', 'error')} required">
+<div class="fieldcontain ${hasErrors(bean: wordCraftsmanInstance, field: 'password', 'error')} ">
 	<label for="password">
 		<g:message code="wordCraftsman.password.label" default="Password" />
-		<span class="required-indicator">*</span>
+		
 	</label>
-	<g:textField name="password" required="" value="${wordCraftsmanInstance?.password}"/>
+	<g:textField name="password" value="${wordCraftsmanInstance?.password}"/>
 
 </div>
 
@@ -53,6 +53,15 @@
 		
 	</label>
 	<g:select id="craftSettings" name="craftSettings.id" from="${com.wordcraft.CraftSettings.list()}" optionKey="id" value="${wordCraftsmanInstance?.craftSettings?.id}" class="many-to-one" noSelection="['null': '']"/>
+
+</div>
+
+<div class="fieldcontain ${hasErrors(bean: wordCraftsmanInstance, field: 'isFacebook', 'error')} ">
+	<label for="isFacebook">
+		<g:message code="wordCraftsman.isFacebook.label" default="Is Facebook" />
+		
+	</label>
+	<g:checkBox name="isFacebook" value="${wordCraftsmanInstance?.isFacebook}" />
 
 </div>
 

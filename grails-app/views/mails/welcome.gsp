@@ -17,7 +17,7 @@
       <p><b>Configuration</b> to change how frequent and how fast you want to learn.</p>
       <p><b>History</b> to see your learning journey with Wordcraft.</p>
       <p>
-      Thank you.<br/>
+      Thank you,<br/>
       Maria
       </p>
   </div>

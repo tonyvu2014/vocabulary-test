@@ -77,6 +77,15 @@
 				</li>
 				</g:if>
 			
+				<g:if test="${wordCraftsmanInstance?.isFacebook}">
+				<li class="fieldcontain">
+					<span id="isFacebook-label" class="property-label"><g:message code="wordCraftsman.isFacebook.label" default="Is Facebook" /></span>
+					
+						<span class="property-value" aria-labelledby="isFacebook-label"><g:formatBoolean boolean="${wordCraftsmanInstance?.isFacebook}" /></span>
+					
+				</li>
+				</g:if>
+			
 				<g:if test="${wordCraftsmanInstance?.craftLogs}">
 				<li class="fieldcontain">
 					<span id="craftLogs-label" class="property-label"><g:message code="wordCraftsman.craftLogs.label" default="Craft Logs" /></span>

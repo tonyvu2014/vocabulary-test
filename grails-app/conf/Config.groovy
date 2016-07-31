@@ -63,8 +63,8 @@ grails {
 	mail {
 		host = "smtp.gmail.com"
 		port = 465
-		username = "<your_gmail>"
-		password = "<your_gmail_password>"
+		username = "wordcraft.service@gmail.com"
+		password = "soundofmusic"
 		props = ["mail.smtp.auth":"true",
 				 "mail.smtp.socketFactory.port":"465",
 				 "mail.smtp.socketFactory.class":"javax.net.ssl.SSLSocketFactory",
@@ -97,6 +97,8 @@ grails.hibernate.cache.queries = false
 grails.hibernate.pass.readonly = false
 // configure passing read-only to OSIV session by default, requires "singleSession = false" OSIV mode
 grails.hibernate.osiv.readonly = false
+//set fail on error to true
+grails.gorm.failOnError=true
 
 environments {
     development {

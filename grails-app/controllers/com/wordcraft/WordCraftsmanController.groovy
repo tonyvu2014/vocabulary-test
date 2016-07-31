@@ -12,7 +12,8 @@ import com.wordcraft.utility.Utils
 class WordCraftsmanController {
 
 	static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE", login:"POST", secureLogout: "POST",
-		register: "POST", secureChange: "POST", forgotPassword: "POST", hasUsername: "GET", hasEmail: "GET", hasUsernameOrEmail: "GET"]
+		register: "POST", secureChange: "POST", forgotPassword: "POST", hasUsername: "GET", hasEmail: "GET", 
+		hasUsernameOrEmail: "GET", saveFacebookAccount: "POST"]
 
 	def WordCraftsmanService wordCraftsmanService
 	def MessageSource messageSource
@@ -342,14 +343,7 @@ class WordCraftsmanController {
 					'username': username
 				]
 			}
-			def content = groovyPageRenderer.render(view: '/mails/welcome',
-				model:[username:username])
-			sendMail {
-				async true
-				to email
-				subject "Welcome to Wordcraft"
-				html content
-			}
+			sendWelcomeEmail(email, username)
 			log.info("Successfully registered user ${username}")
 		} catch (ValidationException e) {
 			log.error("Error in saving the wordcraftsman")
@@ -360,6 +354,58 @@ class WordCraftsmanController {
 					'message': messageSource.getMessage('user.fail.to.register', null, Locale.US)
 				]
 			}
+		}
+	}
+	
+	
+	/***
+	 * Save Facebook account
+	 * @return
+	 */
+	def saveFacebookAccount() {
+		def username = params.username
+		assert username
+		def email = params.email
+		assert email
+		
+		def wordCraftsman = WordCraftsman.findByUsername(username)
+		if (!wordCraftsman) {
+			wordCraftsman = new WordCraftsman()
+			wordCraftsman.username = username
+		}
+		wordCraftsman.email = email
+		wordCraftsman.isFacebook = true
+
+		try {
+			wordCraftsman.save(flush:true, failOnError: true)
+			render(contentType:'text/json') {
+				[
+					'status': Constants.STATUS_SUCCESS,
+					'username': username
+				]
+			}
+		    sendWelcomeEmail(email, username)
+			log.info("Successfully saved Facebook account for user ${username}")
+		} catch (Exception e) {
+			log.error("Error in saving Facebook account")
+			e.printStackTrace()
+			render(contentType:'text/json') {
+				[
+					'status': Constants.STATUS_FAILURE,
+					'message': messageSource.getMessage('user.fail.to.save.facebook.account', null, Locale.US)
+				]
+			}
+		}
+	}
+	
+	def private sendWelcomeEmail(def email, def username) {
+		def content = groovyPageRenderer.render(view: '/mails/welcome',
+			model:[username:username])
+		sendMail {
+			async true
+			to email
+			subject "Welcome to Wordcraft"
+			html content
 		}
 	}
 
