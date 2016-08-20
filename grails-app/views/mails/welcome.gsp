@@ -9,7 +9,7 @@
   <div class="body">
       <p>Hi ${username},</p>
       <p>
-      Congratulation for being a Wordcraftsman. Wordcraft will help you to build up your English vocabulary day by day. 
+      Congratulation for being a Wordcraftsman. Wordcraft will help you to build up English vocabulary day by day. 
       Here are few things you can do with Wordcraft:
       </p>
       <p><b>Take a test</b> to measure your vocabulary size.</p>
