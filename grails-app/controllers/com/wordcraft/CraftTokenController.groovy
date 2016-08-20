@@ -115,27 +115,27 @@ class CraftTokenController {
 	}
 
 	def hasToken() {
-		def username = params.username
+		def email = params.email
 		def token = params.token
-        log.info("Checking if user ${user} has token ${token}")		
+        log.info("Checking if user with email ${email} has token ${token}")		
 
 		render(contentType:'text/json') {
 			[
-				'result': tokenService.hasToken(username, token)
+				'result': tokenService.hasToken(email, token)
 			]
 		}
 	}
 	
 	
 	def secureGenerate() {
-		def username = params.username
-		log.info("Creating new token for user ${username}")
+		def email = params.email
+		log.info("Creating new token for user with ${email}")
 		
-		def token = tokenService.generateUUID(username)
+		def token = tokenService.generateUUID(email)
 		
 		render(contentType:'text/json') {
 			[
-				'username': username,
+				'user_email': email,
 				'token': token
 			]
 		}

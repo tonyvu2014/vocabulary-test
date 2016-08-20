@@ -228,22 +228,21 @@ class WordCraftsmanController {
      * @return
      */
 	def login() {
-		def username = params.username
+		def email = params.email
 		def password = params.password
-		log.info("Logging in as user ${username}")
+		log.info("Logging in with email ${email}")
 
-
-		def wordCraftsman = wordCraftsmanService.findPrincipal(username, password)
+		def wordCraftsman = wordCraftsmanService.findPrincipal(email, password)
 		if (wordCraftsman!=null) {
 			render(contentType:'text/json') {
 				[
 					'status': Constants.STATUS_SUCCESS,
-					'token': tokenService.generateUUID(username)
+					'token': tokenService.generateUUID(email)
 				]
 			}
-			log.info("Logged in successfully for user ${username}")
+			log.info("Logged in successfully for user with email ${email}")
 		} else {
-			log.error("Login failed for user ${username}")
+			log.error("Login failed for user with email ${email}")
 			render(contentType:'text/json') {
 				[
 					'status': Constants.STATUS_FAILURE,
@@ -259,18 +258,18 @@ class WordCraftsmanController {
 	 * @return
 	 */
 	def secureLogout() {
-		def username = params.username
+		def email = params.email
 
-		def result = tokenService.removeToken(username)
+		def result = tokenService.removeToken(email)
 		if (result) {
 			render(contentType:'text/json') {
 				[
 					'status': Constants.STATUS_SUCCESS
 				]
 			}
-			log.info("Successfully logging out as user ${username}")
+			log.info("Successfully logging out as user with email ${email}")
 		} else {
-			log.error("Error logging out as user ${username}")
+			log.error("Error logging out as user with ${email}")
 			render(contentType:'text/json') {
 				[
 					'status': Constants.STATUS_FAILURE
@@ -284,24 +283,34 @@ class WordCraftsmanController {
 	 * @return
 	 */
 	def forgotPassword() {
-		def username = params.username
 		def email = params.email
 		
-		def wordCraftsman = WordCraftsman.findByUsernameAndEmail(username, email)
+		def wordCraftsman = WordCraftsman.findByEmail(email)
 		if (!wordCraftsman) {
-			log.error("Unable to find by username and password")
+			log.error("Unable to find by email")
 			render(contentType:'text/json') {
 				[
 					'status': Constants.STATUS_FAILURE,
-					'message': messageSource.getMessage('username.email.not.found', null, Locale.US)
+					'message': messageSource.getMessage('email.not.found', [email] as Object[], Locale.US)
 				]
 			}
 		} else {
+		    if (wordCraftsman.isFacebook) {
+				log.info("User registers with Facebook account")
+				render(contentType:'text/json') {
+					[
+						'status': Constants.STATUS_SUCCESS,
+						'message': messageSource.getMessage('user.facebook.account', null, Locale.US)
+					]
+				}
+				return
+			}
+		
 		    def new_pass = Utils.generateToken(Constants.PASS_LENGTH)
 			wordCraftsman.password=Utils.encryptData(new_pass)
 			wordCraftsman.save(flush:true, failOnError:true)
 			def content = groovyPageRenderer.render(view: '/mails/forgot_password', 
-				                                    model:[username:username, password: new_pass])
+				                                    model:[username:wordCraftsman.username, password: new_pass])
 		    sendMail {
 				async true
 			    to email
@@ -370,10 +379,18 @@ class WordCraftsmanController {
 		assert email
 		
 		def wordCraftsman = WordCraftsman.findByEmail(email)
-		if (!wordCraftsman) {
-			wordCraftsman = new WordCraftsman()
-			wordCraftsman.email = email
+		
+		if (wordCraftsman) {
+			render(contentType:'text/json') {
+				[
+					'status': Constants.STATUS_FAILURE,
+					'message': messageSource.getMessage('user.email.exists', [email] as Object[], Locale.US)
+				]
+			}
+			return;
 		}
+		wordCraftsman = new WordCraftsman()
+		wordCraftsman.email = email
 		wordCraftsman.username = username
 		wordCraftsman.isFacebook = true
 
@@ -416,37 +433,41 @@ class WordCraftsmanController {
 	 * @return
 	 */
 	def secureChange() {
-		def username = params.username
-		def wordCraftsman = WordCraftsman.findByUsername(username)
+		def email = params.email
+		assert email
+		def wordCraftsman = WordCraftsman.findByEmail(email)
 
 		def password = params.password
-		def email = params.email
 		def vocabularySize = params.int("vocabularySize")
-		assert vocabularySize <= Constants.MAX_WORD
 
 		if (password) {
 			wordCraftsman.password = password
 		}
 
-		if (email) {
-			wordCraftsman.email = email
-		}
-
 		if (vocabularySize) {
-			wordCraftsman.estimatedSize = vocabularySize
-			wordCraftsman.level = vocabularySize / Constants.WORD_PER_LEVEL + 1
+			if (vocabularySize > Constants.MAX_WORD) {
+				render(contentType:'text/json') {
+					[
+						'status': Constants.STATUS_FAILURE,
+						'message': messageSource.getMessage('vocabulary.size.exceeds.max', [Constants.MAX_WORD] as Object[], Locale.US)
+					]
+				}
+			} else {
+				wordCraftsman.estimatedSize = vocabularySize
+				wordCraftsman.level = vocabularySize / Constants.WORD_PER_LEVEL + 1
+			}
 		}
 		try {
 			wordCraftsman.save(flush:true, failOnError:true)
 			render(contentType:'text/json') {
 				[
 					'status': Constants.STATUS_SUCCESS,
-					'username': username,
+					'email': email,
 				]
 			}
-			log.info("Successfully apply changes for user ${username}")
+			log.info("Successfully apply changes for user with email ${email}")
 		} catch (ValidationException e) {
-			log.error("Error in updating for the wordcraftsman ${username}")
+			log.error("Error in updating for the user with email ${email}")
 			log.error(e.message)
 			render(contentType:'text/json') {
 				[

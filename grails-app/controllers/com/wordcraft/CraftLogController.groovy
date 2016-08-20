@@ -118,9 +118,9 @@ class CraftLogController {
 	}
 
 	def secureCreateHistory() {
-		def username = params.username
-		def wordCraftsman = WordCraftsman.findByUsername(username)
-		log.info("Creating log event for user ${username}")
+		def email = params.email
+		def wordCraftsman = WordCraftsman.findByEmail(email)
+		log.info("Creating log event for user with ${email}")
 
 		def event = params.event
 		assert event.toUpperCase() in EventType.values().collect{it.name()}
@@ -166,9 +166,9 @@ class CraftLogController {
 	}
 
 	def secureViewHistory() {
-		def username = params.username
-		def wordCraftsman = WordCraftsman.findByUsername(username)
-		log.info("Viewing history of user ${username}")
+		def email = params.email
+		def wordCraftsman = WordCraftsman.findByEmail(email)
+		log.info("Viewing history of user with email ${email}")
 
 		def craftLogs = wordCraftsman.craftLogs
 		def history = []

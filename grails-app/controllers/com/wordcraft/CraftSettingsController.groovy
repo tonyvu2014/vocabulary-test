@@ -116,8 +116,8 @@ class CraftSettingsController {
 	}
 
 	def secureGet() {
-		def username = params.username
-		def wordCraftsman = WordCraftsman.findByUsername(username)
+		def email = params.email
+		def wordCraftsman = WordCraftsman.findByEmail(email)
 		def settings = wordCraftsman.craftSettings
 		if (settings) {
 			render(contentType:'text/json') {
@@ -140,7 +140,7 @@ class CraftSettingsController {
 	}
 
 	def secureSet() {
-		def username = params.username
+		def email = params.email
 		def pace = params.int('pace')
 		def load = params.int('load')
 		def hour = params.int('hour')
@@ -151,7 +151,7 @@ class CraftSettingsController {
 		def time = hour==null || minute==null?"":hour + ":" + minute
 		log.info("New settings: pace = ${pace}, load = ${load}, time = ${time}, notification=${notification}")
 
-		def wordCraftsman = WordCraftsman.findByUsername(username)
+		def wordCraftsman = WordCraftsman.findByEmail(email)
 		def settings = wordCraftsman.craftSettings
 		if (settings) {
 			settings.craftLoad = load

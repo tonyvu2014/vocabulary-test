@@ -118,10 +118,10 @@ class CraftWordController {
 	}
 
 	def secureMarkAsKnown() {
-		def username = params.username
-		def wordCraftsman = WordCraftsman.findByUsername(username)
+		def email = params.email
+		def wordCraftsman = WordCraftsman.findByEmail(email)
 		def word = params.word
-		log.info("Marking word ${word} as known by user ${username}")
+		log.info("Marking word ${word} as known by user with email ${email}")
 
 		try {
 			craftWordService.markAsKnown(wordCraftsman, word)
@@ -131,9 +131,9 @@ class CraftWordController {
 					'word': word
 				]
 			}
-			log.info("Successfully marked word ${word} as known by user ${username}")
+			log.info("Successfully marked word ${word} as known by user with email ${email}")
 		} catch (Exception ex) {
-			log.error("Error marking word ${word} as known by user ${username}")
+			log.error("Error marking word ${word} as known by user with email ${email}")
 			ex.printStackTrace()
 			render(contentType:'text/json') {
 				[

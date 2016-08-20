@@ -23,21 +23,21 @@ class AuthenticationFilters {
 					}
 					return false
 				}
-				def username = params.username
-				if (!username) {
-					log.error("Authentication: empty username")
+				def email = params.email
+				if (!email) {
+					log.error("Authentication: empty email")
 					render(contentType:'text/json') {
 						[
 							'status': Constants.STATUS_FAILURE,
-							'message': messageSource.getMessage('authorization.username.not.found', null, Locale.US)
+							'message': messageSource.getMessage('authorization.email.not.found', null, Locale.US)
 						]
 					}
 					return false
 				}
 
-				def wordCraftsman = WordCraftsman.findByUsername(username)
+				def wordCraftsman = WordCraftsman.findByEmail(email)
 				if (!wordCraftsman) {
-					log.error("Authentication: wordcraftsman ${username} does not exist")
+					log.error("Authentication: wordcraftsman with ${email} does not exist")
 					render(contentType:'text/json') {
 						[
 							'status': Constants.STATUS_FAILURE,
@@ -47,9 +47,9 @@ class AuthenticationFilters {
 					return false
 				}
 
-				def craftToken = CraftToken.findByUsernameAndToken(username, authorizationToken)
+				def craftToken = CraftToken.findByEmailAndToken(email, authorizationToken)
 				if (!craftToken) {
-					log.error("Authentication: Failed to authenticate for user ${username}")
+					log.error("Authentication: Failed to authenticate for user with ${email}")
 					render(contentType:'text/json') {
 						[
 							'status': Constants.STATUS_FAILURE,

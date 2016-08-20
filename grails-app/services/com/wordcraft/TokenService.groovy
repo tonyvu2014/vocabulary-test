@@ -8,23 +8,23 @@ import com.wordcraft.utility.Utils
 class TokenService {
 
 	/**
-	 * Check if a pair of username and token exist
-	 * @param username the username
+	 * Check if a pair of email and token exist
+	 * @param email the email
 	 * @param token the token
-	 * @return true if username+token pair exists in DB, false otherwise
+	 * @return true if email+token pair exists in DB, false otherwise
 	 */
-	def hasToken(String username, String token) {
+	def hasToken(String email, String token) {
 
-		return CraftToken.findByUsernameAndToken(username, token) != null
+		return CraftToken.findByEmailAndToken(email, token) != null
 	}
 
 	/**
-	 * Remove a craft token record for an username
-	 * @param username - username provided
+	 * Remove a craft token record for an email
+	 * @param email - email provided
 	 * @return true if record is deleted successfully, false otherwise
 	 */
-	def removeToken(String username) {
-		def craftToken = CraftToken.findByUsername(username)
+	def removeToken(String email) {
+		def craftToken = CraftToken.findByEmail(email)
 		if (!craftToken) {
 			return false
 		}
@@ -37,14 +37,14 @@ class TokenService {
 	 * @param length length of the token
 	 * @return a random token
 	 */
-	def generate(def username) {
+	def generate(def email) {
 		def token = Utils.generateToken(Constants.TOKEN_LENGTH)
 
-		def craftToken = CraftToken.findByUsername(username)
+		def craftToken = CraftToken.findByEmail(email)
 		if (craftToken) {
 			craftToken.token = token
 		} else {
-			craftToken = new CraftToken(username: username, token: token)
+			craftToken = new CraftToken(email: email, token: token)
 		}
 		craftToken.save(flush:true, failOnError:true)
 
@@ -56,14 +56,14 @@ class TokenService {
 	 * Generate a new UUID
 	 * @return a new UUID
 	 */
-	def generateUUID(def username) {
+	def generateUUID(def email) {
 		def uuid =  Utils.generateUUID()
 
-		def craftToken = CraftToken.findByUsername(username)
+		def craftToken = CraftToken.findByEmail(email)
 		if (craftToken) {
 			craftToken.token = uuid
 		} else {
-			craftToken = new CraftToken(username: username, token: uuid)
+			craftToken = new CraftToken(email: email, token: uuid)
 		}
 		craftToken.save(flush:true, failOnError:true)
 
