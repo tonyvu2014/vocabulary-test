@@ -380,16 +380,11 @@ class WordCraftsmanController {
 		
 		def wordCraftsman = WordCraftsman.findByEmail(email)
 		
-		if (wordCraftsman) {
-			render(contentType:'text/json') {
-				[
-					'status': Constants.STATUS_FAILURE,
-					'message': messageSource.getMessage('user.email.exists', [email] as Object[], Locale.US)
-				]
-			}
-			return;
+		def newUser = false
+		if (!wordCraftsman) {
+			wordCraftsman = new WordCraftsman()
+			newUser = true
 		}
-		wordCraftsman = new WordCraftsman()
 		wordCraftsman.email = email
 		wordCraftsman.username = username
 		wordCraftsman.isFacebook = true
@@ -403,7 +398,9 @@ class WordCraftsmanController {
 					'email': email
 				]
 			}
-		    sendWelcomeEmail(email, username)
+			if (newUser) {
+				sendWelcomeEmail(email, username)
+			}
 			log.info("Successfully saved Facebook account for user ${username} with email ${email}")
 		} catch (Exception e) {
 			log.error("Error in saving Facebook account")
