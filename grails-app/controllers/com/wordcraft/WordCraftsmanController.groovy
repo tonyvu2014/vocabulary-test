@@ -307,7 +307,7 @@ class WordCraftsmanController {
 			}
 		
 		    def new_pass = Utils.generateToken(Constants.PASS_LENGTH)
-			wordCraftsman.password=Utils.encryptData(new_pass)
+			wordCraftsman.password = Utils.encryptData(new_pass)
 			wordCraftsman.save(flush:true, failOnError:true)
 			def content = groovyPageRenderer.render(view: '/mails/forgot_password', 
 				                                    model:[username:wordCraftsman.username, password: new_pass])

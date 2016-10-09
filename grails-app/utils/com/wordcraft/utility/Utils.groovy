@@ -24,8 +24,8 @@ class Utils {
 	
 	public static String encryptData(String data) {
 		def sha256Hash = { text ->
-			java.security.MessageDigest.getInstance("SHA-256")
-			  .digest(text.getBytes("UTF-8")).encodeBase64().toString()
+			bytes2Hex(java.security.MessageDigest.getInstance("SHA-256")
+			  .digest(text.getBytes("UTF-8")));
 		}
 		return sha256Hash(data)
 	}
@@ -36,6 +36,10 @@ class Utils {
 		md.update(bytesOfPassword);
 		byte[] bytesOfEncryptedPassword = md.digest();
 		return new String(bytesOfEncryptedPassword);
+	}
+	
+	public static String bytes2Hex(byte[] data) {
+		return String.format("%0" + (data.length*2) + "X", new BigInteger(1, data));
 	}
 	
 }
