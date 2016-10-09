@@ -11,7 +11,7 @@
       <p>
       Your new password is: ${password}.
       </p>
-      <p>Please login to WordCraft with this password. You can change it under profile section.</p>
+      <p>Please login to WordCraft with this password. You can change it under <b>Profile</b> section.</p>
       <p>
       Thank you.<br/>
       Maria
