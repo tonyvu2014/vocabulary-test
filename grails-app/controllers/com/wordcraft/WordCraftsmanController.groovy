@@ -307,7 +307,7 @@ class WordCraftsmanController {
 			wordCraftsman.password = Utils.encryptData(new_pass)
 			wordCraftsman.save(flush:true, failOnError:true)
 			def content = groovyPageRenderer.render(view: '/mails/forgot_password',
-			model:[username:wordCraftsman.username?wordCraftsman.username:'wordcraftsman', password: new_pass])
+			model:[username:wordCraftsman.username?wordCraftsman.username:'WordCraft user', password: new_pass])
 			sendMail {
 				async true
 				to email
