@@ -12,12 +12,12 @@ import com.wordcraft.utility.Utils
 class WordCraftsmanController {
 
 	static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE", login:"POST", secureLogout: "POST",
-		register: "POST", secureChange: "POST", forgotPassword: "POST", hasUsername: "GET", hasEmail: "GET", 
+		register: "POST", secureChange: "POST", forgotPassword: "POST", hasUsername: "GET", hasEmail: "GET",
 		hasUsernameOrEmail: "GET", saveFacebookAccount: "POST"]
 
 	def WordCraftsmanService wordCraftsmanService
 	def MessageSource messageSource
-	def TokenService tokenService 
+	def TokenService tokenService
 	def groovyPageRenderer
 
 	def index(Integer max) {
@@ -123,7 +123,7 @@ class WordCraftsmanController {
 			'*'{ render status: NOT_FOUND }
 		}
 	}
-	
+
 	/**
 	 * Check if an username already exists
 	 * @return true if the username exists in the database, false otherwise
@@ -131,7 +131,7 @@ class WordCraftsmanController {
 	def hasUsername() {
 		def username = params.username
 		log.info("Checking if username ${username} exists")
-		
+
 		def wordCraftsman = WordCraftsman.findByUsername(username);
 		if (wordCraftsman) {
 			render(contentType:'text/json') {
@@ -148,9 +148,8 @@ class WordCraftsmanController {
 			}
 			log.info("Username ${username} does not exist")
 		}
-		
 	}
-	
+
 	/**
 	 * Check if an email already exists
 	 * @return true if the email exists in the database, false otherwise
@@ -158,7 +157,7 @@ class WordCraftsmanController {
 	def hasEmail() {
 		def email = params.email
 		log.info("Checking if email ${email} exists")
-		
+
 		def wordCraftsman = WordCraftsman.findByEmail(email);
 		if (wordCraftsman) {
 			render(contentType:'text/json') {
@@ -175,10 +174,9 @@ class WordCraftsmanController {
 			}
 			log.info("Email ${email} does not exist")
 		}
-		
 	}
-	
-	
+
+
 	/**
 	 * Check if an email or username already exists
 	 * @return true if the username or email exists in the database, false otherwise
@@ -187,7 +185,7 @@ class WordCraftsmanController {
 		def username = params.username
 		def email = params.email
 		log.info("Checking if username ${username} or email ${email} exists")
-		
+
 		def wordCraftsman = WordCraftsman.findByUsername(username);
 		if (wordCraftsman) {
 			render(contentType:'text/json') {
@@ -198,7 +196,7 @@ class WordCraftsmanController {
 			}
 			log.info("Username ${username} exists")
 			return;
-		} 
+		}
 		wordCraftsman = WordCraftsman.findByEmail(email)
 		if (wordCraftsman) {
 			render(contentType:'text/json') {
@@ -210,7 +208,7 @@ class WordCraftsmanController {
 			log.info("Email ${email} exists")
 			return;
 		}
-		
+
 		log.info("Username ${username} and email ${email} do not exist")
 		render(contentType:'text/json') {
 			[
@@ -218,15 +216,14 @@ class WordCraftsmanController {
 				'message': "Username ${username} and email ${email} are available"
 			]
 		}
-		
 	}
 
 
 
-    /**
-     * Login to the app
-     * @return
-     */
+	/**
+	 * Login to the app
+	 * @return
+	 */
 	def login() {
 		def email = params.email
 		def password = params.password
@@ -252,7 +249,7 @@ class WordCraftsmanController {
 		}
 	}
 
-	
+
 	/**
 	 * Log out of the app
 	 * @return
@@ -277,14 +274,14 @@ class WordCraftsmanController {
 			}
 		}
 	}
-	
+
 	/**
 	 * Forgot password, resend new password to user's email
 	 * @return
 	 */
 	def forgotPassword() {
 		def email = params.email
-		
+
 		def wordCraftsman = WordCraftsman.findByEmail(email)
 		if (!wordCraftsman) {
 			log.error("Unable to find by email")
@@ -295,7 +292,7 @@ class WordCraftsmanController {
 				]
 			}
 		} else {
-		    if (wordCraftsman.isFacebook) {
+			if (wordCraftsman.isFacebook) {
 				log.info("User registers with Facebook account")
 				render(contentType:'text/json') {
 					[
@@ -305,18 +302,19 @@ class WordCraftsmanController {
 				}
 				return
 			}
-		
-		    def new_pass = Utils.generateToken(Constants.PASS_LENGTH)
+
+			def new_pass = Utils.generateToken(Constants.PASS_LENGTH)
 			wordCraftsman.password = Utils.encryptData(new_pass)
 			wordCraftsman.save(flush:true, failOnError:true)
-			def content = groovyPageRenderer.render(view: '/mails/forgot_password', 
-				                                    model:[username:wordCraftsman.username, password: new_pass])
-		    sendMail {
+			def content = groovyPageRenderer.render(view: '/mails/forgot_password',
+			model:[username:wordCraftsman.username?wordCraftsman.username:'wordcraftsman', password: new_pass])
+			sendMail {
 				async true
-			    to email
-			    subject "Password Recovery"
-			    html content
-		    }
+				to email
+				from 'wordcraft.service@gmail.com'
+				subject "Password Recovery"
+				html content
+			}
 			log.info("Successfully sent user new password")
 			render(contentType:'text/json') {
 				[
@@ -325,13 +323,12 @@ class WordCraftsmanController {
 				]
 			}
 		}
-		
 	}
 
-    /***
-     * Register a new user
-     * @return
-     */
+	/***
+	 * Register a new user
+	 * @return
+	 */
 	def register() {
 		def username = params.username
 		def password = params.password
@@ -353,8 +350,8 @@ class WordCraftsmanController {
 					'email': email
 				]
 			}
-			sendWelcomeEmail(email, username)
-			log.info("Successfully registered user ${username} with email ${email}")
+			sendWelcomeEmail(email, username?username: 'wordcraftsman')
+			log.info("Successfully registered user with email ${email}")
 		} catch (ValidationException e) {
 			log.error("Error in saving the wordcraftsman")
 			e.printStackTrace()
@@ -366,8 +363,8 @@ class WordCraftsmanController {
 			}
 		}
 	}
-	
-	
+
+
 	/***
 	 * Save Facebook account
 	 * @return
@@ -377,9 +374,9 @@ class WordCraftsmanController {
 		assert username
 		def email = params.email
 		assert email
-		
+
 		def wordCraftsman = WordCraftsman.findByEmail(email)
-		
+
 		def newUser = false
 		if (!wordCraftsman) {
 			wordCraftsman = new WordCraftsman()
@@ -413,13 +410,14 @@ class WordCraftsmanController {
 			}
 		}
 	}
-	
+
 	def private sendWelcomeEmail(def email, def username) {
 		def content = groovyPageRenderer.render(view: '/mails/welcome',
-			model:[username:username])
+		model:[username:username])
 		sendMail {
 			async true
 			to email
+			from 'wordcraft.service@gmail.com'
 			subject "Welcome to Wordcraft"
 			html content
 		}

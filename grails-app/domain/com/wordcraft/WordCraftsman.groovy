@@ -14,7 +14,7 @@ class WordCraftsman {
 	static hasMany = [craftTests:CraftTest, craftLogs:CraftLog, craftWords: CraftWord]
 
 	static constraints = {
-		username(blank:false, nullable: false)
+		username(blank:true, nullable: true)
 		password(nullable: true)
 		email(blank:false, email:true, unique: true)
 		level(nullable:true)
