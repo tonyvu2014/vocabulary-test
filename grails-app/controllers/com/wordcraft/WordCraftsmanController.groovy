@@ -436,6 +436,24 @@ class WordCraftsmanController {
 		def vocabularySize = params.int("vocabularySize")
 
 		if (password) {
+            def currentPassword = params.currentPassword
+			if (!currentPassword) {
+				render(contentType:'text/json') {
+					[
+						'status': Constants.STATUS_FAILURE,
+						'message': messageSource.getMessage('wrong.current.password', null, Locale.US)
+					]
+				}
+			}
+			wordCraftsman = WordCraftsman.findByEmailAndPassword(email, currentPassword)
+			if (!wordCraftsman) {
+				render(contentType:'text/json') {
+					[
+						'status': Constants.STATUS_FAILURE,
+						'message': messageSource.getMessage('wrong.current.password', null, Locale.US)
+					]
+				}
+			}
 			wordCraftsman.password = password
 		}
 
