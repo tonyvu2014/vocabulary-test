@@ -125,7 +125,8 @@ class CraftSettingsController {
 					'status': Constants.STATUS_SUCCESS,
 					'pace': settings.craftPace,
 					'load': settings.craftLoad,
-					'time': settings.craftHour == null || settings.craftHour==null?"": settings.craftHour+":"+settings.craftMinute,
+					'hour': settings.craftHour == null? "": settings.craftHour,
+                    'minute': settings.craftMinute == null? "": settings.craftMinute,
 					'notification': settings.craftNotification
 				]
 			}
@@ -169,7 +170,8 @@ class CraftSettingsController {
 					'status': Constants.STATUS_SUCCESS,
 					'pace': pace,
 					'load': load,
-					'time': time,
+					'hour': hour,
+					'minute': minute,
 					'notification': notification
 				]
 			}
@@ -177,11 +179,11 @@ class CraftSettingsController {
 		} else {
 			def newSettings = new CraftSettings(craftPace:pace, craftLoad:load)
 			if (hour!=null && minute!=null) {
-				settings.craftHour = hour
-				settings.craftMinute = minute
+				newSettings.craftHour = hour
+				newSettings.craftMinute = minute
 			}
 			if (notification!=null) {
-				settings.craftNotification = notification
+				newSettings.craftNotification = notification
 			}
 			wordCraftsman.craftSettings = newSettings
 			wordCraftsman.save(flush:true, failOnError: true)
@@ -190,7 +192,8 @@ class CraftSettingsController {
 					'status': Constants.STATUS_SUCCESS,
 					'pace': pace,
 					'load': load,
-					'time': time,
+					'hour': hour,
+					'minute': minute,
 					'notification': notification
 				]
 			}
