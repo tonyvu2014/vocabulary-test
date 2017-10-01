@@ -5,6 +5,8 @@ import grails.validation.ValidationException
 
 import org.springframework.context.MessageSource
 
+import com.apple.laf.AquaBorder.Default
+import com.sun.xml.internal.ws.policy.spi.AssertionCreationException;
 import com.wordcraft.utility.Constants
 import com.wordcraft.utility.Utils
 
@@ -374,6 +376,8 @@ class WordCraftsmanController {
 		assert username
 		def email = params.email
 		assert email
+		def token = params.token
+		assert token
 
 		def wordCraftsman = WordCraftsman.findByEmail(email)
 
@@ -388,11 +392,13 @@ class WordCraftsmanController {
 
 		try {
 			wordCraftsman.save(flush:true, failOnError: true)
+			tokenService.saveToken(email, token);
 			render(contentType:'text/json') {
 				[
 					'status': Constants.STATUS_SUCCESS,
 					'username': username,
-					'email': email
+					'email': email,
+					'token': token
 				]
 			}
 			if (newUser) {

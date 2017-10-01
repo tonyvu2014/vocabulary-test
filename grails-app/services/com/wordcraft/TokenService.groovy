@@ -1,6 +1,10 @@
 package com.wordcraft
 
 import grails.transaction.Transactional
+
+import com.apple.laf.AquaBorder.Default
+import com.sun.org.apache.bcel.internal.generic.NEW
+import com.sun.org.apache.bcel.internal.generic.RETURN;
 import com.wordcraft.utility.Constants
 import com.wordcraft.utility.Utils
 
@@ -59,14 +63,25 @@ class TokenService {
 	def generateUUID(def email) {
 		def uuid =  Utils.generateUUID()
 
-		def craftToken = CraftToken.findByEmail(email)
+		return saveToken(email, uuid);
+	}
+	
+	/**
+	 * Save a token
+	 * @param email
+	 * @param token
+	 * @return
+	 */
+	def saveToken(def email, def token) {
+		def craftToken = CraftToken.findByEmail(email)		
 		if (craftToken) {
-			craftToken.token = uuid
+			craftToken.token
 		} else {
-			craftToken = new CraftToken(email: email, token: uuid)
+			craftToken = new CraftToken(email:email, token:token);
 		}
+		
 		craftToken.save(flush:true, failOnError:true)
-
-		return uuid
+		
+		return token; 
 	}
 }
