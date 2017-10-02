@@ -75,7 +75,7 @@ class TokenService {
 	def saveToken(def email, def token) {
 		def craftToken = CraftToken.findByEmail(email)		
 		if (craftToken) {
-			craftToken.token
+			craftToken.token = token;
 		} else {
 			craftToken = new CraftToken(email:email, token:token);
 		}

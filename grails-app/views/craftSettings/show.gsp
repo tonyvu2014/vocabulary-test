@@ -41,6 +41,33 @@
 				</li>
 				</g:if>
 			
+				<g:if test="${craftSettingsInstance?.craftHour}">
+				<li class="fieldcontain">
+					<span id="craftHour-label" class="property-label"><g:message code="craftSettings.craftHour.label" default="Craft Hour" /></span>
+					
+						<span class="property-value" aria-labelledby="craftHour-label"><g:fieldValue bean="${craftSettingsInstance}" field="craftHour"/></span>
+					
+				</li>
+				</g:if>
+			
+				<g:if test="${craftSettingsInstance?.craftMinute}">
+				<li class="fieldcontain">
+					<span id="craftMinute-label" class="property-label"><g:message code="craftSettings.craftMinute.label" default="Craft Minute" /></span>
+					
+						<span class="property-value" aria-labelledby="craftMinute-label"><g:fieldValue bean="${craftSettingsInstance}" field="craftMinute"/></span>
+					
+				</li>
+				</g:if>
+			
+				<g:if test="${craftSettingsInstance?.craftNotification}">
+				<li class="fieldcontain">
+					<span id="craftNotification-label" class="property-label"><g:message code="craftSettings.craftNotification.label" default="Craft Notification" /></span>
+					
+						<span class="property-value" aria-labelledby="craftNotification-label"><g:formatBoolean boolean="${craftSettingsInstance?.craftNotification}" /></span>
+					
+				</li>
+				</g:if>
+			
 			</ol>
 			<g:form url="[resource:craftSettingsInstance, action:'delete']" method="DELETE">
 				<fieldset class="buttons">

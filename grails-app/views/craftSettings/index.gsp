@@ -28,6 +28,12 @@
 					
 						<g:sortableColumn property="craftPace" title="${message(code: 'craftSettings.craftPace.label', default: 'Craft Pace')}" />
 					
+						<g:sortableColumn property="craftHour" title="${message(code: 'craftSettings.craftHour.label', default: 'Craft Hour')}" />
+					
+						<g:sortableColumn property="craftMinute" title="${message(code: 'craftSettings.craftMinute.label', default: 'Craft Minute')}" />
+					
+						<g:sortableColumn property="craftNotification" title="${message(code: 'craftSettings.craftNotification.label', default: 'Craft Notification')}" />
+					
 					</tr>
 				</thead>
 				<tbody>
@@ -37,6 +43,12 @@
 						<td><g:link action="show" id="${craftSettingsInstance.id}">${fieldValue(bean: craftSettingsInstance, field: "craftLoad")}</g:link></td>
 					
 						<td>${fieldValue(bean: craftSettingsInstance, field: "craftPace")}</td>
+					
+						<td>${fieldValue(bean: craftSettingsInstance, field: "craftHour")}</td>
+					
+						<td>${fieldValue(bean: craftSettingsInstance, field: "craftMinute")}</td>
+					
+						<td><g:formatBoolean boolean="${craftSettingsInstance.craftNotification}" /></td>
 					
 					</tr>
 				</g:each>

@@ -24,7 +24,7 @@
 			<thead>
 					<tr>
 					
-						<g:sortableColumn property="username" title="${message(code: 'craftToken.username.label', default: 'Username')}" />
+						<g:sortableColumn property="email" title="${message(code: 'craftToken.email.label', default: 'Email')}" />
 					
 						<g:sortableColumn property="token" title="${message(code: 'craftToken.token.label', default: 'Token')}" />
 					
@@ -34,7 +34,7 @@
 				<g:each in="${craftTokenInstanceList}" status="i" var="craftTokenInstance">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 					
-						<td><g:link action="show" id="${craftTokenInstance.id}">${fieldValue(bean: craftTokenInstance, field: "username")}</g:link></td>
+						<td><g:link action="show" id="${craftTokenInstance.id}">${fieldValue(bean: craftTokenInstance, field: "email")}</g:link></td>
 					
 						<td>${fieldValue(bean: craftTokenInstance, field: "token")}</td>
 					

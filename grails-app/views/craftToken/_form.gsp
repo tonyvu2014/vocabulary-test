@@ -2,12 +2,12 @@
 
 
 
-<div class="fieldcontain ${hasErrors(bean: craftTokenInstance, field: 'username', 'error')} required">
-	<label for="username">
-		<g:message code="craftToken.username.label" default="Username" />
+<div class="fieldcontain ${hasErrors(bean: craftTokenInstance, field: 'email', 'error')} required">
+	<label for="email">
+		<g:message code="craftToken.email.label" default="Email" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:textField name="username" required="" value="${craftTokenInstance?.username}"/>
+	<g:textField name="email" required="" value="${craftTokenInstance?.email}"/>
 
 </div>
 

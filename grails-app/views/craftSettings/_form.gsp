@@ -20,3 +20,30 @@
 
 </div>
 
+<div class="fieldcontain ${hasErrors(bean: craftSettingsInstance, field: 'craftHour', 'error')} ">
+	<label for="craftHour">
+		<g:message code="craftSettings.craftHour.label" default="Craft Hour" />
+		
+	</label>
+	<g:field name="craftHour" type="number" value="${craftSettingsInstance.craftHour}"/>
+
+</div>
+
+<div class="fieldcontain ${hasErrors(bean: craftSettingsInstance, field: 'craftMinute', 'error')} ">
+	<label for="craftMinute">
+		<g:message code="craftSettings.craftMinute.label" default="Craft Minute" />
+		
+	</label>
+	<g:field name="craftMinute" type="number" value="${craftSettingsInstance.craftMinute}"/>
+
+</div>
+
+<div class="fieldcontain ${hasErrors(bean: craftSettingsInstance, field: 'craftNotification', 'error')} ">
+	<label for="craftNotification">
+		<g:message code="craftSettings.craftNotification.label" default="Craft Notification" />
+		
+	</label>
+	<g:checkBox name="craftNotification" value="${craftSettingsInstance?.craftNotification}" />
+
+</div>
+

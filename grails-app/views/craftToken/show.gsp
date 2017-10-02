@@ -23,11 +23,11 @@
 			</g:if>
 			<ol class="property-list craftToken">
 			
-				<g:if test="${craftTokenInstance?.username}">
+				<g:if test="${craftTokenInstance?.email}">
 				<li class="fieldcontain">
-					<span id="username-label" class="property-label"><g:message code="craftToken.username.label" default="Username" /></span>
+					<span id="email-label" class="property-label"><g:message code="craftToken.email.label" default="Email" /></span>
 					
-						<span class="property-value" aria-labelledby="username-label"><g:fieldValue bean="${craftTokenInstance}" field="username"/></span>
+						<span class="property-value" aria-labelledby="email-label"><g:fieldValue bean="${craftTokenInstance}" field="email"/></span>
 					
 				</li>
 				</g:if>

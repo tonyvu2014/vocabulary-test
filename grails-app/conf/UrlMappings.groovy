@@ -14,7 +14,7 @@ class UrlMappings {
 		"/api/token/generate"(controller:"craftToken", action: "secureGenerate")
 		"/api/wordCraftsman/login"(controller:"wordCraftsman", action: "login")
 		"/api/wordCraftsman/logout"(controller: "wordCraftsman", action: "secureLogout")
-		"/api/settings/getSettings/$email"(controller: "craftSettings", action: "secureGet")
+		"/api/settings/getSettings"(controller: "craftSettings", action: "secureGet")
 		"/api/settings/changeSettings"(controller: "craftSettings", action: "secureSet")
 		"/api/log/createHistory"(controller:"craftLog", action:"secureCreateHistory")
 		"/api/log/viewHistory/$email"(controller:"craftLog", action:"secureViewHistory")
