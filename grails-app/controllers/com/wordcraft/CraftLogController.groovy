@@ -170,10 +170,11 @@ class CraftLogController {
 		def wordCraftsman = WordCraftsman.findByEmail(email)
 		log.info("Viewing history of user with email ${email}")
 
-		def craftLogs = wordCraftsman.craftLogs
+		def craftLogs = wordCraftsman.craftLogs.sort{ it.eventTime }.reverse()
 		def history = []
 		for (craftLog in craftLogs) {
 			history += [
+				"eventType": craftLog.eventType.toString(),
 				"eventTime": craftLog.eventTime.format("dd/MM/yyyy HH:mm"),
 				"eventDesc": craftLog.description
 			]

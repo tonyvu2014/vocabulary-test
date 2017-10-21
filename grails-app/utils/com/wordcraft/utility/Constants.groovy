@@ -17,16 +17,16 @@ class Constants {
 	public static final WORD_PER_LEVEL = 1000
 	
 	//Number of word in DB
-	public static final MAX_WORD = 5000
+	public static final MAX_WORD = 10000
 	
 	//Default level when users just join
-	public static final DEFAULT_LEVEL = 3
+	public static final DEFAULT_LEVEL = 5
 	
 	// Lowest possible level
 	public static final MIN_LEVEL = 1
 	
 	//Highest possible level
-	public static final MAX_LEVEL = 5
+	public static final MAX_LEVEL = 10
 	
 	//Maximum number of word to be used in test
 	public static final MAX_TESTED_WORD = 20
