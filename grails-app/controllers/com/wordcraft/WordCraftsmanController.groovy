@@ -3,6 +3,9 @@ package com.wordcraft
 import grails.transaction.Transactional
 import grails.validation.ValidationException
 
+import java.lang.ref.ReferenceQueue.Null
+
+import org.hibernate.validator.constraints.Email;
 import org.springframework.context.MessageSource
 
 import com.apple.laf.AquaBorder.Default
@@ -15,7 +18,7 @@ class WordCraftsmanController {
 
 	static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE", login:"POST", secureLogout: "POST",
 		register: "POST", secureChange: "POST", forgotPassword: "POST", hasUsername: "GET", hasEmail: "GET",
-		hasUsernameOrEmail: "GET", saveFacebookAccount: "POST"]
+		hasUsernameOrEmail: "GET", saveFacebookAccount: "POST", secureGetInfo: "GET"]
 
 	def WordCraftsmanService wordCraftsmanService
 	def MessageSource messageSource
@@ -236,7 +239,12 @@ class WordCraftsmanController {
 			render(contentType:'text/json') {
 				[
 					'status': Constants.STATUS_SUCCESS,
-					'token': tokenService.generateUUID(email)
+					'token': tokenService.generateUUID(email),
+					'username': wordCraftsman.username == null?"": wordCraftsman.username,
+					'level': wordCraftsman.level == null? 1: wordCraftsman.level,
+					'isFacebook': wordCraftsman.isFacebook,
+					'estimatedSize': wordCraftsman.estimatedSize == null? 0: wordCraftsman.estimatedSize,
+					'wordsLearnt': wordCraftsman.craftWords == null? 0: wordCraftsman.craftWords.size()
 				]
 			}
 			log.info("Logged in successfully for user with email ${email}")
@@ -248,6 +256,28 @@ class WordCraftsmanController {
 					'message': messageSource.getMessage('wrong.identity', null, Locale.ENGLISH)
 				]
 			}
+		}
+	}
+	
+	/**
+	 * Get information for an user
+	 * @return
+	 */
+	def secureGetInfo() {
+		def email = params.email
+		
+		def wordCraftsman = WordCraftsman.findByEmail(email)
+		log.info("Getting information for user with email ${email}")
+		
+		render(contentType:'text/json') {
+			[
+				'status': Constants.STATUS_SUCCESS,
+				'username': wordCraftsman.username == null?"": wordCraftsman.username,
+				'level': wordCraftsman.level == null? 1: wordCraftsman.level,
+				'estimatedSize': wordCraftsman.estimatedSize == null? 0: wordCraftsman.estimatedSize,
+				'isFacebook': wordCraftsman.isFacebook == null? false: wordCraftsman.isFacebook,
+				'wordsLearnt': wordCraftsman.craftWords == null? 0: wordCraftsman.craftWords.size()
+			]
 		}
 	}
 
@@ -398,7 +428,11 @@ class WordCraftsmanController {
 					'status': Constants.STATUS_SUCCESS,
 					'username': username,
 					'email': email,
-					'token': token
+					'token': token,
+					'isFacebook': true,
+					'level': wordCraftsman.level == null? 1: wordCraftsman.level,
+					'estimatedSize': wordCraftsman.estimatedSize == null? 0: wordCraftsman.estimatedSize,
+					'wordsLearnt': wordCraftsman.craftWords == null? 0: wordCraftsman.craftWords.size()
 				]
 			}
 			if (newUser) {

@@ -129,8 +129,8 @@ class CraftTestController {
 		render(contentType:'text/json') {
 			[
 				'status': Constants.STATUS_SUCCESS,
-				'result_size': resultSize,
-				'test_time': testTime.format("dd/MM/yyyy HH:mm")
+				'resultSize': resultSize,
+				'testTime': testTime.format("dd/MM/yyyy HH:mm")
 			]
 		}
 		log.info("Successfully created a new test for user with email ${email}")

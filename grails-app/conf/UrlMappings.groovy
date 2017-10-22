@@ -26,6 +26,7 @@ class UrlMappings {
 		"/api/wordCraftsman/hasEmail/$email"(controller:"wordCraftsman", action:"hasEmail")
 		"/api/wordCraftsman/hasUsernameOrEmail/$username/$email"(controller:"wordCraftsman", action:"hasUsernameOrEmail")
 		"/api/wordCraftsman/saveFacebookAccount"(controller:"wordCraftsman", action:"saveFacebookAccount")
+		"/api/wordCraftsman/getInfo/$email"(controller:"wordCraftsman", action: "secureGetInfo")
 		
 	}
 }
