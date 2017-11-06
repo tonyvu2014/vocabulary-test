@@ -1,13 +1,23 @@
 package com.wordcraft
 
 import grails.transaction.Transactional
+
+import java.awt.TexturePaintContext.Int;
+
+import org.hibernate.validator.constraints.Email;
+
+import com.apple.laf.AquaBorder.Default
+import com.sun.org.apache.bcel.internal.generic.RETURN;
 import com.wordcraft.WordFrequency;
 import com.wordcraft.WordService
+import com.wordcraft.utility.Constants;
 
 @Transactional(readOnly = false)
 class WordFrequencyController {
 
-	static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE", getWordFromLevel: "GET", getWordFromRange: "GET"]
+	static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE", 
+		                     getWordFromLevel: "GET", getWordFromRange: "GET", getRandomWord: "GET",
+							 secureGetWordList: "GET", secureGetNextWord: "GET"]
 
 	def WordService wordService
 
@@ -141,6 +151,106 @@ class WordFrequencyController {
 			[
 				'word': wordFrequency.word,
 				'rank': wordFrequency.rank
+			]
+		}
+	}
+	
+	def getRandomWord() {
+		def wordFrequency = wordService.randomWord()
+		
+		render(contentType:'text/json') {
+			[
+				'word': wordFrequency.word,
+				'rank': wordFrequency.rank
+			]
+		}
+	}
+	
+	def secureGetNextWord() {
+		def email = params.email
+		assert email
+		
+		def wordCraftsman = WordCraftsman.findByEmail(email)
+		if (!wordCraftsman) {
+			log.error("Unable to find by email")
+			render(contentType:'text/json') {
+				[
+					'status': Constants.STATUS_FAILURE,
+					'message': messageSource.getMessage('email.not.found', [email] as Object[], Locale.US)
+				]
+			}
+			
+			return;
+		}
+		
+		def level = wordCraftsman.level
+		
+		while (true) {
+			def wordFrequency = wordService.getRandomWordFromLevel(level)
+			def word = wordFrequency.word
+			
+			if (!(word in wordCraftsman.craftWords)) {
+				render(contentType:'text/json') {
+					[
+						'word': word,
+						'rank': wordFrequency.rank
+					]
+				}
+				return;
+			}
+		}
+		
+	}
+	
+	
+	def secureGetWordList() {
+		def email = params.email
+		assert email
+		def wordCount = params.int('count')
+		assert wordCount > 0 && wordCount <= Constants.MAX_WORDS_PER_TIME
+		
+		def wordCraftsman = WordCraftsman.findByEmail(email)	
+		if (!wordCraftsman) {
+			log.error("Unable to find by email")
+			render(contentType:'text/json') {
+				[
+					'status': Constants.STATUS_FAILURE,
+					'message': messageSource.getMessage('email.not.found', [email] as Object[], Locale.US)
+				]
+			}
+			
+			return;
+		}
+		
+		def level = wordCraftsman.level
+		def wordList = []
+		def numberOfWords = 0
+		def attempts = 0
+		while (numberOfWords < wordCount && attempts < MAX_LEVEL_ATTEMPTS) {
+			def wordFrequency = wordService.getRandomWordFromLevel(level)
+			attempts++
+			def word = wordFrequency.word
+			
+			if (!(word in wordCraftsman.craftWords)) {
+				wordList += word
+				numberOfWords++
+			}
+		}
+		
+		if (attemtps == MAX_LEVEL_ATTEMPTS) {
+			render(contentType:'text/json') {
+				[
+					'status': Constants.STATUS_FAILURE,
+					'message': messageSource.getMessage('next.level.notification', Locale.US)
+				]
+			}
+			
+			return;
+		}
+		
+	    render(contentType:'text/json') {
+			[
+				words: wordList
 			]
 		}
 	}

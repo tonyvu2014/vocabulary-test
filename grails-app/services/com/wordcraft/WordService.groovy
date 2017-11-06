@@ -1,6 +1,10 @@
 package com.wordcraft
 
 import grails.transaction.Transactional
+
+import com.apple.laf.AquaBorder.Default;
+import com.sun.jna.FromNativeContext
+import com.sun.org.apache.bcel.internal.generic.RETURN;
 import com.wordcraft.WordFrequency
 import com.wordcraft.utility.Constants
 
@@ -36,5 +40,17 @@ class WordService {
 		def randomRank = random.nextInt(toRank - fromRank) + fromRank
 
 		return WordFrequency.findByRank(randomRank)
+	}
+	
+	/**
+	 * Get a totally random word 
+	 * 
+	 * @return a random word
+	 */
+	def getRandomWord() {
+		def fromRank = 1
+		def toRank = Constants.MAX_WORD + 1
+		
+		return getRandomWord(fromRank, toRank)
 	}
 }

@@ -9,6 +9,9 @@ class UrlMappings {
 
 		"/api/word/getWordFromLevel/$level"(controller: "wordFrequency", action: "getWordFromLevel")
 		"/api/word/getWordFromRange/$minRank/$maxRank"(controller: "wordFrequency", action: "getWordFromRange")
+		"/api/word/getRandomWord"(controller: "wordFrequency", action: "getRandomWord")
+		"/api/word/getWordList/$count"(controller: "wordFrequency", action: "secureGetWordList")
+		"/api/word/getNextWord/$email"(controller: "wordFrequency", action: "secureGetNextWord")
 		"/api/craftWord/markAsKnown"(controller:"craftWord", action: "secureMarkAsKnown")
 		"/api/token/hasToken/$email/$token"(controller:"craftToken", action: "hasToken")
 		"/api/token/generate"(controller:"craftToken", action: "secureGenerate")

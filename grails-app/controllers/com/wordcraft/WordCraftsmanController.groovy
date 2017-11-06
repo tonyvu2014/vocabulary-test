@@ -4,6 +4,7 @@ import grails.transaction.Transactional
 import grails.validation.ValidationException
 
 import java.lang.ref.ReferenceQueue.Null
+import java.util.logging.Level;
 
 import org.hibernate.validator.constraints.Email;
 import org.springframework.context.MessageSource
@@ -508,6 +509,21 @@ class WordCraftsmanController {
 			} else {
 				wordCraftsman.estimatedSize = vocabularySize
 				wordCraftsman.level = vocabularySize / Constants.WORD_PER_LEVEL + 1
+			}
+		}
+		
+		if (level) {
+			assert level > 0
+			if (level > Constants.MAX_LEVEL) {
+				render(contentType:'text/json') {
+					[
+						'status': Constants.STATUS_FAILURE,
+						'message': messageSource.getMessage('level.exceeds.max', [Constants.MAX_LEVEL] as Object[], Locale.US)
+					]
+				}
+			} else {
+			    wordCraftsman.level = level
+				wordCraftsman.estimatedSize = (level - 1) * Constants.WORD_PER_LEVEL + Constants.WORD_PER_LEVEL/2
 			}
 		}
 		try {

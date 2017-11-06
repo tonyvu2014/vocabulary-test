@@ -1,5 +1,9 @@
 package com.wordcraft.utility
 
+import java.lang.invoke.DirectMethodHandle.StaticAccessor;
+
+import com.sun.org.apache.xml.internal.resolver.helpers.PublicId;
+
 @Singleton
 class Constants {
 	
@@ -37,4 +41,10 @@ class Constants {
 	//How many words per step while testing in a level 
 	public static final STEP_IN_LEVEL = 100
 	
+	//Maximum number of words can be fetched each time
+	public static final MAX_WORDS_PER_TIME = 10
+	
+	//Maximum attempts to get a word factor
+	public static final MAX_LEVEL_ATTEMPTS = 50
+		
 }
