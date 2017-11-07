@@ -475,6 +475,7 @@ class WordCraftsmanController {
 
 		def password = params.password
 		def vocabularySize = params.int("vocabularySize")
+		def level =  params.int("level")
 
 		if (password) {
             def currentPassword = params.currentPassword
@@ -507,13 +508,13 @@ class WordCraftsmanController {
 					]
 				}
 			} else {
+			    log.info("Updating vocabulary size to ${vocabularySize}")
 				wordCraftsman.estimatedSize = vocabularySize
 				wordCraftsman.level = vocabularySize / Constants.WORD_PER_LEVEL + 1
 			}
 		}
 		
 		if (level) {
-			assert level > 0
 			if (level > Constants.MAX_LEVEL) {
 				render(contentType:'text/json') {
 					[
@@ -522,6 +523,7 @@ class WordCraftsmanController {
 					]
 				}
 			} else {
+		    	log.info("Updating level to ${level}")
 			    wordCraftsman.level = level
 				wordCraftsman.estimatedSize = (level - 1) * Constants.WORD_PER_LEVEL + Constants.WORD_PER_LEVEL/2
 			}
