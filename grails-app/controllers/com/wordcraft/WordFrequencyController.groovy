@@ -149,6 +149,7 @@ class WordFrequencyController {
 		def wordFrequency = wordService.getRandomWord(minRank, maxRank)
 		render(contentType:'text/json') {
 			[
+				'status': Constants.STATUS_SUCCESS,
 				'word': wordFrequency.word,
 				'rank': wordFrequency.rank
 			]
@@ -160,6 +161,7 @@ class WordFrequencyController {
 		
 		render(contentType:'text/json') {
 			[
+				'status': Constants.STATUS_SUCCESS,
 				'word': wordFrequency.word,
 				'rank': wordFrequency.rank
 			]
@@ -192,6 +194,7 @@ class WordFrequencyController {
 			if (!(word in wordCraftsman.craftWords)) {
 				render(contentType:'text/json') {
 					[
+						'status': Constants.STATUS_SUCCESS,
 						'word': word,
 						'rank': wordFrequency.rank
 					]
@@ -250,6 +253,7 @@ class WordFrequencyController {
 		
 	    render(contentType:'text/json') {
 			[
+			   'status': Constants.STATUS_SUCCESS,
 				words: wordList
 			]
 		}
