@@ -2,15 +2,11 @@ package com.wordcraft
 
 import grails.transaction.Transactional
 
-import com.apple.laf.AquaBorder.Default;
-import com.sun.jna.FromNativeContext
-import com.sun.org.apache.bcel.internal.generic.RETURN;
-import com.wordcraft.WordFrequency
 import com.wordcraft.utility.Constants
 
 @Transactional
 class WordService {
-
+	
 	/***
 	 * Get a random word from a level
 	 * 
@@ -38,7 +34,7 @@ class WordService {
 		assert toRank<=Constants.MAX_WORD+1
 		Random random = new Random()
 		def randomRank = random.nextInt(toRank - fromRank) + fromRank
-
+						
 		return WordFrequency.findByRank(randomRank)
 	}
 	

@@ -1,5 +1,6 @@
 package com.wordcraft.utility
 
+import java.awt.TexturePaintContext.Int;
 import java.lang.invoke.DirectMethodHandle.StaticAccessor;
 
 import com.sun.org.apache.xml.internal.resolver.helpers.PublicId;
@@ -21,7 +22,7 @@ class Constants {
 	public static final WORD_PER_LEVEL = 1000
 	
 	//Number of word in DB
-	public static final MAX_WORD = 10000
+	public static final MAX_WORD = 5000
 	
 	//Default level when users just join
 	public static final DEFAULT_LEVEL = 5
@@ -35,7 +36,7 @@ class Constants {
 	//Maximum number of word to be used in test
 	public static final MAX_TESTED_WORD = 20
 	
-	//Maximum number of words marked as known as tester before the test terminates
+	//Maximum number of words marked as known by testers before the test terminates
 	public static final MAX_LEVEL_KNOWN_WORD = 3
 	
 	//How many words per step while testing in a level 

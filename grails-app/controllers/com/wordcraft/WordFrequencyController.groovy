@@ -2,15 +2,7 @@ package com.wordcraft
 
 import grails.transaction.Transactional
 
-import java.awt.TexturePaintContext.Int;
-
-import org.hibernate.validator.constraints.Email;
-
-import com.apple.laf.AquaBorder.Default
-import com.sun.org.apache.bcel.internal.generic.RETURN;
-import com.wordcraft.WordFrequency;
-import com.wordcraft.WordService
-import com.wordcraft.utility.Constants;
+import com.wordcraft.utility.Constants
 
 @Transactional(readOnly = false)
 class WordFrequencyController {
@@ -157,7 +149,7 @@ class WordFrequencyController {
 	}
 	
 	def getRandomWord() {
-		def wordFrequency = wordService.randomWord()
+		def wordFrequency = wordService.getRandomWord()
 		
 		render(contentType:'text/json') {
 			[
@@ -185,7 +177,7 @@ class WordFrequencyController {
 			return;
 		}
 		
-		def level = wordCraftsman.level
+		def level = wordCraftsman.level? wordCraftsman.level:1
 		
 		while (true) {
 			def wordFrequency = wordService.getRandomWordFromLevel(level)
@@ -225,7 +217,7 @@ class WordFrequencyController {
 			return;
 		}
 		
-		def level = wordCraftsman.level
+		def level = wordCraftsman.level?wordCraftsman.level:1
 		def wordList = []
 		def numberOfWords = 0
 		def attempts = 0

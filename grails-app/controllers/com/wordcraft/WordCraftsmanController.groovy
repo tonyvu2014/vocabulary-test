@@ -3,14 +3,8 @@ package com.wordcraft
 import grails.transaction.Transactional
 import grails.validation.ValidationException
 
-import java.lang.ref.ReferenceQueue.Null
-import java.util.logging.Level;
-
-import org.hibernate.validator.constraints.Email;
 import org.springframework.context.MessageSource
 
-import com.apple.laf.AquaBorder.Default
-import com.sun.xml.internal.ws.policy.spi.AssertionCreationException;
 import com.wordcraft.utility.Constants
 import com.wordcraft.utility.Utils
 

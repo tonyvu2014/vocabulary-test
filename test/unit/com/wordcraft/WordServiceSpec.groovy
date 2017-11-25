@@ -28,7 +28,7 @@ class WordServiceSpec extends Specification {
 		wf.rank<Constants.WORD_PER_LEVEL*2
 	}
 
-	void "test for getRandomWord()"() {
+	void "test for getRandomWord(fromRank, toRank)"() {
 		given:
 		def wf = service.getRandomWord(2645, 4297)
 		expect:

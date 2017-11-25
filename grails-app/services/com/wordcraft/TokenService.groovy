@@ -2,9 +2,6 @@ package com.wordcraft
 
 import grails.transaction.Transactional
 
-import com.apple.laf.AquaBorder.Default
-import com.sun.org.apache.bcel.internal.generic.NEW
-import com.sun.org.apache.bcel.internal.generic.RETURN;
 import com.wordcraft.utility.Constants
 import com.wordcraft.utility.Utils
 

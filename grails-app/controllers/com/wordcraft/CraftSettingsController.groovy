@@ -1,7 +1,9 @@
 package com.wordcraft
 
-import org.springframework.context.MessageSource;
 import grails.transaction.Transactional
+
+import org.springframework.context.MessageSource
+
 import com.wordcraft.utility.Constants
 
 @Transactional(readOnly = false)
