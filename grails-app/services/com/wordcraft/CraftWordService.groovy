@@ -1,8 +1,6 @@
 package com.wordcraft
 
 import grails.transaction.Transactional
-import com.wordcraft.CraftWord
-import com.wordcraft.WordCraftsman
 
 @Transactional
 class CraftWordService {

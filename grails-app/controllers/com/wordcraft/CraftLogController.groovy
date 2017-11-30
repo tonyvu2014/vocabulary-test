@@ -2,8 +2,17 @@ package com.wordcraft
 
 import grails.transaction.Transactional
 
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat
+
 import org.springframework.context.MessageSource
 
+import com.apple.laf.AquaBorder.Default
+import com.sun.jna.Structure.FFIType.size_t
+import com.sun.org.apache.bcel.internal.generic.NEW;
+import com.sun.org.apache.xerces.internal.impl.dtd.models.DFAContentModel;
+import com.sun.xml.internal.ws.policy.spi.AssertionCreationException;
 import com.wordcraft.utility.Constants
 import com.wordcraft.utility.EventType
 
@@ -128,35 +137,34 @@ class CraftLogController {
 		assert event.toUpperCase() in EventType.values().collect{it.name()}
 
 		def eventType = EventType.valueOf(event.toUpperCase())
-		def eventTime = new Date()
-		def desc = messageSource.getMessage('event.activity.desc', [
-			eventTime.format("dd/MM/yyyy HH:mm")] as Object[] , Locale.US)
+		def desc = messageSource.getMessage('event.activity.desc', null, Locale.US)
 		switch(eventType) {
 			case EventType.TEST:
 				log.info("Logging event: TEST")
-				desc = messageSource.getMessage('event.test.desc', [
-					eventTime.format("dd/MM/yyyy HH:mm")] as Object[], Locale.US)
+				def estimatedSize = params.int('estimatedSize')
+				assert estimatedSize >= 0
+				desc = messageSource.getMessage('event.test.desc', [estimatedSize] as Object[], Locale.US)
 				break
 			case EventType.LEARN:
 				log.info("Logging event: LEARN")
 				def words = params.int('words')
 				assert words >= 1
-				desc = messageSource.getMessage('event.learn.desc', [
-					words,
-					eventTime.format("dd/MM/yyyy HH:mm")] as Object[], Locale.US)
+				desc = messageSource.getMessage('event.learn.desc', [words] as Object[], Locale.US)
 				break
 			case EventType.ADVANCE:
 				log.info("Logging event: ADVANCE TO THE NEXT LEVEL")
 				def level = params.int('level')
 				assert level >= 1
-				desc = messageSource.getMessage('event.advance.desc', [
-					level,
-					eventTime.format("dd/MM/yyyy HH:mm")] as Object[], Locale.US)
+				desc = messageSource.getMessage('event.advance.desc', [level] as Object[], Locale.US)
 				break
 			default:
 				break
 		}
-		def craftLog = new CraftLog(eventTime:eventTime, eventType: eventType, description: desc)
+		
+		def eventTime = params.eventTime
+		assert eventTime != null
+		DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm")
+		def craftLog = new CraftLog(eventTime: df.parse(eventTime), eventType: eventType, description: desc)
 		wordCraftsman.addToCraftLogs(craftLog)
 		wordCraftsman.save(flush:true, failOnError:true)
 		render(contentType:'text/json') {
