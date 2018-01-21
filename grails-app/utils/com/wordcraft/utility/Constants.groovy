@@ -1,10 +1,5 @@
 package com.wordcraft.utility
 
-import java.awt.TexturePaintContext.Int;
-import java.lang.invoke.DirectMethodHandle.StaticAccessor;
-
-import com.sun.org.apache.xml.internal.resolver.helpers.PublicId;
-
 @Singleton
 class Constants {
 	

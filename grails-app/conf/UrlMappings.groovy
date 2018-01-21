@@ -12,6 +12,7 @@ class UrlMappings {
 		"/api/word/getRandomWord"(controller: "wordFrequency", action: "getRandomWord")
 		"/api/word/getWordList/$count"(controller: "wordFrequency", action: "secureGetWordList")
 		"/api/word/getNextWord/$email"(controller: "wordFrequency", action: "secureGetNextWord")
+		"/api/word/getTestWords/$testSize"(controller: "wordFrequency", action: "getTestWords")
 		"/api/craftWord/markAsKnown"(controller:"craftWord", action: "secureMarkAsKnown")
 		"/api/token/hasToken/$email/$token"(controller:"craftToken", action: "hasToken")
 		"/api/token/generate"(controller:"craftToken", action: "secureGenerate")

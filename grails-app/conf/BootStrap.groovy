@@ -1,8 +1,5 @@
-import com.wordcraft.CraftLog
-import com.wordcraft.CraftSettings
-import com.wordcraft.WordCraftsman
 import com.wordcraft.WordFrequency
-import com.wordcraft.utility.EventType
+
 import grails.util.Environment;
 
 class BootStrap {

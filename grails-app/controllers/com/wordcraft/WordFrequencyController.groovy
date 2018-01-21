@@ -9,7 +9,8 @@ class WordFrequencyController {
 
 	static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE", 
 		                     getWordFromLevel: "GET", getWordFromRange: "GET", getRandomWord: "GET",
-							 secureGetWordList: "GET", secureGetNextWord: "GET"]
+							 secureGetWordList: "GET", secureGetNextWord: "GET",
+							 getTestWords: "GET"]
 
 	def WordService wordService
 
@@ -159,6 +160,35 @@ class WordFrequencyController {
 			]
 		}
 	}
+
+	def getTestWords() {
+		def testSize = params.int('testSize')
+		assert testSize > 0
+
+		def wordRangeSize = Constants.MAX_WORD.intdiv(testSize)
+		def remainder = Constants.MAX_WORD % testSize
+
+		def wordList = []
+		def startRank = 1
+		for (int i = 0; i < testSize; i++) {
+			def endRank = startRank + wordRangeSize
+			if (remainder > 0) {
+				endRank++;
+				remainder--;
+			}
+
+			def word = wordService.getRandomWord(startRank, endRank);
+			wordList += word
+			startRank = endRank
+		}
+
+		render(contentType:'text/json') {
+			[
+			'status': Constants.STATUS_SUCCESS,
+			'words': wordList
+			]
+		}
+	}
 	
 	def secureGetNextWord() {
 		def email = params.email
@@ -221,7 +251,7 @@ class WordFrequencyController {
 		def wordList = []
 		def numberOfWords = 0
 		def attempts = 0
-		while (numberOfWords < wordCount && attempts < MAX_LEVEL_ATTEMPTS) {
+		while (numberOfWords < wordCount && attempts < Constants.MAX_LEVEL_ATTEMPTS) {
 			def wordFrequency = wordService.getRandomWordFromLevel(level)
 			attempts++
 			def word = wordFrequency.word
@@ -232,7 +262,7 @@ class WordFrequencyController {
 			}
 		}
 		
-		if (attemtps == MAX_LEVEL_ATTEMPTS) {
+		if (attemtps == Constants.MAX_LEVEL_ATTEMPTS) {
 			render(contentType:'text/json') {
 				[
 					'status': Constants.STATUS_FAILURE,
