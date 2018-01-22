@@ -176,7 +176,7 @@ class CraftLogController {
 		def wordCraftsman = WordCraftsman.findByEmail(email)
 		log.info("Viewing history of user with email ${email}")
 
-		def craftLogs = wordCraftsman.craftLogs.sort{ it.eventTime }.reverse()
+		def craftLogs = wordCraftsman.craftLogs.sort{ it.eventTime }.reverse().take(Constants.MAX_LOG_ENTRIES)
 		def history = []
 		for (craftLog in craftLogs) {
 			history += [

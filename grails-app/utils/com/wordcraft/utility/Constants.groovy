@@ -1,5 +1,7 @@
 package com.wordcraft.utility
 
+import java.security.PublicKey
+
 @Singleton
 class Constants {
 	
@@ -42,5 +44,8 @@ class Constants {
 	
 	//Maximum attempts to get a word factor
 	public static final MAX_LEVEL_ATTEMPTS = 50
+	
+	//Maximum number of history entries to show
+	public static final MAX_LOG_ENTRIES = 50
 		
 }

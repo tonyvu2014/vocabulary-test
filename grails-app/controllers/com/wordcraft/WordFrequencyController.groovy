@@ -177,8 +177,8 @@ class WordFrequencyController {
 				remainder--;
 			}
 
-			def word = wordService.getRandomWord(startRank, endRank);
-			wordList += word
+			def wordFrequency = wordService.getRandomWord(startRank, endRank);
+			wordList += wordFrequency.word
 			startRank = endRank
 		}
 
