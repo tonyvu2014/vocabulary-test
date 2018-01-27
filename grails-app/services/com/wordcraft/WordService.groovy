@@ -49,4 +49,29 @@ class WordService {
 		
 		return getRandomWord(fromRank, toRank)
 	}
+	
+	/**
+	 * Get the estimated test range based on the input
+	 * @param input - an array of boolean value to indicate if user know the word in that range
+	 * 
+	 * @return the estimated range for user's vocabulary size
+	 */
+	def getEstimatedRange(List<Boolean> input) {
+		int totalKnown = 0;
+		for (Boolean v : input) {
+			if (v) {
+				totalKnown++;
+			}
+		}
+		
+		if (input[totalKnown - 1]) {
+			return totalKnown -1;
+		} else {
+			if (input[totalKnown]) {
+				(2*totalKnown - 1) / 2;
+			} else {
+				return totalKnown;
+			}
+		}
+	}
 }

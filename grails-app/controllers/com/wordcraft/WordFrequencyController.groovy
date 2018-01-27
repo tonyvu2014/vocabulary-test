@@ -10,7 +10,7 @@ class WordFrequencyController {
 	static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE", 
 		                     getWordFromLevel: "GET", getWordFromRange: "GET", getRandomWord: "GET",
 							 secureGetWordList: "GET", secureGetNextWord: "GET",
-							 getTestWords: "GET"]
+							 getTestWords: "GET", getTestEstimation: "POST"]
 
 	def WordService wordService
 
@@ -186,6 +186,22 @@ class WordFrequencyController {
 			[
 			'status': Constants.STATUS_SUCCESS,
 			'words': wordList
+			]
+		}
+	}
+	
+	def getTestEstimation() {
+		def data = request.JSON
+		def result = []
+		for (String key : data.keySet()) {
+			result[Integer.valueOf(key)] = Boolean.valueOf(data.get(key))
+		}
+		
+		def estimatedRange = wordService.getEstimatedRange(result)
+		render(contentType:'text/json') {
+			[
+				'status': Constants.STATUS_SUCCESS,
+				'range_number': estimatedRange,
 			]
 		}
 	}
