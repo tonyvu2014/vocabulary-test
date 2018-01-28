@@ -170,7 +170,10 @@ class WordFrequencyController {
 		def remainder = Constants.MAX_WORD % testSize
 
 		def wordList = []
+		def rankList = []
+		def wordFrequencyList = []
 		def startRank = 1
+		Random random = new Random()
 		for (int i = 0; i < testSize; i++) {
 			def endRank = startRank + wordRangeSize
 			if (remainder > 0) {
@@ -178,11 +181,18 @@ class WordFrequencyController {
 				remainder--;
 			}
 
-			def wordFrequency = wordService.getRandomWord(startRank, endRank);
-			wordList += wordFrequency.word
+//			def wordFrequency = wordService.getRandomWord(startRank, endRank);
+			def randomRank = random.nextInt(endRank - startRank) + startRank
+			rankList += randomRank
+			
 			startRank = endRank
 		}
 
+		wordFrequencyList = wordService.getWordsByRanks(rankList)
+		for (WordFrequency wordFrequency: wordFrequencyList) {
+			wordList += wordFrequency.word
+		}
+		
 		render(contentType:'text/json') {
 			[
 			'status': Constants.STATUS_SUCCESS,
@@ -204,6 +214,8 @@ class WordFrequencyController {
 		def wordRangeSize = range.intdiv(testSize)
 		def remainder = range % testSize
 
+		Random random = new Random()
+		def rankList = []
 		def wordList = []
 		def startRank = minRank
 		for (int i = 0; i < testSize; i++) {
@@ -212,13 +224,22 @@ class WordFrequencyController {
 				endRank++;
 				remainder--;
 			}
-
-			def wordFrequency = wordService.getRandomWord(startRank, endRank);
+			
+			def randomRank = random.nextInt(endRank - startRank) + startRank
+			rankList += randomRank
+//			def wordFrequency = wordService.getRandomWord(startRank, endRank);
+//			wordList += [
+//				word: wordFrequency.word,
+//				rank: wordFrequency.rank
+//			]
+			startRank = endRank
+		}
+		def wordFrequencyList = wordService.getWordsByRanks(rankList);
+		for (WordFrequency wordFrequency : wordFrequencyList) {
 			wordList += [
 				word: wordFrequency.word,
 				rank: wordFrequency.rank
 			]
-			startRank = endRank
 		}
 
 		render(contentType:'text/json') {

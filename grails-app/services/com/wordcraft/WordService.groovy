@@ -39,6 +39,17 @@ class WordService {
 	}
 	
 	/**
+	 * Given a list of usage frequency ranks, get the list of words
+	 * 
+	 * @param ranks - the list of ranks
+	 * @return the list of word with frequency
+	 */
+	def getWordsByRanks(List<Integer> ranks) {
+		
+		return WordFrequency.findAllByRankInList(ranks)
+	}
+	
+	/**
 	 * Get a totally random word 
 	 * 
 	 * @return a random word
