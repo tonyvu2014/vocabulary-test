@@ -10,7 +10,8 @@ class WordFrequencyController {
 	static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE", 
 		                     getWordFromLevel: "GET", getWordFromRange: "GET", getRandomWord: "GET",
 							 secureGetWordList: "GET", secureGetNextWord: "GET",
-							 getTestWords: "GET", getTestEstimation: "POST"]
+							 getTestWords: "GET", getTestEstimation: "POST",
+							 getFinalTestWords: "GET", getTestResult: "POST"]
 
 	def WordService wordService
 
@@ -190,6 +191,44 @@ class WordFrequencyController {
 		}
 	}
 	
+	def getFinalTestWords() {
+		def testSize = params.int('testSize')
+		def minRank = params.int('minRank')
+		def maxRank = params.int('maxRank')
+		assert testSize > 0
+		assert minRank >= 0
+		assert maxRank > minRank
+		
+		def range = maxRank - minRank
+
+		def wordRangeSize = range.intdiv(testSize)
+		def remainder = range % testSize
+
+		def wordList = []
+		def startRank = minRank
+		for (int i = 0; i < testSize; i++) {
+			def endRank = startRank + wordRangeSize
+			if (remainder > 0) {
+				endRank++;
+				remainder--;
+			}
+
+			def wordFrequency = wordService.getRandomWord(startRank, endRank);
+			wordList += [
+				word: wordFrequency.word,
+				rank: wordFrequency.rank
+			]
+			startRank = endRank
+		}
+
+		render(contentType:'text/json') {
+			[
+			'status': Constants.STATUS_SUCCESS,
+			'words': wordList
+			]
+		}
+	}
+	
 	def getTestEstimation() {
 		def data = request.JSON
 		def result = []
@@ -197,11 +236,44 @@ class WordFrequencyController {
 			result[Integer.valueOf(key)] = Boolean.valueOf(data.get(key))
 		}
 		
-		def estimatedRange = wordService.getEstimatedRange(result)
+		def estimatedValue = wordService.getEstimatedValue(result)
 		render(contentType:'text/json') {
 			[
 				'status': Constants.STATUS_SUCCESS,
-				'range_number': estimatedRange,
+				'range_number': estimatedValue,
+			]
+		}
+	}
+	
+	def getTestResult() {
+		def data = request.JSON
+		def result = []
+		def rankMap = []
+		def i = 0
+		def keys = []
+		for (String key : data.keySet()) {
+			keys += Integer.valueOf(key)
+		}
+		def sortedKeys = keys.sort()
+		for (int key : sortedKeys) {
+			result[i] = Boolean.valueOf(data.get(String.valueOf(key)))
+			rankMap[i] = Integer.valueOf(String.valueOf(key))
+			i++;
+		}
+		
+		def estimatedValue = wordService.getEstimatedValue(result)
+		log.info("Estimated value: " + estimatedValue);
+		def estimatedResult;
+		if (estimatedValue in Integer) {
+			estimatedResult = rankMap[estimatedValue]
+		} else {
+			intEstimatedValue = (int) estimatedValue
+			estimatedResult = (rankMap[intEstimatedValue] +  rankMap[intEstimatedValue+1]).intdiv(2)
+		}
+		render(contentType:'text/json') {
+			[
+				'status': Constants.STATUS_SUCCESS,
+				'estimatedResult': estimatedResult,
 			]
 		}
 	}

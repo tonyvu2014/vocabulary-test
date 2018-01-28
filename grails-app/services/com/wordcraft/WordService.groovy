@@ -56,7 +56,7 @@ class WordService {
 	 * 
 	 * @return the estimated range for user's vocabulary size
 	 */
-	def getEstimatedRange(List<Boolean> input) {
+	def getEstimatedValue(List<Boolean> input) {
 		int totalKnown = 0;
 		for (Boolean v : input) {
 			if (v) {
