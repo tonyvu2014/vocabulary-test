@@ -288,7 +288,7 @@ class WordFrequencyController {
 		if (estimatedValue in Integer) {
 			estimatedResult = rankMap[estimatedValue]
 		} else {
-			intEstimatedValue = (int) estimatedValue
+			def intEstimatedValue = (int) estimatedValue
 			estimatedResult = (rankMap[intEstimatedValue] +  rankMap[intEstimatedValue+1]).intdiv(2)
 		}
 		render(contentType:'text/json') {
