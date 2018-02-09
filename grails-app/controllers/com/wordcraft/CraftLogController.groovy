@@ -1,16 +1,15 @@
 package com.wordcraft
 
-import grails.transaction.Transactional
-
-import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat
 
 import org.springframework.context.MessageSource
 
-import com.apple.laf.AquaBorder.Default
 import com.wordcraft.utility.Constants
 import com.wordcraft.utility.EventType
+
+import grails.plugin.springsecurity.annotation.Secured
+import grails.transaction.Transactional
 
 @Transactional(readOnly = false)
 class CraftLogController {
@@ -20,19 +19,23 @@ class CraftLogController {
 
 	def MessageSource messageSource
 
+	@Secured(['ROLE_ADMIN'])
 	def index(Integer max) {
 		params.max = Math.min(max ?: 10, 100)
 		respond CraftLog.list(params), model:[craftLogInstanceCount: CraftLog.count()]
 	}
 
+	@Secured(['ROLE_ADMIN'])
 	def show(CraftLog craftLogInstance) {
 		respond craftLogInstance
 	}
-
+	
+	@Secured(['ROLE_ADMIN'])
 	def create() {
 		respond new CraftLog(params)
 	}
 
+	@Secured(['ROLE_ADMIN'])
 	@Transactional
 	def save(CraftLog craftLogInstance) {
 		if (craftLogInstance == null) {
@@ -59,10 +62,12 @@ class CraftLogController {
 		}
 	}
 
+	@Secured(['ROLE_ADMIN'])
 	def edit(CraftLog craftLogInstance) {
 		respond craftLogInstance
 	}
 
+	@Secured(['ROLE_ADMIN'])
 	@Transactional
 	def update(CraftLog craftLogInstance) {
 		if (craftLogInstance == null) {
@@ -89,6 +94,7 @@ class CraftLogController {
 		}
 	}
 
+	@Secured(['ROLE_ADMIN'])
 	@Transactional
 	def delete(CraftLog craftLogInstance) {
 
@@ -124,6 +130,7 @@ class CraftLogController {
 		}
 	}
 
+	@Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
 	def secureCreateHistory() {
 		def email = params.email
 		def wordCraftsman = WordCraftsman.findByEmail(email)
@@ -171,6 +178,7 @@ class CraftLogController {
 		}
 	}
 
+	@Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
 	def secureViewHistory() {
 		def email = params.email
 		def wordCraftsman = WordCraftsman.findByEmail(email)

@@ -1,12 +1,13 @@
 package com.wordcraft
 
-import grails.transaction.Transactional
-import grails.validation.ValidationException
-
 import org.springframework.context.MessageSource
 
 import com.wordcraft.utility.Constants
 import com.wordcraft.utility.Utils
+
+import grails.plugin.springsecurity.annotation.Secured
+import grails.transaction.Transactional
+import grails.validation.ValidationException
 
 @Transactional(readOnly = false)
 class WordCraftsmanController {
@@ -20,19 +21,23 @@ class WordCraftsmanController {
 	def TokenService tokenService
 	def groovyPageRenderer
 
+	@Secured(['ROLE_ADMIN'])
 	def index(Integer max) {
 		params.max = Math.min(max ?: 10, 100)
 		respond WordCraftsman.list(params), model:[wordCraftsmanInstanceCount: WordCraftsman.count()]
 	}
 
+	@Secured(['ROLE_ADMIN'])
 	def show(WordCraftsman wordCraftsmanInstance) {
 		respond wordCraftsmanInstance
 	}
 
+	@Secured(['ROLE_ADMIN'])
 	def create() {
 		respond new WordCraftsman(params)
 	}
 
+	@Secured(['ROLE_ADMIN'])
 	@Transactional
 	def save(WordCraftsman wordCraftsmanInstance) {
 		if (wordCraftsmanInstance == null) {
@@ -59,10 +64,12 @@ class WordCraftsmanController {
 		}
 	}
 
+	@Secured(['ROLE_ADMIN'])
 	def edit(WordCraftsman wordCraftsmanInstance) {
 		respond wordCraftsmanInstance
 	}
 
+	@Secured(['ROLE_ADMIN'])
 	@Transactional
 	def update(WordCraftsman wordCraftsmanInstance) {
 		if (wordCraftsmanInstance == null) {
@@ -89,6 +96,7 @@ class WordCraftsmanController {
 		}
 	}
 
+	@Secured(['ROLE_ADMIN'])
 	@Transactional
 	def delete(WordCraftsman wordCraftsmanInstance) {
 
@@ -128,6 +136,7 @@ class WordCraftsmanController {
 	 * Check if an username already exists
 	 * @return true if the username exists in the database, false otherwise
 	 */
+	@Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
 	def hasUsername() {
 		def username = params.username
 		log.info("Checking if username ${username} exists")
@@ -154,6 +163,7 @@ class WordCraftsmanController {
 	 * Check if an email already exists
 	 * @return true if the email exists in the database, false otherwise
 	 */
+	@Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
 	def hasEmail() {
 		def email = params.email
 		log.info("Checking if email ${email} exists")
@@ -181,6 +191,7 @@ class WordCraftsmanController {
 	 * Check if an email or username already exists
 	 * @return true if the username or email exists in the database, false otherwise
 	 */
+	@Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
 	def hasUsernameOrEmail() {
 		def username = params.username
 		def email = params.email
@@ -224,6 +235,7 @@ class WordCraftsmanController {
 	 * Login to the app
 	 * @return
 	 */
+	@Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
 	def login() {
 		def email = params.email
 		def password = params.password
@@ -258,6 +270,7 @@ class WordCraftsmanController {
 	 * Get information for an user
 	 * @return
 	 */
+	@Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
 	def secureGetInfo() {
 		def email = params.email
 		
@@ -281,6 +294,7 @@ class WordCraftsmanController {
 	 * Log out of the app
 	 * @return
 	 */
+	@Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
 	def secureLogout() {
 		def email = params.email
 
@@ -306,6 +320,7 @@ class WordCraftsmanController {
 	 * Forgot password, resend new password to user's email
 	 * @return
 	 */
+	@Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
 	def forgotPassword() {
 		def email = params.email
 
@@ -356,6 +371,7 @@ class WordCraftsmanController {
 	 * Register a new user
 	 * @return
 	 */
+	@Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
 	def register() {
 		def username = params.username
 		def password = params.password
@@ -396,6 +412,7 @@ class WordCraftsmanController {
 	 * Save Facebook account
 	 * @return
 	 */
+	@Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
 	def saveFacebookAccount() {
 		def username = params.username
 		assert username
@@ -462,6 +479,7 @@ class WordCraftsmanController {
 	 * Change profile
 	 * @return
 	 */
+	@Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
 	def secureChange() {
 		def email = params.email
 		assert email

@@ -1,4 +1,4 @@
-grails.servlet.version = "3.0" // Change depending on target container compliance (2.5 or 3.0)
+grails.servlet.version = "2.5" // Change depending on target container compliance (2.5 or 3.0)
 grails.project.class.dir = "target/classes"
 grails.project.test.class.dir = "target/test-classes"
 grails.project.test.reports.dir = "target/test-reports"
@@ -64,6 +64,9 @@ grails.project.dependency.resolution = {
 		
 		// mail plugin
 		compile "org.grails.plugins:mail:1.0.7"
+		
+		//spring security plugin
+		compile ":spring-security-core:2.0.0"
 
 		// plugins needed at runtime but not for compilation
 		runtime ":hibernate4:4.3.6.1" // or ":hibernate:3.6.10.18"

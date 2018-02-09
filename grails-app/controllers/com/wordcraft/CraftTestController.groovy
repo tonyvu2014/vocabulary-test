@@ -1,10 +1,11 @@
 package com.wordcraft
 
-import grails.transaction.Transactional
-
 import org.springframework.context.MessageSource
 
 import com.wordcraft.utility.Constants
+
+import grails.plugin.springsecurity.annotation.Secured
+import grails.transaction.Transactional
 
 @Transactional(readOnly = false)
 class CraftTestController {
@@ -13,19 +14,23 @@ class CraftTestController {
 
 	def MessageSource messageSource
 
+	@Secured(['ROLE_ADMIN'])
 	def index(Integer max) {
 		params.max = Math.min(max ?: 10, 100)
 		respond CraftTest.list(params), model:[craftTestInstanceCount: CraftTest.count()]
 	}
-
+	
+	@Secured(['ROLE_ADMIN'])
 	def show(CraftTest craftTestInstance) {
 		respond craftTestInstance
 	}
-
+	
+	@Secured(['ROLE_ADMIN'])
 	def create() {
 		respond new CraftTest(params)
 	}
-
+	
+	@Secured(['ROLE_ADMIN'])
 	@Transactional
 	def save(CraftTest craftTestInstance) {
 		if (craftTestInstance == null) {
@@ -51,11 +56,13 @@ class CraftTestController {
 			'*' { respond craftTestInstance, [status: CREATED] }
 		}
 	}
-
+	
+	@Secured(['ROLE_ADMIN'])
 	def edit(CraftTest craftTestInstance) {
 		respond craftTestInstance
 	}
 
+	@Secured(['ROLE_ADMIN'])
 	@Transactional
 	def update(CraftTest craftTestInstance) {
 		if (craftTestInstance == null) {
@@ -82,6 +89,7 @@ class CraftTestController {
 		}
 	}
 
+	@Secured(['ROLE_ADMIN'])
 	@Transactional
 	def delete(CraftTest craftTestInstance) {
 
@@ -117,7 +125,7 @@ class CraftTestController {
 		}
 	}
 
-
+	@Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
 	def secureCreateTest() {
 		def email = params.email
 		def wordCraftsman = WordCraftsman.findByEmail(email)

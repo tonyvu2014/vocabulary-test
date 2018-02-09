@@ -1,5 +1,6 @@
 package com.wordcraft
 
+import grails.plugin.springsecurity.annotation.Secured
 import grails.transaction.Transactional
 
 import org.springframework.context.MessageSource
@@ -13,19 +14,23 @@ class CraftSettingsController {
 
 	def MessageSource messageSource
 
+	@Secured(['ROLE_ADMIN'])
 	def index(Integer max) {
 		params.max = Math.min(max ?: 10, 100)
 		respond CraftSettings.list(params), model:[craftSettingsInstanceCount: CraftSettings.count()]
 	}
 
+	@Secured(['ROLE_ADMIN'])
 	def show(CraftSettings craftSettingsInstance) {
 		respond craftSettingsInstance
 	}
-
+	
+	@Secured(['ROLE_ADMIN'])
 	def create() {
 		respond new CraftSettings(params)
 	}
 
+	@Secured(['ROLE_ADMIN'])
 	@Transactional
 	def save(CraftSettings craftSettingsInstance) {
 		if (craftSettingsInstance == null) {
@@ -51,11 +56,13 @@ class CraftSettingsController {
 			'*' { respond craftSettingsInstance, [status: CREATED] }
 		}
 	}
-
+	
+	@Secured(['ROLE_ADMIN'])
 	def edit(CraftSettings craftSettingsInstance) {
 		respond craftSettingsInstance
 	}
 
+	@Secured(['ROLE_ADMIN'])
 	@Transactional
 	def update(CraftSettings craftSettingsInstance) {
 		if (craftSettingsInstance == null) {
@@ -81,7 +88,8 @@ class CraftSettingsController {
 			'*'{ respond craftSettingsInstance, [status: OK] }
 		}
 	}
-
+	
+	@Secured(['ROLE_ADMIN'])
 	@Transactional
 	def delete(CraftSettings craftSettingsInstance) {
 
@@ -117,6 +125,7 @@ class CraftSettingsController {
 		}
 	}
 
+	@Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
 	def secureGet() {
 		def email = params.email
 		def wordCraftsman = WordCraftsman.findByEmail(email)
@@ -142,6 +151,7 @@ class CraftSettingsController {
 		}
 	}
 
+	@Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
 	def secureSet() {
 		def email = params.email
 		def pace = params.int('pace')

@@ -1,5 +1,6 @@
 package com.wordcraft
 
+import grails.plugin.springsecurity.annotation.Secured
 import grails.transaction.Transactional
 
 import com.wordcraft.utility.Constants
@@ -15,19 +16,23 @@ class WordFrequencyController {
 
 	def WordService wordService
 
+	@Secured(['ROLE_ADMIN'])
 	def index(Integer max) {
 		params.max = Math.min(max ?: 10, 100)
 		respond WordFrequency.list(params), model:[wordFrequencyInstanceCount: WordFrequency.count()]
 	}
 
+	@Secured(['ROLE_ADMIN'])
 	def show(WordFrequency wordFrequencyInstance) {
 		respond wordFrequencyInstance
 	}
 
+	@Secured(['ROLE_ADMIN'])
 	def create() {
 		respond new WordFrequency(params)
 	}
 
+	@Secured(['ROLE_ADMIN'])
 	@Transactional
 	def save(WordFrequency wordFrequencyInstance) {
 		if (wordFrequencyInstance == null) {
@@ -54,10 +59,12 @@ class WordFrequencyController {
 		}
 	}
 
+	@Secured(['ROLE_ADMIN'])
 	def edit(WordFrequency wordFrequencyInstance) {
 		respond wordFrequencyInstance
 	}
 
+	@Secured(['ROLE_ADMIN'])
 	@Transactional
 	def update(WordFrequency wordFrequencyInstance) {
 		if (wordFrequencyInstance == null) {
@@ -84,6 +91,7 @@ class WordFrequencyController {
 		}
 	}
 
+	@Secured(['ROLE_ADMIN'])
 	@Transactional
 	def delete(WordFrequency wordFrequencyInstance) {
 
@@ -119,7 +127,7 @@ class WordFrequencyController {
 		}
 	}
 
-
+	@Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
 	def getWordFromLevel() {
 		def level = params.int('level')
 		assert level > 0
@@ -134,6 +142,7 @@ class WordFrequencyController {
 		}
 	}
 
+	@Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
 	def getWordFromRange() {
 		def minRank = params.int('minRank')
 		def maxRank = params.int('maxRank')
@@ -150,6 +159,7 @@ class WordFrequencyController {
 		}
 	}
 	
+	@Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
 	def getRandomWord() {
 		def wordFrequency = wordService.getRandomWord()
 		
@@ -162,6 +172,7 @@ class WordFrequencyController {
 		}
 	}
 
+	@Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
 	def getTestWords() {
 		def testSize = params.int('testSize')
 		assert testSize > 0
@@ -201,6 +212,7 @@ class WordFrequencyController {
 		}
 	}
 	
+	@Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
 	def getFinalTestWords() {
 		def testSize = params.int('testSize')
 		def minRank = params.int('minRank')
@@ -227,11 +239,6 @@ class WordFrequencyController {
 			
 			def randomRank = random.nextInt(endRank - startRank) + startRank
 			rankList += randomRank
-//			def wordFrequency = wordService.getRandomWord(startRank, endRank);
-//			wordList += [
-//				word: wordFrequency.word,
-//				rank: wordFrequency.rank
-//			]
 			startRank = endRank
 		}
 		def wordFrequencyList = wordService.getWordsByRanks(rankList);
@@ -250,6 +257,7 @@ class WordFrequencyController {
 		}
 	}
 	
+	@Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
 	def getTestEstimation() {
 		def data = request.JSON
 		def result = []
@@ -266,6 +274,7 @@ class WordFrequencyController {
 		}
 	}
 	
+	@Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
 	def getTestResult() {
 		def data = request.JSON
 		def result = []
@@ -299,6 +308,7 @@ class WordFrequencyController {
 		}
 	}
 	
+	@Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
 	def secureGetNextWord() {
 		def email = params.email
 		assert email
@@ -336,7 +346,7 @@ class WordFrequencyController {
 		
 	}
 	
-	
+	@Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
 	def secureGetWordList() {
 		def email = params.email
 		assert email

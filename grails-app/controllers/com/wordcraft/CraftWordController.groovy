@@ -1,6 +1,8 @@
 package com.wordcraft
 
 import static org.springframework.http.HttpStatus.*
+
+import grails.plugin.springsecurity.annotation.Secured
 import grails.transaction.Transactional
 
 import org.springframework.context.MessageSource
@@ -15,19 +17,23 @@ class CraftWordController {
 	def CraftWordService craftWordService
 	def MessageSource messageSource
 
+	@Secured(['ROLE_ADMIN'])
 	def index(Integer max) {
 		params.max = Math.min(max ?: 10, 100)
 		respond CraftWord.list(params), model:[craftWordInstanceCount: CraftWord.count()]
 	}
 
+	@Secured(['ROLE_ADMIN'])
 	def show(CraftWord craftWordInstance) {
 		respond craftWordInstance
 	}
 
+	@Secured(['ROLE_ADMIN'])
 	def create() {
 		respond new CraftWord(params)
 	}
 
+	@Secured(['ROLE_ADMIN'])
 	@Transactional
 	def save(CraftWord craftWordInstance) {
 		if (craftWordInstance == null) {
@@ -53,11 +59,13 @@ class CraftWordController {
 			'*' { respond craftWordInstance, [status: CREATED] }
 		}
 	}
-
+	
+	@Secured(['ROLE_ADMIN'])
 	def edit(CraftWord craftWordInstance) {
 		respond craftWordInstance
 	}
 
+	@Secured(['ROLE_ADMIN'])
 	@Transactional
 	def update(CraftWord craftWordInstance) {
 		if (craftWordInstance == null) {
@@ -84,6 +92,7 @@ class CraftWordController {
 		}
 	}
 
+	@Secured(['ROLE_ADMIN'])
 	@Transactional
 	def delete(CraftWord craftWordInstance) {
 
@@ -119,6 +128,7 @@ class CraftWordController {
 		}
 	}
 
+	@Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
 	def secureMarkAsKnown() {
 		def email = params.email
 		def wordCraftsman = WordCraftsman.findByEmail(email)

@@ -1,6 +1,8 @@
 package com.wordcraft
 
 import static org.springframework.http.HttpStatus.*
+
+import grails.plugin.springsecurity.annotation.Secured
 import grails.transaction.Transactional
 
 @Transactional(readOnly = false)
@@ -10,19 +12,23 @@ class CraftTokenController {
 	
 	def TokenService tokenService
 
+	@Secured(['ROLE_ADMIN'])
 	def index(Integer max) {
 		params.max = Math.min(max ?: 10, 100)
 		respond CraftToken.list(params), model:[craftTokenInstanceCount: CraftToken.count()]
 	}
-
+	
+	@Secured(['ROLE_ADMIN'])
 	def show(CraftToken craftTokenInstance) {
 		respond craftTokenInstance
 	}
 
+	@Secured(['ROLE_ADMIN'])
 	def create() {
 		respond new CraftToken(params)
 	}
 
+	@Secured(['ROLE_ADMIN'])
 	@Transactional
 	def save(CraftToken craftTokenInstance) {
 		if (craftTokenInstance == null) {
@@ -49,10 +55,13 @@ class CraftTokenController {
 		}
 	}
 
+	
+	@Secured(['ROLE_ADMIN'])
 	def edit(CraftToken craftTokenInstance) {
 		respond craftTokenInstance
 	}
 
+	@Secured(['ROLE_ADMIN'])
 	@Transactional
 	def update(CraftToken craftTokenInstance) {
 		if (craftTokenInstance == null) {
@@ -79,6 +88,8 @@ class CraftTokenController {
 		}
 	}
 
+	
+	@Secured(['ROLE_ADMIN'])
 	@Transactional
 	def delete(CraftToken craftTokenInstance) {
 
@@ -114,6 +125,7 @@ class CraftTokenController {
 		}
 	}
 
+	@Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
 	def hasToken() {
 		def email = params.email
 		def token = params.token
@@ -126,7 +138,7 @@ class CraftTokenController {
 		}
 	}
 	
-	
+	@Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
 	def secureGenerate() {
 		def email = params.email
 		log.info("Creating new token for user with ${email}")
