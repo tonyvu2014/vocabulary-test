@@ -8,6 +8,7 @@ import com.wordcraft.utility.Utils
 import grails.plugin.springsecurity.annotation.Secured
 import grails.transaction.Transactional
 import grails.validation.ValidationException
+import java.util.Date
 
 @Transactional(readOnly = false)
 class WordCraftsmanController {
@@ -397,6 +398,7 @@ class WordCraftsmanController {
 			log.info("Successfully registered user with email ${email}")
 		} catch (ValidationException e) {
 			log.error("Error in saving the wordcraftsman")
+			log.error(e.getMessage());
 			e.printStackTrace()
 			render(contentType:'text/json') {
 				[

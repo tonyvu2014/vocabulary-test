@@ -1,15 +1,16 @@
 package com.wordcraft
 
-import com.sun.xml.internal.bind.v2.runtime.unmarshaller.DefaultValueLoaderDecorator;
+import java.util.Date;
 
 class WordCraftsman {
 
 	String username
 	String password
 	String email
-	Integer level
-	Integer estimatedSize //Estimated vocabulary size
-	Boolean isFacebook //If this is a Facebook account
+	Integer level = 1
+	Integer estimatedSize = 500//Estimated vocabulary size
+	Boolean isFacebook = false //If this is a Facebook account
+	Date joinedDate = new Date()
 
 	CraftSettings craftSettings
 
@@ -23,6 +24,7 @@ class WordCraftsman {
 		estimatedSize(nullable:false)
 		craftSettings(nullable:true)
 		isFacebook(nullable: false)
+		joinedDate(nullable: true)
 	}
 
 	static mapping = {

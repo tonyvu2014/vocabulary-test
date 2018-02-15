@@ -4,6 +4,7 @@
 .project
 target/
 target-eclipse/
+grais-app/conf/
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
