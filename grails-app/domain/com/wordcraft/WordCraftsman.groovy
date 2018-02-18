@@ -7,8 +7,8 @@ class WordCraftsman {
 	String username
 	String password
 	String email
-	Integer level = 1
-	Integer estimatedSize = 500//Estimated vocabulary size
+	Integer level = 6
+	Integer estimatedSize = 5500//Estimated vocabulary size
 	Boolean isFacebook = false //If this is a Facebook account
 	Date joinedDate = new Date()
 
@@ -28,9 +28,9 @@ class WordCraftsman {
 	}
 
 	static mapping = {
-		level defaultValue: 1 
+		level defaultValue: 6
 		isFacebook defaultValue: false
-		estimatedSize defaultValue: 500
+		estimatedSize defaultValue: 5500
 		craftTests cascade: 'all'
 		craftLogs cascade: 'all'
 		craftWords cascade: 'all-delete-orphan'

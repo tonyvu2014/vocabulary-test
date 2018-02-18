@@ -156,4 +156,18 @@ log4j.main = {
 		   
 }
 
+// Added by the Spring Security Core plugin:
+grails.plugin.springsecurity.userLookup.userDomainClassName = 'com.wordcraft.WebUser'
+grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'com.wordcraft.WebUserWebRole'
+grails.plugin.springsecurity.authority.className = 'com.wordcraft.WebRole'
+grails.plugin.springsecurity.controllerAnnotations.staticRules = [
+	'/':                ['permitAll'],
+	'/index':           ['permitAll'],
+	'/index.gsp':       ['permitAll'],
+	'/assets/**':       ['permitAll'],
+	'/**/js/**':        ['permitAll'],
+	'/**/css/**':       ['permitAll'],
+	'/**/images/**':    ['permitAll'],
+	'/**/favicon.ico':  ['permitAll']
+]
 

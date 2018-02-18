@@ -249,9 +249,9 @@ class WordCraftsmanController {
 					'status': Constants.STATUS_SUCCESS,
 					'token': tokenService.generateUUID(email),
 					'username': wordCraftsman.username == null?"": wordCraftsman.username,
-					'level': wordCraftsman.level == null? 1: wordCraftsman.level,
+					'level': wordCraftsman.level == null? 6: wordCraftsman.level,
 					'isFacebook': wordCraftsman.isFacebook,
-					'estimatedSize': wordCraftsman.estimatedSize == null? 0: wordCraftsman.estimatedSize,
+					'estimatedSize': wordCraftsman.estimatedSize == null? 5500: wordCraftsman.estimatedSize,
 					'wordsLearnt': wordCraftsman.craftWords == null? 0: wordCraftsman.craftWords.size()
 				]
 			}
@@ -282,8 +282,8 @@ class WordCraftsmanController {
 			[
 				'status': Constants.STATUS_SUCCESS,
 				'username': wordCraftsman.username == null?"": wordCraftsman.username,
-				'level': wordCraftsman.level == null? 1: wordCraftsman.level,
-				'estimatedSize': wordCraftsman.estimatedSize == null? 0: wordCraftsman.estimatedSize,
+				'level': wordCraftsman.level == null? 6: wordCraftsman.level,
+				'estimatedSize': wordCraftsman.estimatedSize == null? 5500: wordCraftsman.estimatedSize,
 				'isFacebook': wordCraftsman.isFacebook == null? false: wordCraftsman.isFacebook,
 				'wordsLearnt': wordCraftsman.craftWords == null? 0: wordCraftsman.craftWords.size()
 			]
@@ -444,8 +444,8 @@ class WordCraftsmanController {
 					'email': email,
 					'token': token,
 					'isFacebook': true,
-					'level': wordCraftsman.level == null? 1: wordCraftsman.level,
-					'estimatedSize': wordCraftsman.estimatedSize == null? 0: wordCraftsman.estimatedSize,
+					'level': wordCraftsman.level == null? 6: wordCraftsman.level,
+					'estimatedSize': wordCraftsman.estimatedSize == null? 5500: wordCraftsman.estimatedSize,
 					'wordsLearnt': wordCraftsman.craftWords == null? 0: wordCraftsman.craftWords.size()
 				]
 			}
