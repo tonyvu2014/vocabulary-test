@@ -4,6 +4,7 @@ import grails.plugin.springsecurity.annotation.Secured
 import grails.transaction.Transactional
 
 import com.wordcraft.utility.Constants
+import com.wordcraft.utility.Utils
 
 @Transactional(readOnly = false)
 class WordFrequencyController {
@@ -327,13 +328,14 @@ class WordFrequencyController {
 		}
 		
 		def level = wordCraftsman.level? wordCraftsman.level:1
+		level = Utils.getDistributedLevel(level)
+		log.info("Distributed level: " + level)
 		
-		//TODO: To make this better by querying from a broader range
 		while (true) {
 			def wordFrequency = wordService.getRandomWordFromLevel(level)
 			def word = wordFrequency.word
 			
-			if (!(word in wordCraftsman.craftWords)) {
+			if (!(word in wordCraftsman.craftWords.collect{it.word})) {
 				render(contentType:'text/json') {
 					[
 						'status': Constants.STATUS_SUCCESS,
@@ -376,7 +378,7 @@ class WordFrequencyController {
 			attempts++
 			def word = wordFrequency.word
 			
-			if (!(word in wordCraftsman.craftWords)) {
+			if (!(word in wordCraftsman.craftWords.collect{it.word})) {
 				wordList += word
 				numberOfWords++
 			}
