@@ -140,7 +140,8 @@ class CraftWordController {
 			render(contentType:'text/json') {
 				[
 					'status': Constants.STATUS_SUCCESS,
-					'word': word
+					'word': word,
+					'wordsLearnt': wordCraftsman.craftWords == null? 0: wordCraftsman.craftWords.size()
 				]
 			}
 			log.info("Successfully marked word ${word} as known by user with email ${email}")

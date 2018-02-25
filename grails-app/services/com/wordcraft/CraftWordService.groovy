@@ -13,12 +13,15 @@ class CraftWordService {
 	 * @return the word will be added and marked as known
 	 */
 	def markAsKnown(WordCraftsman wordCraftsman, String word) {
-		if (!(word in wordCraftsman.craftWords)) {
+		if (wordCraftsman.craftWords == null || !wordCraftsman.craftWords.collect{it.word}.contains(word)) {	
+			log.info("Adding a new word")
 			CraftWord craftWord = new CraftWord(word: word)
 			craftWord.wordCraftsman = wordCraftsman
 			craftWord.save()
 			wordCraftsman.addToCraftWords(craftWord)
 			wordCraftsman.save(flush:true, failOnError:true)
+		} else {
+			log.info("Word is already in the list");
 		}
 	}
 }

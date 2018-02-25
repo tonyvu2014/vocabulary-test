@@ -328,6 +328,7 @@ class WordFrequencyController {
 		
 		def level = wordCraftsman.level? wordCraftsman.level:1
 		
+		//TODO: To make this better by querying from a broader range
 		while (true) {
 			def wordFrequency = wordService.getRandomWordFromLevel(level)
 			def word = wordFrequency.word
