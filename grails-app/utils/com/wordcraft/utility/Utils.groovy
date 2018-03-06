@@ -2,6 +2,12 @@ package com.wordcraft.utility
 
 import java.security.MessageDigest
 import com.wordcraft.utility.Constants
+import java.util.Calendar
+import java.util.GregorianCalendar
+import java.util.TimeZone
+import java.util.Date
+import java.text.DateFormat
+import java.text.SimpleDateFormat
 
 class Utils {
 	
@@ -82,5 +88,62 @@ class Utils {
 			}
 		}
 	}
+
+    /**
+	* Given user timezone, the hour and the minute compte the server next time to run
+	* a background job
+    *	
+	* @param timezone - the user's timezone
+	* @param hour -  the hour as a number from 0 to 23 at which the job should run
+	* @param minute - the minute as a number from 0 to 59 at which the job should run
+	*
+	* @return a list of 3 elements which indicates the next server time to run: 
+	* first element is the date expressed as string in 'YYYY-mm-dd' format, 
+	* the 2nd element is the hour from 0-23
+	* the 3rd element is the minute from 0-59 
+	*/
+	def getNextJobTime(String timezone, int hour, int minute) {
+		def localTime = convertToLocalTime(timezone, hour, minute, 0)
+
+		def localHour = localTime['hour']
+		def localMinute = localTime['minute']
+		def localTimeValue = 100 * localHour + localMinute
+
+		Date currentDate = new Date()
+		Calendar currentCal = Calendar.getInstance()
+        currentCal.setTime(currentDate)
+        
+		def currentHour = currentCal.get(Calendar.HOUR_OF_DAY)
+		def currentMinute = currentCal.get(Calendar.MINUTE)
+		def currentTimeValue = 100 * currentHour + currentMinute
+
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		def d = ''
+		if (localTimeValue < currentTimeValue) {// not past yet, schedule for today
+			d = df.format(currentDate)
+		} else {// past already, schedule for tomorrow
+			currentCal.add(Calendar.DATE, 1)
+			Date nextDate = currentCal.getTime()
+			d = df.format(nextDate)
+		}
+
+		return ['date': d, 'hour': localHour, 'minute': localMinute]
+	}
+
+
+	def convertToLocalTime(String timezone, int hour, int minute, int second) {
+		Calendar cal = new GregorianCalendar(TimeZone.getTimeZone(timezone));
+		cal.set(Calendar.HOUR_OF_DAY, hour);
+		cal.set(Calendar.MINUTE, minute);
+		cal.set(Calendar.SECOND, second);
+
+		Calendar localCal = new GregorianCalendar();
+		local.setTimeInMillis(cal.getTimeInMillis());
+		int h = local.get(Calendar.HOUR_OF_DAY);
+		int m = local.get(Calendar.MINUTE);
+		int s = local.get(Calendar.SECOND);
+
+		return ['hour': h, 'minute': m, 'second': s]
+	} 
 	
 }

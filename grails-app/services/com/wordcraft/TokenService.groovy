@@ -15,7 +15,6 @@ class TokenService {
 	 * @return true if email+token pair exists in DB, false otherwise
 	 */
 	def hasToken(String email, String token) {
-
 		return CraftToken.findByEmailAndToken(email, token) != null
 	}
 

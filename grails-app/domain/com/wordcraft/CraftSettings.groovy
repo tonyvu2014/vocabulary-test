@@ -7,6 +7,9 @@ class CraftSettings {
 	Integer craftHour //Hour of the day that you want to receive notification (0-23)
 	Integer craftMinute //Minute of the hour that you want to receive the notification (0, 15, 30, 45)
 	Boolean craftNotification = false //Do you want to receive notification?
+	
+	String craftTimezone
+	String craftNotificationToken
 
 	static belongsTo = WordCraftsman
 
@@ -16,6 +19,8 @@ class CraftSettings {
 		craftHour(nullable:true)
 		craftMinute(nullable:true)
 		craftNotification(nullable:false)
+		craftTimezone(nullable:true)
+		craftNotificationToken(nullable:true)
 	}
 
 	static mapping = {
