@@ -12,8 +12,8 @@ class CraftSettingsController {
 
 	static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE", secureGet: "GET", secureSet: "POST"]
 
-	def MessageSource messageSource
-	def CraftNotificationService notificationService
+	MessageSource messageSource
+	CraftNotificationService notificationService
 
 	@Secured(['ROLE_ADMIN'])
 	def index(Integer max) {
@@ -49,7 +49,7 @@ class CraftSettingsController {
 		request.withFormat {
 			form multipartForm {
 				flash.message = message(code: 'default.created.message', args: [
-					message(code: 'craftSettings.label', default: 'CraftSettings'),
+					'CraftSettings',
 					craftSettingsInstance.id
 				])
 				redirect craftSettingsInstance
@@ -81,7 +81,7 @@ class CraftSettingsController {
 		request.withFormat {
 			form multipartForm {
 				flash.message = message(code: 'default.updated.message', args: [
-					message(code: 'CraftSettings.label', default: 'CraftSettings'),
+					'CraftSettings',
 					craftSettingsInstance.id
 				])
 				redirect craftSettingsInstance
@@ -104,7 +104,7 @@ class CraftSettingsController {
 		request.withFormat {
 			form multipartForm {
 				flash.message = message(code: 'default.deleted.message', args: [
-					message(code: 'CraftSettings.label', default: 'CraftSettings'),
+					'CraftSettings',
 					craftSettingsInstance.id
 				])
 				redirect action:"index", method:"GET"
@@ -117,7 +117,7 @@ class CraftSettingsController {
 		request.withFormat {
 			form multipartForm {
 				flash.message = message(code: 'default.not.found.message', args: [
-					message(code: 'craftSettings.label', default: 'CraftSettings'),
+					'CraftSettings',
 					params.id
 				])
 				redirect action: "index", method: "GET"
@@ -164,16 +164,18 @@ class CraftSettingsController {
 		def notification = params.boolean('notification')
 		def notificationToken = params.notificationToken
 		def timezone = params.timezone
-		assert pace>=1
-		assert load>=1
 		def time = hour==null || minute==null?"":hour + ":" + minute
 		log.info("New settings: pace = ${pace}, load = ${load}, time = ${time}, notification=${notification}, notification_token=${notificationToken}, timezone=${timezone}")
 
 		def wordCraftsman = WordCraftsman.findByEmail(email)
 		def settings = wordCraftsman.craftSettings
 		if (settings) {
-			settings.craftLoad = load
-			settings.craftPace = pace
+			if (load != null) {
+				settings.craftLoad = load
+			}
+			if (pace != null) {
+				settings.craftPace = pace
+			}
 			if (hour != null && minute != null) {
 				settings.craftHour = hour
 				settings.craftMinute = minute
@@ -181,17 +183,23 @@ class CraftSettingsController {
 			if (notification != null) {
 				settings.craftNotification = notification
 			}
-			if (timezone != null) {
+			if (timezone != null && !timezone.isEmpty()) {
 				settings.craftTimezone = timezone
 			}
-			if (notificationToken != null) {
+			if (notificationToken != null && !notificationToken.isEmpty()) {
 				settings.craftNotificationToken = notificationToken
 			}		
 			settings.save(flush:true, failOnError:true)
-			notificationService.updateNotifications(settings);
+			notificationService.updateNotifications(settings)
 			log.info("Successfully updated settings to: pace = ${pace}, load = ${load}, time = ${time}, notification=${notification}, notification_token=${notificationToken},timezone=${timezone}")
 		} else {
-			def newSettings = new CraftSettings(craftPace:pace, craftLoad:load)
+			def newSettings = new CraftSettings()
+			if (load != null) {
+				newSettings.craftLoad = load
+			}
+			if (pace != null) {
+				newSettings.craftPace = pace
+			}
 			if (hour!=null && minute!=null) {
 				newSettings.craftHour = hour
 				newSettings.craftMinute = minute
@@ -199,15 +207,15 @@ class CraftSettingsController {
 			if (notification!=null) {
 				newSettings.craftNotification = notification
 			}
-			if (timezone != null) {
+			if (timezone != null && !timezone.isEmpty()) {
 				newSettings.craftTimezone = timezone
 			}
-			if (notificationToken != null) {
+			if (notificationToken != null && !notificationToken.isEmpty()) {
 				newSettings.craftNotificationToken = notificationToken
 			}
 			wordCraftsman.craftSettings = newSettings
 			wordCraftsman.save(flush:true, failOnError: true)
-			notificationService.updateNotifications(newSettings);
+			notificationService.updateNotifications(newSettings)
 			log.info("Successfully created new settings: pace = ${pace}, load = ${load}, time=${time}, notification=${notification}, notification_token=${notificationToken},timezone=${timezone}")
 		}
 

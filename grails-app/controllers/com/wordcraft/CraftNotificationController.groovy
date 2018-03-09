@@ -42,7 +42,7 @@ class CraftNotificationController {
 
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'craftNotification.label', default: 'CraftNotification'), craftNotificationInstance.id])
+                flash.message = message(code: 'default.created.message', args: ['CraftNotification', craftNotificationInstance.id])
                 redirect craftNotificationInstance
             }
             '*' { respond craftNotificationInstance, [status: CREATED] }
@@ -71,7 +71,7 @@ class CraftNotificationController {
 
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'CraftNotification.label', default: 'CraftNotification'), craftNotificationInstance.id])
+                flash.message = message(code: 'default.updated.message', args: ['CraftNotification', craftNotificationInstance.id])
                 redirect craftNotificationInstance
             }
             '*'{ respond craftNotificationInstance, [status: OK] }
@@ -91,7 +91,7 @@ class CraftNotificationController {
 
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'CraftNotification.label', default: 'CraftNotification'), craftNotificationInstance.id])
+                flash.message = message(code: 'default.deleted.message', args: ['CraftNotification', craftNotificationInstance.id])
                 redirect action:"index", method:"GET"
             }
             '*'{ render status: NO_CONTENT }
@@ -101,7 +101,7 @@ class CraftNotificationController {
     protected void notFound() {
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.not.found.message', args: [message(code: 'craftNotification.label', default: 'CraftNotification'), params.id])
+                flash.message = message(code: 'default.not.found.message', args: ['CraftNotification', params.id])
                 redirect action: "index", method: "GET"
             }
             '*'{ render status: NOT_FOUND }

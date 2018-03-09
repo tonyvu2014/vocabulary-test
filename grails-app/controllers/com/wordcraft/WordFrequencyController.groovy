@@ -51,7 +51,7 @@ class WordFrequencyController {
 		request.withFormat {
 			form multipartForm {
 				flash.message = message(code: 'default.created.message', args: [
-					message(code: 'wordFrequency.label', default: 'WordFrequency'),
+					'WordFrequency',
 					wordFrequencyInstance.id
 				])
 				redirect wordFrequencyInstance
@@ -83,7 +83,7 @@ class WordFrequencyController {
 		request.withFormat {
 			form multipartForm {
 				flash.message = message(code: 'default.updated.message', args: [
-					message(code: 'WordFrequency.label', default: 'WordFrequency'),
+					'WordFrequency',
 					wordFrequencyInstance.id
 				])
 				redirect wordFrequencyInstance
@@ -106,7 +106,7 @@ class WordFrequencyController {
 		request.withFormat {
 			form multipartForm {
 				flash.message = message(code: 'default.deleted.message', args: [
-					message(code: 'WordFrequency.label', default: 'WordFrequency'),
+					'WordFrequency',
 					wordFrequencyInstance.id
 				])
 				redirect action:"index", method:"GET"
@@ -119,7 +119,7 @@ class WordFrequencyController {
 		request.withFormat {
 			form multipartForm {
 				flash.message = message(code: 'default.not.found.message', args: [
-					message(code: 'wordFrequency.label', default: 'WordFrequency'),
+					'WordFrequency',
 					params.id
 				])
 				redirect action: "index", method: "GET"

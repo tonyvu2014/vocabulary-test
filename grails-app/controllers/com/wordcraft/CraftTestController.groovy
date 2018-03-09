@@ -48,7 +48,7 @@ class CraftTestController {
 		request.withFormat {
 			form multipartForm {
 				flash.message = message(code: 'default.created.message', args: [
-					message(code: 'craftTest.label', default: 'CraftTest'),
+					'CraftTest',
 					craftTestInstance.id
 				])
 				redirect craftTestInstance
@@ -80,7 +80,7 @@ class CraftTestController {
 		request.withFormat {
 			form multipartForm {
 				flash.message = message(code: 'default.updated.message', args: [
-					message(code: 'CraftTest.label', default: 'CraftTest'),
+					'CraftTest',
 					craftTestInstance.id
 				])
 				redirect craftTestInstance
@@ -103,7 +103,7 @@ class CraftTestController {
 		request.withFormat {
 			form multipartForm {
 				flash.message = message(code: 'default.deleted.message', args: [
-					message(code: 'CraftTest.label', default: 'CraftTest'),
+					'CraftTest',
 					craftTestInstance.id
 				])
 				redirect action:"index", method:"GET"
@@ -116,7 +116,7 @@ class CraftTestController {
 		request.withFormat {
 			form multipartForm {
 				flash.message = message(code: 'default.not.found.message', args: [
-					message(code: 'craftTest.label', default: 'CraftTest'),
+					'CraftTest',
 					params.id
 				])
 				redirect action: "index", method: "GET"

@@ -53,7 +53,7 @@ class CraftLogController {
 		request.withFormat {
 			form multipartForm {
 				flash.message = message(code: 'default.created.message', args: [
-					message(code: 'craftLog.label', default: 'CraftLog'),
+					'CraftLog',
 					craftLogInstance.id
 				])
 				redirect craftLogInstance
@@ -85,7 +85,7 @@ class CraftLogController {
 		request.withFormat {
 			form multipartForm {
 				flash.message = message(code: 'default.updated.message', args: [
-					message(code: 'CraftLog.label', default: 'CraftLog'),
+					'CraftLog',
 					craftLogInstance.id
 				])
 				redirect craftLogInstance
@@ -108,7 +108,7 @@ class CraftLogController {
 		request.withFormat {
 			form multipartForm {
 				flash.message = message(code: 'default.deleted.message', args: [
-					message(code: 'CraftLog.label', default: 'CraftLog'),
+					'CraftLog',
 					craftLogInstance.id
 				])
 				redirect action:"index", method:"GET"
@@ -121,7 +121,7 @@ class CraftLogController {
 		request.withFormat {
 			form multipartForm {
 				flash.message = message(code: 'default.not.found.message', args: [
-					message(code: 'craftLog.label', default: 'CraftLog'),
+					'CraftLog',
 					params.id
 				])
 				redirect action: "index", method: "GET"

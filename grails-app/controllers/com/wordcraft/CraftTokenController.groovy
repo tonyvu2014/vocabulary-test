@@ -46,7 +46,7 @@ class CraftTokenController {
 		request.withFormat {
 			form multipartForm {
 				flash.message = message(code: 'default.created.message', args: [
-					message(code: 'craftToken.label', default: 'CraftToken'),
+					'CraftToken',
 					craftTokenInstance.id
 				])
 				redirect craftTokenInstance
@@ -79,7 +79,7 @@ class CraftTokenController {
 		request.withFormat {
 			form multipartForm {
 				flash.message = message(code: 'default.updated.message', args: [
-					message(code: 'CraftToken.label', default: 'CraftToken'),
+					'CraftToken',
 					craftTokenInstance.id
 				])
 				redirect craftTokenInstance
@@ -103,7 +103,7 @@ class CraftTokenController {
 		request.withFormat {
 			form multipartForm {
 				flash.message = message(code: 'default.deleted.message', args: [
-					message(code: 'CraftToken.label', default: 'CraftToken'),
+					'CraftToken',
 					craftTokenInstance.id
 				])
 				redirect action:"index", method:"GET"
@@ -116,7 +116,7 @@ class CraftTokenController {
 		request.withFormat {
 			form multipartForm {
 				flash.message = message(code: 'default.not.found.message', args: [
-					message(code: 'craftToken.label', default: 'CraftToken'),
+					'CraftToken',
 					params.id
 				])
 				redirect action: "index", method: "GET"
