@@ -8,7 +8,6 @@ import com.wordcraft.utility.Utils
 import grails.plugin.springsecurity.annotation.Secured
 import grails.transaction.Transactional
 import grails.validation.ValidationException
-import java.util.Date
 
 @Transactional(readOnly = false)
 class WordCraftsmanController {

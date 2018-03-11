@@ -46,4 +46,18 @@ class Constants {
 	//Maximum number of history entries to show
 	public static final MAX_LOG_ENTRIES = 50
 
+	//Notification date format
+	public static final NOTIFICATION_DATE_FORMAT = "yyyy-MM-dd"
+
+	//Boundary for selecting notification to run (in minutes)
+	public static final BOUNDARY_VALUE = 3
+
+	//Firebase Cloud Messaging Server Key
+	public static final ClOUD_MESSAGE_SERVER_KEY = "AAAA-YOH7RI:APA91bECLxVhHKKqCVgFe1tYUftG_vNf8YT9wcRLhFedzfbufWcSzuOdQj2be2vOex81VLNfAicenCJaYhzxAkq6_rmI_VWa_ckBOigRl6m4BYZzyeQBaYlcAIJPrWf_lvmeUICbLQA9"
+
+	//Wordcraft uri
+	public static final WORDCRAFT_URI = 'https://www.wordcraft.info'
+
+	//Firebase Push Notification URL
+	public static final FIREBASE_NOTIFICATION_URL = 'https://fcm.googleapis.com/fcm/send'
 }

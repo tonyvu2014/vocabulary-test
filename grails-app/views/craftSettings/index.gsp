@@ -34,6 +34,8 @@
 					
 						<g:sortableColumn property="craftNotification" title="${message(code: 'craftSettings.craftNotification.label', default: 'Craft Notification')}" />
 					
+						<g:sortableColumn property="craftTimezone" title="${message(code: 'craftSettings.craftTimezone.label', default: 'Craft Timezone')}" />
+					
 					</tr>
 				</thead>
 				<tbody>
@@ -49,6 +51,8 @@
 						<td>${fieldValue(bean: craftSettingsInstance, field: "craftMinute")}</td>
 					
 						<td><g:formatBoolean boolean="${craftSettingsInstance.craftNotification}" /></td>
+					
+						<td>${fieldValue(bean: craftSettingsInstance, field: "craftTimezone")}</td>
 					
 					</tr>
 				</g:each>

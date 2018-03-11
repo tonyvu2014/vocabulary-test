@@ -68,6 +68,24 @@
 				</li>
 				</g:if>
 			
+				<g:if test="${craftSettingsInstance?.craftTimezone}">
+				<li class="fieldcontain">
+					<span id="craftTimezone-label" class="property-label"><g:message code="craftSettings.craftTimezone.label" default="Craft Timezone" /></span>
+					
+						<span class="property-value" aria-labelledby="craftTimezone-label"><g:fieldValue bean="${craftSettingsInstance}" field="craftTimezone"/></span>
+					
+				</li>
+				</g:if>
+			
+				<g:if test="${craftSettingsInstance?.craftNotificationToken}">
+				<li class="fieldcontain">
+					<span id="craftNotificationToken-label" class="property-label"><g:message code="craftSettings.craftNotificationToken.label" default="Craft Notification Token" /></span>
+					
+						<span class="property-value" aria-labelledby="craftNotificationToken-label"><g:fieldValue bean="${craftSettingsInstance}" field="craftNotificationToken"/></span>
+					
+				</li>
+				</g:if>
+			
 			</ol>
 			<g:form url="[resource:craftSettingsInstance, action:'delete']" method="DELETE">
 				<fieldset class="buttons">

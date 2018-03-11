@@ -102,12 +102,12 @@ class Utils {
 	* the 2nd element is the hour from 0-23
 	* the 3rd element is the minute from 0-59 
 	*/
-	def getNextJobTime(String timezone, int hour, int minute) {
+	def static getFirstJobTime(String timezone, int hour, int minute) {
 		def localTime = convertToLocalTime(timezone, hour, minute, 0)
 
 		def localHour = localTime['hour']
 		def localMinute = localTime['minute']
-		def localTimeValue = 100 * localHour + localMinute
+		def localTimeValue = 60 * localHour + localMinute
 
 		Date currentDate = new Date()
 		Calendar currentCal = Calendar.getInstance()
@@ -115,11 +115,11 @@ class Utils {
         
 		def currentHour = currentCal.get(Calendar.HOUR_OF_DAY)
 		def currentMinute = currentCal.get(Calendar.MINUTE)
-		def currentTimeValue = 100 * currentHour + currentMinute
+		def currentTimeValue = 60 * currentHour + currentMinute
 
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		DateFormat df = new SimpleDateFormat(Constants.NOTIFICATION_DATE_FORMAT);
 		def d = ''
-		if (localTimeValue < currentTimeValue) {// not past yet, schedule for today
+		if (localTimeValue > currentTimeValue) {// not past yet, schedule for today
 			d = df.format(currentDate)
 		} else {// past already, schedule for tomorrow
 			currentCal.add(Calendar.DATE, 1)
@@ -131,17 +131,17 @@ class Utils {
 	}
 
 
-	def convertToLocalTime(String timezone, int hour, int minute, int second) {
+	def static convertToLocalTime(String timezone, int hour, int minute, int second) {
 		Calendar cal = new GregorianCalendar(TimeZone.getTimeZone(timezone));
 		cal.set(Calendar.HOUR_OF_DAY, hour);
 		cal.set(Calendar.MINUTE, minute);
 		cal.set(Calendar.SECOND, second);
 
 		Calendar localCal = new GregorianCalendar();
-		local.setTimeInMillis(cal.getTimeInMillis());
-		int h = local.get(Calendar.HOUR_OF_DAY);
-		int m = local.get(Calendar.MINUTE);
-		int s = local.get(Calendar.SECOND);
+		localCal.setTimeInMillis(cal.getTimeInMillis());
+		int h = localCal.get(Calendar.HOUR_OF_DAY);
+		int m = localCal.get(Calendar.MINUTE);
+		int s = localCal.get(Calendar.SECOND);
 
 		return ['hour': h, 'minute': m, 'second': s]
 	} 

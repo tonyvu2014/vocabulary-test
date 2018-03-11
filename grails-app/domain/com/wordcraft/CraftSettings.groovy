@@ -11,7 +11,7 @@ class CraftSettings {
 	String craftTimezone
 	String craftNotificationToken
 
-	static belongsTo = WordCraftsman
+	static belongsTo = [wordCraftsman:WordCraftsman]
 
 	static constraints = {
 		craftLoad(nullable:false)

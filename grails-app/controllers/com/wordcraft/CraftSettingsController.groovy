@@ -12,8 +12,8 @@ class CraftSettingsController {
 
 	static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE", secureGet: "GET", secureSet: "POST"]
 
-	MessageSource messageSource
-	CraftNotificationService notificationService
+	def MessageSource messageSource
+	def CraftNotificationService craftNotificationService
 
 	@Secured(['ROLE_ADMIN'])
 	def index(Integer max) {
@@ -190,7 +190,7 @@ class CraftSettingsController {
 				settings.craftNotificationToken = notificationToken
 			}		
 			settings.save(flush:true, failOnError:true)
-			notificationService.updateNotifications(settings)
+            craftNotificationService.updateNotifications(settings)
 			log.info("Successfully updated settings to: pace = ${pace}, load = ${load}, time = ${time}, notification=${notification}, notification_token=${notificationToken},timezone=${timezone}")
 		} else {
 			def newSettings = new CraftSettings()
@@ -215,7 +215,7 @@ class CraftSettingsController {
 			}
 			wordCraftsman.craftSettings = newSettings
 			wordCraftsman.save(flush:true, failOnError: true)
-			notificationService.updateNotifications(newSettings)
+            craftNotificationService.updateNotifications(newSettings)
 			log.info("Successfully created new settings: pace = ${pace}, load = ${load}, time=${time}, notification=${notification}, notification_token=${notificationToken},timezone=${timezone}")
 		}
 

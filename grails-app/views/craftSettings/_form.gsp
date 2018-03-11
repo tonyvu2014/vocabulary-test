@@ -47,3 +47,21 @@
 
 </div>
 
+<div class="fieldcontain ${hasErrors(bean: craftSettingsInstance, field: 'craftTimezone', 'error')} ">
+	<label for="craftTimezone">
+		<g:message code="craftSettings.craftTimezone.label" default="Craft Timezone" />
+		
+	</label>
+	<g:textField name="craftTimezone" value="${craftSettingsInstance?.craftTimezone}"/>
+
+</div>
+
+<div class="fieldcontain ${hasErrors(bean: craftSettingsInstance, field: 'craftNotificationToken', 'error')} ">
+	<label for="craftNotificationToken">
+		<g:message code="craftSettings.craftNotificationToken.label" default="Craft Notification Token" />
+		
+	</label>
+	<g:textField name="craftNotificationToken" value="${craftSettingsInstance?.craftNotificationToken}"/>
+
+</div>
+
