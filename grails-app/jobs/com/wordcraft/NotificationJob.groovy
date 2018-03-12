@@ -11,7 +11,7 @@ class NotificationJob {
     def description = "Push Notification Job"
 
     static triggers = {
-        cron name: 'pushNotification', cronExpression: "0 0/15 * * * ?" //execute every 15 minute
+        cron name: 'pushNotification', cronExpression: "0 0/5 * * * ?" //execute every 5 minute
     }
 
     def execute() {
@@ -26,8 +26,8 @@ class NotificationJob {
         int currentMinute = cal.get(Calendar.MINUTE)
 
         int currentTimeValue = 60 * currentHour + currentMinute
-        int lowerBoundValue = currentTimeValue - Constants.BOUNDARY_VALUE
-        int upperBoundValue = currentTimeValue + Constants.BOUNDARY_VALUE
+        int lowerBoundValue = currentTimeValue - Constants.LOWER_BOUNDARY_VALUE
+        int upperBoundValue = currentTimeValue + Constants.UPPER_BOUNDARY_VALUE
 
         def notifications = CraftNotification.executeQuery("select n from CraftNotification n " +
                 "where n.date = :d " +

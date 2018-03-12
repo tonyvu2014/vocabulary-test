@@ -165,7 +165,7 @@ class CraftSettingsController {
 		def notificationToken = params.notificationToken
 		def timezone = params.timezone
 		def time = hour==null || minute==null?"":hour + ":" + minute
-		log.info("New settings: pace = ${pace}, load = ${load}, time = ${time}, notification=${notification}, notification_token=${notificationToken}, timezone=${timezone}")
+		log.info("New settings: pace = ${pace}, load = ${load}, time = ${time}, notification=${notification}, timezone=${timezone}")
 
 		def wordCraftsman = WordCraftsman.findByEmail(email)
 		def settings = wordCraftsman.craftSettings
@@ -191,7 +191,7 @@ class CraftSettingsController {
 			}		
 			settings.save(flush:true, failOnError:true)
             craftNotificationService.updateNotifications(settings)
-			log.info("Successfully updated settings to: pace = ${pace}, load = ${load}, time = ${time}, notification=${notification}, notification_token=${notificationToken},timezone=${timezone}")
+			log.info("Successfully updated settings to: pace = ${pace}, load = ${load}, time = ${time}, notification=${notification}, timezone=${timezone}")
 		} else {
 			def newSettings = new CraftSettings()
 			if (load != null) {
@@ -216,7 +216,7 @@ class CraftSettingsController {
 			wordCraftsman.craftSettings = newSettings
 			wordCraftsman.save(flush:true, failOnError: true)
             craftNotificationService.updateNotifications(newSettings)
-			log.info("Successfully created new settings: pace = ${pace}, load = ${load}, time=${time}, notification=${notification}, notification_token=${notificationToken},timezone=${timezone}")
+			log.info("Successfully created new settings: pace = ${pace}, load = ${load}, time=${time}, notification=${notification}, timezone=${timezone}")
 		}
 
 		render(contentType:'text/json') {

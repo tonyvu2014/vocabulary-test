@@ -45,7 +45,7 @@ class CraftNotificationService {
         cal.add(Calendar.DATE, pace)
         String nextDate = df.format(cal.getTime())
 
-        CraftNotification nextNotification = new CraftNotificationService()
+        CraftNotification nextNotification = new CraftNotification()
         InvokerHelper.setProperties(nextNotification, notification.properties)
         nextNotification.setDate(nextDate)
         nextNotification.save(flush:true, failOnError: true)
@@ -84,7 +84,7 @@ class CraftNotificationService {
         def http =  new AsyncHTTPBuilder(poolSize: 5, uri: Constants.FIREBASE_NOTIFICATION_URL, contentType: JSON)
         def postBody = [
             to: token,
-            notification: [
+            data: [
                 body: messageSource.getMessage('notification.body', [String.valueOf(load)] as Object[], Locale.US),
                 title: messageSource.getMessage('notification.title', null, Locale.US)
             ]
@@ -102,35 +102,6 @@ class CraftNotificationService {
 
             response.failure = { resp ->
                 log.info("Sending notification failed for user ${wordCraftsman.username}. Unexpected error: ${resp.statusLine.statusCode} : ${resp.statusLine.reasonPhrase}")
-            }
-        }
-    }
-
-    def sendTestNotification() {
-        def http =  new AsyncHTTPBuilder(poolSize: 5, uri: Constants.FIREBASE_NOTIFICATION_URL, contentType: JSON)
-        def message = messageSource.getMessage('notification.body', ["5"] as Object[], Locale.US)
-
-        def postBody = [
-            to: 'e_SPCn5J6rs:APA91bFB_23LEau6Yk0Nit72UtZ8VmPiMouUNuk59zk_Rv8gdL_ZxQEmpaFKj1JX7ltaIFtUsYdAtIT5WstCEiC3GPswKoeGo5aS53o-kieTctpcNOWc8H7AVN4DcA5pLFpt-F2sKfP1',
-            notification: [
-                body: message,
-                title: messageSource.getMessage('notification.title', null, Locale.US)
-            ]
-        ]
-
-        http.request(POST, JSON) { req ->
-            uri.path = '/fcm/send'
-            body = postBody
-            headers.'Authorization' = "key=${Constants.ClOUD_MESSAGE_SERVER_KEY}"
-
-            response.success = { resp, json ->
-                log.info('Sending notification succeeded')
-
-            }
-
-            response.failure = { resp ->
-                log.info('Sending notification failed')
-                println "Unexpected error: ${resp.statusLine.statusCode} : ${resp.statusLine.reasonPhrase}"
             }
         }
     }
