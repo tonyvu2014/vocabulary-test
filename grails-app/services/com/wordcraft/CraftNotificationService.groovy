@@ -85,7 +85,7 @@ class CraftNotificationService {
         def postBody = [
             to: token,
             data: [
-                body: messageSource.getMessage('notification.body', [String.valueOf(load)] as Object[], Locale.US),
+                body: messageSource.getMessage('notification.body', null, Locale.US),
                 title: messageSource.getMessage('notification.title', null, Locale.US)
             ]
         ]
