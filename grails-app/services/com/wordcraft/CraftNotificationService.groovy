@@ -3,7 +3,6 @@ package com.wordcraft
 import com.wordcraft.utility.Constants
 import com.wordcraft.utility.Utils
 import grails.transaction.Transactional
-import groovyx.net.http.Method
 import org.codehaus.groovy.runtime.InvokerHelper
 import groovyx.net.http.AsyncHTTPBuilder
 import org.springframework.context.MessageSource
@@ -78,7 +77,6 @@ class CraftNotificationService {
     def sendNotification(CraftNotification notification) {
         def wordCraftsman = notification.wordCraftsman
         def settings = wordCraftsman.craftSettings
-        def load = settings.craftLoad
         def token = settings.craftNotificationToken
 
         def http =  new AsyncHTTPBuilder(poolSize: 5, uri: Constants.FIREBASE_NOTIFICATION_URL, contentType: JSON)

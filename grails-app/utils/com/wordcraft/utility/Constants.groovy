@@ -53,11 +53,8 @@ class Constants {
 	public static final UPPER_BOUNDARY_VALUE = 3
 
 	//Lower boundary for selecting notification to run (in minutes)
-	public static final LOWER_BOUNDARY_VALUE = 10
-
-	//Firebase Cloud Messaging Server Key
-	public static final ClOUD_MESSAGE_SERVER_KEY = "AAAA-YOH7RI:APA91bECLxVhHKKqCVgFe1tYUftG_vNf8YT9wcRLhFedzfbufWcSzuOdQj2be2vOex81VLNfAicenCJaYhzxAkq6_rmI_VWa_ckBOigRl6m4BYZzyeQBaYlcAIJPrWf_lvmeUICbLQA9"
-
+	public static final LOWER_BOUNDARY_VALUE = 20
+	
 	//Wordcraft uri
 	public static final WORDCRAFT_URI = 'https://www.wordcraft.info'
 

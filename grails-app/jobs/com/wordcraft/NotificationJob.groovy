@@ -11,13 +11,12 @@ class NotificationJob {
     def description = "Push Notification Job"
 
     static triggers = {
-        cron name: 'pushNotification', cronExpression: "0 0/5 * * * ?" //execute every 5 minute
+        cron name: 'pushNotification', cronExpression: "0 0,15,30,45 * * * ?" //execute every 15 minute
     }
 
     def execute() {
         DateFormat df = new SimpleDateFormat(Constants.NOTIFICATION_DATE_FORMAT)
         Date currentDate = new Date()
-        log.info("Sending push notifications at ${currentDate.toString()}")
 
         String today = df.format(currentDate)
         Calendar cal = Calendar.getInstance()
