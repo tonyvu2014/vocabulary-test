@@ -14,7 +14,6 @@ class CraftWordService {
 	 */
 	def markAsKnown(WordCraftsman wordCraftsman, String word) {
 		if (wordCraftsman.craftWords == null || !wordCraftsman.craftWords.collect{it.word}.contains(word)) {	
-			log.info("Adding a new word")
 			CraftWord craftWord = new CraftWord(word: word)
 			craftWord.wordCraftsman = wordCraftsman
 			craftWord.save()

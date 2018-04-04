@@ -349,7 +349,7 @@ class WordCraftsmanController {
             sendMail {
                 async true
                 to email
-                from 'wordcraft.service@gmail.com'
+                from 'maria@wordcraft.info'
                 subject "Password Recovery"
                 html content
             }
@@ -465,7 +465,7 @@ class WordCraftsmanController {
         sendMail {
             async true
             to email
-            from 'wordcraft.service@gmail.com'
+            from 'maria@wordcraft.info'
             subject "Welcome to Wordcraft"
             html content
         }
@@ -544,7 +544,6 @@ class WordCraftsmanController {
                         'email' : email,
                 ]
             }
-            log.info("Successfully apply changes for user with email ${email}")
         } catch (ValidationException e) {
             log.error("Error in updating for the user with email ${email}")
             log.error(e.message)

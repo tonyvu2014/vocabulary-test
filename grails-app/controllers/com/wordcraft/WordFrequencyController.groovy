@@ -132,7 +132,6 @@ class WordFrequencyController {
 	def getWordFromLevel() {
 		def level = params.int('level')
 		assert level > 0
-		log.info("Get word from level: ${level}")
 
 		def wordFrequency = wordService.getRandomWordFromLevel(level)
 		render(contentType:'text/json') {
@@ -148,7 +147,6 @@ class WordFrequencyController {
 		def minRank = params.int('minRank')
 		def maxRank = params.int('maxRank')
 		assert maxRank >= minRank
-		log.info("Get word for rank from ${minRank} to ${maxRank}")
 
 		def wordFrequency = wordService.getRandomWord(minRank, maxRank)
 		render(contentType:'text/json') {
@@ -293,7 +291,6 @@ class WordFrequencyController {
 		}
 		
 		def estimatedValue = wordService.getEstimatedValue(result)
-		log.info("Estimated value: " + estimatedValue);
 		def estimatedResult;
 		if (estimatedValue in Integer) {
 			estimatedResult = rankMap[estimatedValue]
@@ -329,8 +326,7 @@ class WordFrequencyController {
 		
 		def level = wordCraftsman.level? wordCraftsman.level:1
 		level = Utils.getDistributedLevel(level)
-		log.info("Distributed level: " + level)
-		
+
 		while (true) {
 			def wordFrequency = wordService.getRandomWordFromLevel(level)
 			def word = wordFrequency.word
