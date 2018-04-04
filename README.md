@@ -29,6 +29,6 @@ The app is configured to run on HSQLDB on DEV and TEST environment and run MySQL
 
 - Download and set up MySQL in your environment and create database **wordcraft** for the app. 
 - Update Config.groovy under production environment the MySQL username and password that you set up.
-- From the project folder, run **grails run-app** to start the app on DEV environment or **grails prod run-app** to start in PROD enviroment. 
+- From the project folder, run **.\grailsw run-app** to start the app on DEV environment or **.\grailsw prod run-app** to start in PROD enviroment. 
 
 
