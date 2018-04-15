@@ -240,15 +240,21 @@ class WordCraftsmanController {
 
         def wordCraftsman = wordCraftsmanService.findPrincipal(email, password)
         if (wordCraftsman != null) {
+            def settings = wordCraftsman.craftSettings
             render(contentType: 'text/json') {
                 [
                         'status'       : Constants.STATUS_SUCCESS,
                         'token'        : tokenService.generateUUID(email),
                         'username'     : wordCraftsman.username == null ? "" : wordCraftsman.username,
-                        'level'        : wordCraftsman.level == null ? 6 : wordCraftsman.level,
+                        'level'        : wordCraftsman.level == null ? Constants.DEFAULT_LEVEL : wordCraftsman.level,
                         'isFacebook'   : wordCraftsman.isFacebook,
-                        'estimatedSize': wordCraftsman.estimatedSize == null ? 5500 : wordCraftsman.estimatedSize,
-                        'wordsLearnt'  : wordCraftsman.craftWords == null ? 0 : wordCraftsman.craftWords.size()
+                        'estimatedSize': wordCraftsman.estimatedSize == null ? Constants.DEFAULT_ESTIMATED_SIZE : wordCraftsman.estimatedSize,
+                        'wordsLearnt'  : wordCraftsman.craftWords == null ? Constants.DEFAULT_WORDS_LEARNT : wordCraftsman.craftWords.size(),
+                        'craftNotification' : settings == null ? Constants.DEFAULT_CRAFT_NOTIFICATION : settings.craftNotification,
+                        'craftLoad'    : settings == null ? Constants.DEFAULT_CRAFT_LOAD : settings.craftLoad,
+                        'craftPace'    : settings == null ? Constants.DEFAULT_CRAFT_PACE : settings.craftPace,
+                        'craftHour'    : settings == null ? Constants.DEFAULT_CRAFT_HOUR : settings.craftHour,
+                        'craftMinute'  : settings == null ? Constants.DEFAULT_CRAFT_MINUTE : settings.craftMinute
                 ]
             }
             log.info("Logged in successfully for user with email ${email}")
@@ -273,6 +279,7 @@ class WordCraftsmanController {
 
         def wordCraftsman = WordCraftsman.findByEmail(email)
         log.info("Getting information for user with email ${email}")
+        def settings = wordCraftsman.craftSettings
 
         render(contentType: 'text/json') {
             [
@@ -281,7 +288,12 @@ class WordCraftsmanController {
                     'level'        : wordCraftsman.level == null ? 6 : wordCraftsman.level,
                     'estimatedSize': wordCraftsman.estimatedSize == null ? 5500 : wordCraftsman.estimatedSize,
                     'isFacebook'   : wordCraftsman.isFacebook == null ? false : wordCraftsman.isFacebook,
-                    'wordsLearnt'  : wordCraftsman.craftWords == null ? 0 : wordCraftsman.craftWords.size()
+                    'wordsLearnt'  : wordCraftsman.craftWords == null ? 0 : wordCraftsman.craftWords.size(),
+                    'craftNotification' : settings == null ? Constants.DEFAULT_CRAFT_NOTIFICATION : settings.craftNotification,
+                    'craftLoad'    : settings == null ? Constants.DEFAULT_CRAFT_LOAD : settings.craftLoad,
+                    'craftPace'    : settings == null ? Constants.DEFAULT_CRAFT_PACE : settings.craftPace,
+                    'craftHour'    : settings == null ? Constants.DEFAULT_CRAFT_HOUR : settings.craftHour,
+                    'craftMinute'  : settings == null ? Constants.DEFAULT_CRAFT_MINUTE : settings.craftMinute
             ]
         }
     }
@@ -345,7 +357,7 @@ class WordCraftsmanController {
             wordCraftsman.password = Utils.encryptData(new_pass)
             wordCraftsman.save(flush: true, failOnError: true)
             def content = groovyPageRenderer.render(view: '/mails/forgot_password',
-                    model: [username: wordCraftsman.username ? wordCraftsman.username : 'WordCraft user', password: new_pass])
+                    model: [username: wordCraftsman.username ? wordCraftsman.username : 'wordcraftsman', password: new_pass])
             sendMail {
                 async true
                 to email
@@ -431,6 +443,7 @@ class WordCraftsmanController {
         try {
             wordCraftsman.save(flush: true, failOnError: true)
             tokenService.saveToken(email, token);
+            def settings = wordCraftsman.craftSettings
             render(contentType: 'text/json') {
                 [
                         'status'       : Constants.STATUS_SUCCESS,
@@ -440,7 +453,12 @@ class WordCraftsmanController {
                         'isFacebook'   : true,
                         'level'        : wordCraftsman.level == null ? 6 : wordCraftsman.level,
                         'estimatedSize': wordCraftsman.estimatedSize == null ? 5500 : wordCraftsman.estimatedSize,
-                        'wordsLearnt'  : wordCraftsman.craftWords == null ? 0 : wordCraftsman.craftWords.size()
+                        'wordsLearnt'  : wordCraftsman.craftWords == null ? 0 : wordCraftsman.craftWords.size(),
+                        'craftNotification' : settings == null ? Constants.DEFAULT_CRAFT_NOTIFICATION : settings.craftNotification,
+                        'craftLoad'    : settings == null ? Constants.DEFAULT_CRAFT_LOAD : settings.craftLoad,
+                        'craftPace'    : settings == null ? Constants.DEFAULT_CRAFT_PACE : settings.craftPace,
+                        'craftHour'    : settings == null ? Constants.DEFAULT_CRAFT_HOUR : settings.craftHour,
+                        'craftMinute'  : settings == null ? Constants.DEFAULT_CRAFT_MINUTE : settings.craftMinute
                 ]
             }
             if (newUser) {

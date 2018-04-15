@@ -16,6 +16,9 @@
       Thank you.<br/>
       Maria
       </p>
+      <p>
+          <img src="https://www.wordcraft.info/WordCraft/assets/assistant.png" alt="maria" width="48" height="48"/>
+      </p>
   </div>
 </body>
 </html>

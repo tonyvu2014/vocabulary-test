@@ -54,10 +54,23 @@ class Constants {
 
 	//Lower boundary for selecting notification to run (in minutes)
 	public static final LOWER_BOUNDARY_VALUE = 20
-	
+
+	//Firebase Cloud Messaging Server Key
+	public static final ClOUD_MESSAGE_SERVER_KEY = ""
+
 	//Wordcraft uri
 	public static final WORDCRAFT_URI = 'https://www.wordcraft.info'
 
 	//Firebase Push Notification URL
 	public static final FIREBASE_NOTIFICATION_URL = 'https://fcm.googleapis.com/fcm/send'
+
+	//Default values
+	public static final DEFAUTL_LEVEL = 6
+	public static final DEFAULT_ESTIMATED_SIZE = 5500
+	public static final DEFAULT_WORDS_LEARNT = 0
+	public static final boolean DEFAULT_CRAFT_NOTIFICATION = false
+	public static final int DEFAULT_CRAFT_PACE = 1
+	public static final int DEFAULT_CRAFT_LOAD = 3
+	public static final int DEFAULT_CRAFT_HOUR = 9
+	public static final int DEFAULT_CRAFT_MINUTE = 0
 }
